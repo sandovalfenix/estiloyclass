@@ -49,7 +49,6 @@
 
               <div class="dropdown-menu dropdown-unfold" id="languageDropdown" aria-labelledby="languageDropdownInvoker">
                 <a class="dropdown-item" href="#">English</a>
-                <a class="dropdown-item" href="#">Deutsch</a>
                 <a class="dropdown-item active" href="#">Español‎</a>
               </div>
             </div>
