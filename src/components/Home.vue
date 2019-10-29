@@ -96,7 +96,7 @@
       <BestClothes></BestClothes>
 
       <div class="text-center">
-        <p class="small">Solo por tiempo limitado, hasta agotar existencias.</p>
+        <p class="small">Solo por tiempo limitado ó hasta agotar existencias.</p>
       </div>
     </div>
     <!-- End Categories Section -->
