@@ -12,6 +12,7 @@ export default new Vuex.Store({
     UserAuth: false,
     Products: [],
     Categories: [],
+    Category: {},
     Product: {},
     alert: false,
     file: false,

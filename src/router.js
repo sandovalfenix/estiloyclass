@@ -10,6 +10,7 @@ import Dashboard from '@/views/Dashboard.vue'
 //components
 import Home from '@/components/Home.vue'
 import SignIn from '@/components/Sign/In.vue'
+import ProductDetail from '@/components/Categories/Detail/Product.vue'
 import AdminProducts from '@/components/Admin/Products.vue'
 import AdminMain from '@/components/Admin/Main.vue'
 import AdminFormProduct from '@/components/Admin/Form/Product.vue'
@@ -35,6 +36,11 @@ const router = new Router({
           name: 'categories',
           component: Categories
         },
+        {
+          path: 'product/:id',
+          name: 'productDetail',
+          component: ProductDetail,
+        }
       ]
     },
     {
