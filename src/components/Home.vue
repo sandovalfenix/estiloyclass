@@ -104,64 +104,7 @@
     <!-- Promo Section -->
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 mb-5 mb-lg-0">
-          <!-- Promo -->
-          <div class="bg-img-hero rounded min-height-450 p-4 p-sm-8" style="background-image: url(https://tiendakalendar.vteximg.com.br/arquivos/ids/184499-1400-2147/JEAN-KALENDAR-TIRO-ALTO-JNSF083-4AT37-FIJADO_3.jpg?v=636897341780700000);">
-            <small class="d-block text-danger text-uppercase font-weight-semi-bold">Solo por tiempo limitado.</small>
-            <h2 class="display-4 font-weight-semi-bold mb-3 text-danger">70% OFF</h2>
-
-            <!-- Countdown -->
-            <div class="w-sm-60">
-              <div class="js-countdown row mx-gutters-2 mb-3" 
-                data-days-format="%D" 
-                data-end-date="2019/12/30" 
-                data-hours-format="%H" 
-                data-minutes-format="%M" 
-                data-month-format="%m" 
-                data-seconds-format="%S">
-                <div class="col-4 text-center">
-                  <div class="border border-primary text-primary rounded p-2 mb-1">
-                    <strong class="js-cd-hours d-block font-size-2"></strong>
-                  </div>
-                  <h5 class="h6 font-weight-normal text-primary">Horas</h5>
-                </div>
-                <div class="col-4 text-center">
-                  <div class="border border-primary text-primary rounded p-2 mb-1">
-                    <strong class="js-cd-minutes d-block font-size-2"></strong>
-                  </div>
-                  <h5 class="h6 font-weight-normal text-primary">Minutos</h5>
-                </div>
-                <div class="col-4 text-center">
-                  <div class="border border-primary text-primary rounded p-2 mb-1">
-                    <strong class="js-cd-seconds d-block font-size-2"></strong>
-                  </div>
-                  <h5 class="h6 font-weight-normal text-primary">Segundos</h5>
-                </div>
-              </div>
-            </div>
-            <!-- End Countdown -->
-
-            <a class="btn btn-sm btn-soft-primary btn-pill transition-3d-hover px-5" href="#">Comprar</a>
-          </div>
-          <!-- End Promo -->
-        </div>
-
-        <div class="col-lg-6">
-          <!-- Promo -->
-          <div class="bg-img-hero rounded min-height-363 text-dark p-4 p-sm-8" style="background-image: url(https://accesoriospriscila.com/wp-content/uploads/2018/11/ropa-1-600x393-454x264.png);">
-            <div class="max-width-35">
-              <div class="mb-4">
-                <span class="d-block font-size-2">$19.990</span>
-                <h3 class="font-weight-semi-bold mb-1">Sudaderas</h3>
-                <p class="text-secondary">Sudaderas para salir en climas fríos</p>
-              </div>
-              <div class="d-block">
-                <button class="btn btn-sm btn-soft-primary btn-pill transition-3d-hover px-5" type="button">Comprar</button>
-              </div>
-            </div>
-          </div>
-          <!-- End Promo -->
-        </div>
+        <PromoProduct></PromoProduct>
       </div>
     </div>
     <!-- End Promo Section -->
@@ -474,11 +417,13 @@
 
 <script>
 import BestClothes from '@/components/Main/BestClothes'
+import PromoProduct from '@/components/Main/PromoProduct'
 
 export default {
   name: 'Home',
   components:{
-    BestClothes
+    BestClothes,
+    PromoProduct
   }
 }
 </script>

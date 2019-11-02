@@ -1,51 +1,60 @@
 <template>
-  <div class="container space-top-1 space-bottom-2">
+  <div class="container-fluid space-top-1 space-bottom-2">
     <h3 class="text-center">
       <i class="fas fa-database mr-2"></i> Base de Datos |
       <span class="text-secondary">Productos</span>
     </h3>
-    <div class="row space-top-1">
-      <div class="col-12 col-lg-3 mr-md-3">
-        <div class="row">
-          <!-- Search -->
-          <div class="js-focus-state input-group input-group-sm mb-4">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <span class="fas fa-search"></span>
-              </span>
-            </div>
-            <input class="form-control" v-model="search" type="text" placeholder="Buscar Productos" aria-label="Buscar Productos" @keyup="searchProducts">
+    <div class="row">
+      <div class="col">
+        <!-- Search -->
+        <div class="js-focus-state input-group input-group-sm mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <span class="fas fa-search"></span>
+            </span>
           </div>
-          <!-- End Search -->
+          <input class="form-control" v-model="search" type="text" placeholder="Buscar Productos" aria-label="Buscar Productos" @keyup="searchProducts">
         </div>
-        <div class="row">
-          <!-- new product -->
-          <router-link class="btn btn-primary btn-block" role="button" data-target="#modalForm" data-toggle="modal" to="products/new">
-            <i class="fas fa-box mr-2"></i>Añadir Producto
-          </router-link>
-          <!-- End new product -->
-        </div>
+        <!-- End Search -->
       </div>
-      <div class="col-12 col-lg">
-        <h5 class="text-right">Mostrando {{(page*6)+1}} a {{(page+1)*6}} de {{listProductLength}} Paginas</h5>
-        <div class="row px-2 pb-2 bg-light border-light border">
-          <div class="col col-md-4 mt-3" v-for="product of products.slice(page*6, (page+1)*6)" :key="product.id">
+      <div class="col">
+        <!-- new product -->
+        <router-link class="btn btn-soft-primary btn-sm" role="button" data-target="#modalForm" data-toggle="modal" to="products/new">
+          <i class="fas fa-plus-circle mr-2"></i>Agregar Producto
+        </router-link>
+        <!-- End new product -->
+      </div>
+      
+      <div class="col-12">
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-around bg-light p-2">
+            <li :class="['page-item']">
+              <a :class="['btn btn-soft-primary btn-sm', {'disabled':!page}]" href="javascript:;" tabindex="-1" @click="page--">Anterior</a>
+            </li>
+            <li class="page-item" v-for="(list, index) of listProductLength" :key="list.id">
+              <a href="javascript:;" :class="['page-link', 'small', {'bg-primary text-white': index === page}]" @click="page = index">{{index+1}}</a>
+            </li>
+            <li :class="['page-item']">
+              <a :class="['btn btn-soft-primary btn-sm', {'disabled':page===listProductLength-1}]" href="javascript:;" @click="page++">Siguiente</a>
+            </li>
+          </ul>
+        </nav>       
+        <div class="row bg-soft-primary space-1 px-2">
+          <div :class="['col col-sm-4 mt-1 p-1', {'col-lg-3': num === 8}]" v-for="product of products.slice(page*num, (page+1)*num)" :key="product.id">
             <!-- Product -->
-            <div class="transition-3d-hover card text-center h-100 shadow-sm">
-              <div class="position-relative">
-                <img v-if="product.img" class="card-img-top w-50 pt-3" alt="Image Description" :src="product.img">
-                <img v-else class="card-img-top w-50 pt-3" alt="Image Description" src="@/assets/logo.png">
+            <div class="card text-center h-100 border-0 shadow-soft">
+              <div class="card-img-top">
+                <img v-if="product.img" class="pt-3" style="width: 150px" :src="product.img">
+                <img v-else class="pt-3" style="width: 150px" src="@/assets/logo.png">
               </div>
 
               <div class="card-body pt-4 px-4 pb-0">
                 <div class="mb-2">
-                  <h3 class="h5">
-                    <a class="text-black" href="javascript:;">{{product.name}}</a>
-                  </h3>
-                  <p class="text-lighter">{{product.description}}</p>
-                  <a class="d-inline-block small font-weight-medium mb-1" href="javascript:;">{{product.weight}}</a>
+                  <p class="text-dark">{{product.name}}</p>
+                  <span class="d-inline-block small font-weight-medium mb-1 text-primary">{{product.category.name}} para {{product.category.type}}</span>
+                  <p class="text-lighter small">{{product.description}}</p>
                   <div class="d-block font-size-1">
-                    <span class="h4">${{formatPrice(product.price)}}</span>
+                    <span class="h5">${{formatPrice(product.price)}}</span>
                   </div>
                 </div>
               </div>
@@ -53,31 +62,17 @@
               <div class="card-footer border-0 px-4 d-flex justify-content-between">
                 <router-link :to="{name:'adminEditProduct', params: {id: product.id}}">
                   <button class="btn btn-sm btn-soft-warning transition-3d-hover" type="button" data-target="#modalForm" data-toggle="modal">
-                    <i class="fas fa-edit mr-2"></i>Editar
+                    <i class="fas fa-edit"></i><span class="d-none d-md-inline-block ml-2">Editar</span>
                   </button>
                 </router-link>
                 <button class="btn btn-sm btn-soft-danger transition-3d-hover" type="button" @click="deleteProduct(product)">
-                  <i class="fas fa-trash-alt mr-2"></i> Eliminar
+                  <i class="fas fa-trash-alt"></i><span class="d-none d-md-inline-block ml-2">Borrar</span>
                 </button>
               </div>
             </div>
             <!-- End Product -->
           </div>
         </div>
-        <hr>
-        <nav aria-label="Page navigation mt-3">
-          <ul class="pagination justify-content-end">
-            <li :class="['page-item', {'d-none':!page}]">
-              <a class="page-link" href="javascript:;" tabindex="-1" @click="page--">Anterior</a>
-            </li>
-            <li class="page-item" v-for="(list, index) of listProductLength" :key="list.id">
-              <a href="javascript:;" :class="['page-link', {'active': index === page}]" @click="page = index">{{index+1}}</a>
-            </li>
-            <li :class="['page-item', {'d-none':page===listProductLength-1}]">
-              <a class="page-link" href="javascript:;" @click="page++">Siguiente</a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
     <!-- Modal -->
@@ -85,10 +80,10 @@
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content rounded-0">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalFormLabel">
+            <h6 class="modal-title" id="modalFormLabel">
               <span v-if="$route.params.id">Editar</span>
               <span v-else>Nuevo</span> Producto
-            </h5>
+            </h6>
             <button class="close" type="button" aria-label="Close" data-dismiss="modal" @click="$router.push({name: 'adminProducts'})">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -106,11 +101,13 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
+  name: 'Products',
   data() {
     return {
       search: '',
       products: [],
       page: 0,
+      windowWidth: window.innerWidth,
     };
   },
   created() {
@@ -120,15 +117,29 @@ export default {
   computed: {
     ...mapState(["Products"]),
     listProductLength() {
-      return Math.ceil(this.products.length / 6);
+      return Math.ceil(this.products.length / this.num);
     },
+    num(){
+      if(this.windowWidth >= 992 ){
+        return 8
+      }else if(this.windowWidth >= 465 && this.windowWidth < 992){
+        return 6
+      }else{
+        return 4
+      }
+    }
+  },
+  mounted() {
+    window.onresize = () => {
+        this.windowWidth = window.innerWidth
+    }
   },
   methods: {
     ...mapActions(["getDatas", "deleteData"]),
     formatPrice(value) {
       let val = (value / 1).toFixed().replace(".");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    },
+    },    
     deleteProduct(product) {
       if (product.img) {
         this.deleteData([
@@ -163,6 +174,6 @@ export default {
         this.products = this.Products
       }
     },
-  },
+  },  
 };
 </script>

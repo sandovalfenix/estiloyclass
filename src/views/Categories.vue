@@ -78,7 +78,7 @@
                 <!-- Product -->
                 <div class="card text-center h-100">
                   <div class="position-relative">
-                    <img class="card-img-top" alt="Image Description" v-if="product.img" :src="product.img">
+                    <img class="card-img-top" style="width: 200px" v-if="product.img" :src="product.img">
                     <img class="height-40vh" src="@/assets/logo.png" style="width: 250px;" v-else>
                   </div>
 

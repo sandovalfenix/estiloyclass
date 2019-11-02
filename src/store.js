@@ -131,6 +131,7 @@ export default new Vuex.Store({
       objects.forEach(obj => {
         const Doc = Object.assign({}, obj.data);
         delete Doc.id
+        Doc.updateTime = Date.now()
         db.collection(obj.ref).doc(obj.data.id).update(Doc)
           .then(() => {
             if (obj.file) {
@@ -149,6 +150,7 @@ export default new Vuex.Store({
     addData({ dispatch, commit }, objects) {
       objects.forEach(obj => {
         var Doc = Object.assign({}, obj.data);
+        Doc.createTime = Date.now()
         db.collection(obj.ref)
           .add(Doc)
           .then((resp) => {

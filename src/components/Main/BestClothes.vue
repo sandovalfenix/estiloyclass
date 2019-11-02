@@ -1,7 +1,7 @@
 <template>
   <div>
-      <div class="row mb-5">
-        <div  v-for="category in Categories.slice(0,3)" :key="category.id" class="col-md-4 mb-5 mb-md-0">
+      <div class="row mb-5 d-flex justify-content-center">
+        <div  v-for="category in Categories.slice(0,3)" :key="category.id" class="w-35 d-flex m-5 mb-md-0">
           <!-- Card -->
           <div v-if="productsBestClothes(category.id).length >= 3" class="card d-block">
             <div class="card-body d-flex align-items-center p-0">
@@ -17,7 +17,7 @@
             </div>
             <div class="card-footer text-center py-4">
               <h3 class="h5 mb-1">{{category.name}}</h3>
-              <span class="d-block text-muted font-size-2 mb-3">Desde $ {{ formatPrice(pricesLow(category.id))}}</span>
+              <span class="d-block text-muted h5 mb-3">Desde $ {{ formatPrice(pricesLow(category.id))}}</span>
               <router-link class="btn btn-sm btn-outline-primary btn-pill transition-3d-hover px-5" :to="'/categories/'+category.name.toLowerCase()+'/all'">Ver más</router-link>
             </div>
           </div>
