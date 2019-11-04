@@ -52,7 +52,7 @@
             <!-- Sorting -->
             <div class="row align-items-center mb-5">
               <div class="col-lg-6 mb-3 mb-lg-0">
-                <span class="text-secondary font-size-1 font-weight-normal ml-1">{{products.length}} products</span>
+                <span class="text-secondary font-size-1 font-weight-normal ml-1">{{products.length}} productos</span>
               </div>
 
               <div class="col-lg-6 align-self-lg-end text-lg-right">
@@ -74,33 +74,35 @@
 
             <!-- Products -->
             <div class="row mx-n2 mb-2">
-              <div class="col-6 col-lg-4 px-2 mb-3" v-for="product of products.slice(0,24)" :key="product.id">
-                <!-- Product -->
-                <div class="card text-center h-100">
-                  <div class="position-relative">
-                    <img class="card-img-top" style="width: 200px" v-if="product.img" :src="product.img">
-                    <img class="height-40vh" src="@/assets/logo.png" style="width: 250px;" v-else>
-                  </div>
+                <div class="col-6 col-lg-4 px-2 mb-3" v-for="product of products.slice(0,24)" :key="product.id">
+                  <!-- Product -->    
+                  <a :href="'/product/'+product.id">
+                    <div class="card text-center h-100 transition-3d-hover">
+                      <div class="position-relative">
+                        <img class="card-img-top" style="width: 200px" v-if="product.img" :src="product.img">
+                        <img class="height-40vh" src="@/assets/logo.png" style="width: 250px;" v-else>
+                      </div>
 
-                  <div class="card-body pt-4 px-4 pb-0">
-                    <div class="mb-2">
-                      <h5 class="d-inline-block text-dark font-weight-medium mb-1">{{product.name}}</h5>
-                      <p class="text-secondary small font-weight-medium mb-1">{{product.category.name}} para {{product.category.type}}</p>
-                      <h3 class="font-size-1 font-weight-normal">
-                        <a class="text-secondary" href="single-product.html">{{product.description}}</a>
-                      </h3>
-                      <div class="d-block font-size-2">
-                        <span class="font-weight-medium">$ {{new Intl.NumberFormat().format(product.price)}}</span>
+                      <div class="card-body pt-4 px-4 pb-0">
+                        <div class="mb-2">
+                          <p class="text-secondary small font-weight-medium mb-1">{{product.category.name}} para {{product.category.type}}</p>
+                          <h5 class="d-inline-block text-dark font-weight-medium mb-1">{{product.name}}</h5>
+                          <h3 class="font-size-1 font-weight-normal">
+                            <a class="text-secondary" href="single-product.html">{{product.description}}</a>
+                          </h3>
+                          <div class="d-block h5">
+                            <span class="font-weight-medium">$ {{new Intl.NumberFormat().format(product.price)}}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card-footer border-0 pt-0 pb-4 px-4">
+                        <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus mr-2"></i>Agregar</button>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="card-footer border-0 pt-0 pb-4 px-4">
-                    <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button">Agregar al Carrito</button>
-                  </div>
+                  </a>
+                  <!-- End Product -->
                 </div>
-                <!-- End Product -->
-              </div>
             </div>
             <!-- End Products -->
 

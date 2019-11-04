@@ -15,13 +15,7 @@
                 data-arrow-right-classes="fas fa-arrow-right u-slick__arrow-inner u-slick__arrow-inner--right mr-3"
                 data-nav-for="#heroSliderNav">
               <div class="js-slide">
-                <img class="img-fluid w-100 rounded" src="/assets/img/600x600/img12.jpg" alt="Image Description">
-              </div>
-              <div class="js-slide">
-                <img class="img-fluid w-100 rounded" src="/assets/img/600x600/img13.jpg" alt="Image Description">
-              </div>
-              <div class="js-slide">
-                <img class="img-fluid w-100 rounded" src="/assets/img/600x600/img14.jpg" alt="Image Description">
+                <img class="img-fluid w-100 rounded" :src="Product.img" alt="Image Description">
               </div>
             </div>
             <!-- End Main Slider -->
@@ -42,17 +36,7 @@
                   data-nav-for="#heroSlider">
                 <div class="js-slide p-1">
                   <a class="js-slick-thumb-progress position-relative d-block u-avatar border rounded-circle p-1" href="javascript:;">
-                    <img class="img-fluid rounded-circle" src="/assets/img/100x100/img16.jpg" alt="Image Description">
-                  </a>
-                </div>
-                <div class="js-slide p-1">
-                  <a class="js-slick-thumb-progress position-relative d-block u-avatar border rounded-circle p-1" href="javascript:;">
-                    <img class="img-fluid rounded-circle" src="/assets/img/100x100/img17.jpg" alt="Image Description">
-                  </a>
-                </div>
-                <div class="js-slide p-1">
-                  <a class="js-slick-thumb-progress position-relative d-block u-avatar border rounded-circle p-1" href="javascript:;">
-                    <img class="img-fluid rounded-circle" src="/assets/img/100x100/img18.jpg" alt="Image Description">
+                    <img class="img-fluid rounded-circle" :src="Product.img" alt="Image Description" style="width: 100px">
                   </a>
                 </div>
               </div>
@@ -64,34 +48,18 @@
 
       <!-- Product Description -->
       <div class="col-lg-5">
-        <!-- Rating -->
-        <div class="d-flex align-items-center small mb-2">
-          <div class="text-warning mr-2">
-            <small class="fas fa-star"></small>
-            <small class="fas fa-star"></small>
-            <small class="fas fa-star"></small>
-            <small class="fas fa-star"></small>
-            <small class="fas fa-star"></small>
-          </div>
-          <a class="js-go-to link-muted" href="#reviewSection"
-            data-target="#reviewSection"
-            data-compensation="#header"
-            data-type="static">Read all 287 reviews</a>
-        </div>
-        <!-- End Rating -->
 
         <!-- Title -->
         <div class="mb-5">
-          <h1 class="h3 font-weight-medium">New Era 9Forty LA Dodgers adjustable cap in black</h1>
-          <p>American label New Era manufacturing baseball hats for teams since the 1930s.</p>
+          <h1 class="h3 font-weight-medium">{{Product.name}}</h1>       
+          <p>{{Product.description}}</p>
         </div>
         <!-- End Title -->
 
         <!-- Price -->
         <div class="mb-5">
-          <h2 class="font-size-1 text-secondary font-weight-medium mb-0">Total price:</h2>
-          <span class="font-size-2 font-weight-medium">$159.99</span>
-          <span class="text-secondary ml-2"><del>$179.99</del></span>
+          <h2 class="font-size-1 text-secondary font-weight-medium mb-0">Precio Total:</h2>
+          <span class="font-size-2 font-weight-medium">$ {{new Intl.NumberFormat().format(Product.price)}}</span>
         </div>
         <!-- End Price -->
 
@@ -99,14 +67,14 @@
         <div class="border rounded py-2 px-3 mb-3">
           <div class="js-quantity row align-items-center">
             <div class="col-7">
-              <small class="d-block text-secondary font-weight-medium">Select quantity</small>
-              <input class="js-result form-control h-auto border-0 rounded p-0" type="text" value="1">
+              <small class="d-block text-secondary font-weight-medium">Seleccione Cantidad</small>
+              <input class="js-result form-control h-auto border-0 rounded p-0" type="text" v-model="quantity">
             </div>
             <div class="col-5 text-right">
-              <a class="js-minus btn btn-icon btn-xs btn-outline-secondary rounded-circle" href="javascript:;">
+              <a :class="['js-minus btn btn-icon btn-xs btn-outline-secondary rounded-circle', {'disabled':quantity === 1}]" href="javascript:;" @click="quantity--">
                 <small class="fas fa-minus btn-icon__inner"></small>
               </a>
-              <a class="js-plus btn btn-icon btn-xs btn-outline-secondary rounded-circle" href="javascript:;">
+              <a :class="['js-plus btn btn-icon btn-xs btn-outline-secondary rounded-circle', {'disabled':quantity === 10}]" href="javascript:;" @click="quantity++">
                 <small class="fas fa-plus btn-icon__inner"></small>
               </a>
             </div>
@@ -133,7 +101,7 @@
                               data-parent="#icon65">
                         </span>
                         <span class="media-body">
-                          <span class="d-block font-size-1 font-weight-medium">Free shipping</span>
+                          <span class="d-block font-size-1 font-weight-medium">Envio Gratis</span>
                         </span>
                       </span>
                     </span>
@@ -148,7 +116,7 @@
             </div>
             <div id="shopCardOne" class="collapse" aria-labelledby="shopCardHeadingOne" data-parent="#shopCartAccordion">
               <div class="card-body">
-                <p class="small mb-0">We offer free shipping anywhere in the U.S. A skilled delivery team will bring the boxes into your office.</p>
+                <p class="small mb-0">"Ofrecemos envío gratuito a cualquier lugar de los Buenaventura - Valle. Un equipo de entrega calificado llevará las cajas a su oficina.</p>
               </div>
             </div>
           </div>
@@ -171,7 +139,7 @@
                               data-parent="#icon64">
                         </span>
                         <span class="media-body">
-                          <span class="d-block font-size-1 font-weight-medium">30 Days return</span>
+                          <span class="d-block font-size-1 font-weight-medium">30 días de regreso</span>
                         </span>
                       </span>
                     </span>
@@ -186,7 +154,7 @@
             </div>
             <div id="shopCardTwo" class="collapse" aria-labelledby="shopCardHeadingTwo" data-parent="#shopCartAccordion">
               <div class="card-body">
-                <p class="small mb-0">If you're not satisfied, return it for a full refund. We'll take care of disassembly and return shipping.</p>
+                <p class="small mb-0">Si no está satisfecho, devuélvalo para obtener un reembolso completo. Nos encargaremos del desmontaje y el envío de devolución.</p>
               </div>
             </div>
           </div>
@@ -194,19 +162,19 @@
         </div>
         <!-- End Accordion -->
 
-        <div class="mb-4">
-          <button type="button" class="btn btn-block btn-primary btn-pill transition-3d-hover">Add to Cart</button>
+        <div class="mb-4 d-none">
+          <button type="button" class="btn btn-block btn-primary btn-pill transition-3d-hover"><i class="fas fa-cart-plus mr-2"></i> Agregar</button>
         </div>
 
         <!-- Help Link -->
-        <div class="media align-items-center">
+        <div class="media align-items-center h5">
           <span id="icon4" class="svg-preloader ie-height-48 w-100 max-width-6 mr-2">
             <img class="js-svg-injector" src="/assets/svg/icons/icon-4.svg" alt="SVG"
                 data-parent="#icon4">
           </span>
           <div class="media-body text-secondary small">
-            <span class="font-weight-medium mr-1">Need Help?</span>
-            <a class="link-muted" href="#">Chat now</a>
+            <span class="font-weight-medium mr-1">¿Estas interesado?</span>
+            <a class="link-muted" :href="'//wa.me/573178758748?text=Me%20gustaría%20saber%20mas%20sobre%20este%20producto:%20http://estiloyclass.com/product/'+$route.params.id">Chatea Ahora</a>
           </div>
         </div>
         <!-- End Help Link -->
@@ -216,3 +184,24 @@
   </div>
   <!-- End Hero Section -->
 </template>
+<script>
+import { mapState, mapActions } from 'vuex'
+
+export default {
+  name: 'ProductDetail',
+  data() {
+    return {
+      quantity: 1
+    }
+  },
+  created(){
+    this.getData([{ref: 'Products', id: this.$route.params.id}])
+  },
+  computed:{
+    ...mapState(['Product'])
+  },
+  methods:{
+    ...mapActions(['getData'])
+  }
+}
+</script>
