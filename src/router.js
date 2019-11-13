@@ -6,6 +6,7 @@ import Shop from '@/views/Shop.vue'
 import Categories from '@/views/Categories.vue'
 import Login from '@/views/Login.vue'
 import Dashboard from '@/views/Dashboard.vue'
+import CartShopping from '@/views/CartShopping.vue'
 
 //components
 import Home from '@/components/Home.vue'
@@ -40,6 +41,11 @@ const router = new Router({
           path: 'product/:id',
           name: 'productDetail',
           component: ProductDetail,
+        },
+        {
+          path: 'cart',
+          name: 'cartShopping',
+          component: CartShopping,
         }
       ]
     },

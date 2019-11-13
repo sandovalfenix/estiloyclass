@@ -1,6 +1,6 @@
 <template>
   <div id="app">       
-    <div class="toast position-fixed bottom-0 right-0 z-index-4" data-delay="5000">
+    <div class="toast position-fixed bottom-0 left-0 z-index-4 ml-3" data-delay="5000">
       <div :class="['toast-header', {'bg-primary':alert.type == 0, 'bg-danger':alert.type == 1}]">
         <strong class="mr-auto text-white">{{alert.title}}</strong>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -15,11 +15,17 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
+  created(){
+    this.userAuthOnState();
+  },
   computed: {
     ...mapState(["alert"]),
   },
+  methods:{
+    ...mapActions(["userAuthOnState"])
+  }
 };
 </script>

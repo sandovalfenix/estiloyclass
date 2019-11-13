@@ -118,262 +118,14 @@
       <!-- End Title -->
 
       <!-- Products -->
-      <div class="row mx-n2 mx-sm-n3 mb-7">
-        <div class="col-6 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img3.jpg" alt="Image Description">
-              <div class="position-absolute top-0 left-0 pt-3 pl-3">
-                <span class="badge badge-success badge-pill">Nuevo</span>
-              </div>
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Accesorios</a>
-                <h3 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">Mochila Herschel en azul oscuro.</a>
-                </h3>
-                <div class="d-block font-size-1">
-                  <span class="font-weight-medium">$56.990</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-
-        <div class="col-6 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img12.jpg" alt="Image Description">
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Ropa</a>
-                <h4 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">Sudadera Delantera</a>
-                </h4>
-                <div class="d-block">
-                  <span class="font-weight-medium">$91.880</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-
-        <div class="col-6 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img4.jpg" alt="Image Description">
-              <div class="position-absolute top-0 left-0 pt-3 pl-3">
-                <span class="badge badge-danger badge-pill">Agotado</span>
-              </div>
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Accesorios</a>
-                <h4 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">Mochila Herschel en gris</a>
-                </h4>
-                <div class="d-block font-size-1">
-                  <span class="font-weight-medium">$29.990</span>
-                  <span class="text-secondary ml-1"><del>$33.990</del></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-secondary btn-sm-wide btn-pill" type="button" disabled><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-
-        <div class="col-6 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img6.jpg" alt="Image Description">
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Ropa</a>
-                <h4 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">Camiseta adicolor de Front Originals con logo de trébol.</a>
-                </h4>
-                <div class="d-block">
-                  <span class="font-weight-medium">$38.000</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-
-        <div class="col-6 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5 mb-lg-0">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img7.jpg" alt="Image Description">
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Accesorios</a>
-                <h4 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">Gorra de béisbol de malla delantera con logo de la firma</a>
-                </h4>
-                <div class="d-block">
-                  <span class="font-weight-medium">$8.880</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-
-        <div class="col-6 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5 mb-lg-0">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img11.jpg" alt="Image Description">
-              <div class="position-absolute top-0 left-0 pt-3 pl-3">
-                <span class="badge badge-success badge-pill">Nuevo</span>
-              </div>
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Ropa</a>
-                <h4 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">Camiseta adicolor delantera Originals en gris.</a>
-                </h4>
-                <div class="d-block">
-                  <span class="font-weight-medium">$24.000</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-
-        <div class="col-6 col-lg-3 px-2 px-sm-3">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img9.jpg" alt="Image Description">
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Ropa</a>
-                <h4 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">COLUSIÓN camiseta unisex con estampado mecánico.</a>
-                </h4>
-                <div class="d-block">
-                  <span class="font-weight-medium">$43.990</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-
-        <div class="col-6 col-lg-3 px-2 px-sm-3">
-          <!-- Product -->
-          <div class="card text-center h-100">
-            <div class="position-relative">
-              <img class="card-img-top" src="/assets/img/300x180/img8.jpg" alt="Image Description">
-            </div>
-
-            <div class="card-body pt-4 px-4 pb-0">
-              <div class="mb-2">
-                <a class="d-inline-block text-secondary small font-weight-medium mb-1" href="#">Accesorios</a>
-                <h4 class="font-size-1 font-weight-normal">
-                  <a class="text-secondary" href="single-product.html">Billabong Amurallado snapback en verde</a>
-                </h4>
-                <div class="d-block">
-                  <span class="font-weight-medium">$12.00</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-footer border-0 pt-0 pb-4 px-4">
-              <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus"></i> Añadir</button>
-            </div>
-          </div>
-          <!-- End Product -->
-        </div>
-      </div>
+      <ProductMoreBuy></ProductMoreBuy>
       <!-- End Products -->
 
       <div class="text-center">
-        <a class="btn btn-primary btn-pill transition-3d-hover px-5" href="#">Ver Galería</a>
+        <router-link class="btn btn-primary btn-pill transition-3d-hover px-5" :to="'/categories/ropa/all'">Ver Galería</router-link>
       </div>
     </div>
     <!-- End Products Section -->
-
-    <!-- Subscribe Section -->
-    <div class="bg-light">
-      <div class="container space-2">
-        <div class="row justify-content-center">
-          <div class="col-md-9 col-lg-6">
-            <!-- Title -->
-            <div class="text-center mb-4">
-              <h2 class="h1 font-weight-medium">Permanecer en el saber</h2>
-              <p>Recibe ofertas especiales en los últimos desarrollos de Front.</p>
-            </div>
-            <!-- End Title -->
-
-            <!-- Subscribe Form -->
-            <form class="js-validate js-form-message w-lg-85 mx-lg-auto">
-              <label class="sr-only" for="subscribeSrEmail">Correo Electrónico</label>
-              <div class="input-group input-group-pill">
-                <input class="form-control" id="subscribeSrEmail" name="email" type="email" placeholder="Correo Electrónico" aria-describedby="subscribeButton" aria-label="Correo Electrónico" 
-                  data-msg="Please enter a valid Correo Electrónico." required>
-                <div class="input-group-append">
-                  <button class="btn btn-primary btn-sm-wide" id="subscribeButton" type="submit">Unirse</button>
-                </div>
-              </div>
-            </form>
-            <!-- End Subscribe Form -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Subscribe Section -->
 
     <!-- Clients Section -->
     <div class="container space-2">
@@ -418,12 +170,14 @@
 <script>
 import BestClothes from '@/components/Main/BestClothes'
 import PromoProduct from '@/components/Main/PromoProduct'
+import ProductMoreBuy from '@/components/Main/ProductMoreBuy'
 
 export default {
   name: 'Home',
   components:{
     BestClothes,
-    PromoProduct
+    PromoProduct,
+    ProductMoreBuy
   }
 }
 </script>

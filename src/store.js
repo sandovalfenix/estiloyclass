@@ -33,32 +33,68 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    userAuthOnState({commit}){
+    userAuthOnState({dispatch, commit}){
       auth.onAuthStateChanged(user => {
         if (user) {
-          commit('setData', {
-            ref: 'UserAuth',
-            Data: {
-              username: user.email.split('@')[0],
-              uid: user.uid
-            }
+          db.collection("Users").where("uid", "==", user.uid).get()
+          .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+              let Data = doc.data();
+              Data.id = doc.id;
+              Data.online = true;
+              
+              dispatch('updateData', [{
+                ref: 'Users',
+                data: Data
+              }])
+              if (Data.email){
+                Data.username = Data.email.split('@')[0]
+              }
+              
+              commit('setData', {
+                ref: 'UserAuth',
+                Data: Data
+              })
+            });
+          })
+          .catch(function (error) {
+            commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
           })
         } else {
-          // eslint-disable-next-line
-          commit('setData', {
-            ref: 'UserAuth',
-            Data: false
-          })
+          auth.signInAnonymously().catch(error => {
+            commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+          });
+
+          auth.onAuthStateChanged(function (user) {
+            if (user) {
+              // User is signed in.
+              let Data = {
+                uid: user.uid,
+                isAnonymous: user.isAnonymous
+              }
+              dispatch('addData', [{
+                ref: 'Users',
+                data: Data
+              }])
+
+              commit('setData', {
+                ref: 'UserAuth',
+                Data: Data
+              })
+            }
+          });
         }
       });
     },
-    signUp({ commit }, userAuth) {
+    signUp({ dispatch, commit }, userAuth) {
       auth.createUserWithEmailAndPassword(userAuth.email, userAuth.password)
         .then(resp => {
-          resp.user.updateProfile({
-            phoneNumber: userAuth.phone,
-          });
-          resp.user.sendEmailVerification();
+          let Data = {
+            uid: resp.user.uid,
+            email: resp.user.email,
+            phone: userAuth.phone,
+          }
+          dispatch('addData', [{ ref: 'Users', data: Data }]);
           commit('setAlerts', {
             type: 0, title: 'Notificación', msg: 'El correo: <b>' + resp.user.email + '</b> fue registrado correctamente!',
           });
@@ -220,6 +256,41 @@ export default new Vuex.Store({
         await desertRef.delete();
       } catch (error) {
         commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+      }
+    },
+    addCartItems({ dispatch, commit }, idProduct) {
+      if (this.state.UserAuth) {
+        // eslint-disable-next-line
+        console.log(this.state.UserAuth);
+        if (!this.state.UserAuth.cart) {
+          this.state.UserAuth.cart = [{ product: idProduct, quantity: 1 }];
+          
+          dispatch('updateData', [{ ref: 'Users', data: this.state.UserAuth }]);
+          
+          db.collection("Users").doc(this.state.UserAuth.id)
+            .onSnapshot(function(doc) {
+
+              let Data = doc.data();
+              Data.id = doc.id;
+
+              commit('setData', {
+                ref: 'UserAuth',
+                Data: Data
+              })
+            });
+        } else {
+          this.state.UserAuth.cart.forEach((item, index) => {
+            if (item.product === idProduct) {
+              ++this.state.UserAuth.cart[index].quantity
+            }
+          })
+          if (!(this.state.UserAuth.cart.filter(item => {
+            return item.product === idProduct
+          }).length)) {
+            this.state.UserAuth.cart.push({ product: idProduct, quantity: 1 })
+          }
+          dispatch('updateData', [{ ref: 'Users', data: this.state.UserAuth }]);
+        }
       }
     }
   }

@@ -68,35 +68,21 @@
 
             <ul class="list-inline ml-2 mb-0">
               <!-- Search -->
-              <li class="list-inline-item">
+              <!-- <li class="list-inline-item">
                 <a class="btn btn-xs btn-icon btn-text-secondary" href="javascript:;" role="button" aria-controls="searchPushTop" aria-expanded="false" aria-haspopup="true" 
                   data-unfold-target="#searchPushTop" 
                   data-unfold-type="jquery-slide">
                   <span class="fas fa-search btn-icon__inner"></span>
                 </a>
-              </li>
+              </li> -->
               <!-- End Search -->
 
               <!-- Shopping Cart -->
-              <li class="list-inline-item position-relative">
-                <a class="btn btn-xs btn-icon btn-text-secondary" id="shoppingCartDropdownInvoker" href="javascript:;" role="button" aria-controls="shoppingCartDropdown" aria-expanded="false" aria-haspopup="true" 
-                  data-unfold-animation-in="slideInUp" 
-                  data-unfold-animation-out="fadeOut" 
-                  data-unfold-delay="300" 
-                  data-unfold-duration="300" 
-                  data-unfold-event="hover" 
-                  data-unfold-hide-on-scroll="true" 
-                  data-unfold-target="#shoppingCartDropdown" 
-                  data-unfold-type="css-animation">
+              <li class="list-inline-item">
+                <router-link class="btn btn-xs btn-icon btn-text-secondary" to="/cart">
                   <span class="fas fa-shopping-cart btn-icon__inner"></span>
-                </a>
-
-                <div class="dropdown-menu dropdown-unfold dropdown-menu-right text-center p-7" id="shoppingCartDropdown" aria-labelledby="shoppingCartDropdownInvoker" style="min-width: 250px;">
-                  <span class="btn btn-icon btn-soft-primary rounded-circle mb-3">
-                    <span class="fas fa-shopping-basket btn-icon__inner"></span>
-                  </span>
-                  <span class="d-block">Su carrito está vacío</span>
-                </div>
+                  <span v-if="cartLength" class="badge badge-sm badge-primary bage-pos rounded-circle ml-3">{{cartLength}}</span>
+                </router-link>
               </li>
               <!-- End Shopping Cart -->
 
@@ -189,7 +175,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'Header',
+  computed:{
+    ...mapState(["UserAuth"]),
+    cartLength(){
+      if(this.UserAuth.cart){
+        return this.UserAuth.cart.length
+      }else{
+        return 0
+      }
+    }
+  }
 }
 </script>
