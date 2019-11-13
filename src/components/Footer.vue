@@ -3,30 +3,30 @@
     <!-- ========== FOOTER ========== -->
     <footer class="container">
       <div class="row justify-content-lg-between">
-        <section class="site-shopping-info" type="site-shopping-info">
-          <div class="container-fluid">
-            <div class="info-slide">
-              <div class="img-container">
+        <section class="container" type="site-shopping-info">
+          <div class="row text-center">
+            <div class="col border-right">
+              <div class="img-container mb-2">
                 <img class="img-container" src="https://http2.mlstatic.com/resources/frontend/homes-korriban/assets/images/ecosystem/payment.svg" alt="Paga con tarjeta o en efectivo">
               </div>
-              <h1>Paga con tarjeta o en efectivo</h1>
-              <p>
-                <span>Con ePayco, paga en cuotas y aprovecha la comodidad de financiación que te da tu banco, o hazlo con efectivo en puntos de pago. ¡Y siempre es seguro!</span>
-              </p>
+              <h6>Paga con tarjeta o en efectivo</h6>
+              <small>
+                <span class="text-muted">Con ePayco, paga en cuotas y aprovecha la comodidad de financiación que te da tu banco, o hazlo con efectivo en puntos de pago. ¡Y siempre es seguro!</span>
+              </small>
             </div>
-            <div class="info-slide">
-              <div class="img-container">
+            <div class="col border-right">
+              <div class="img-container mb-2">
                 <img class="img-container" src="https://http2.mlstatic.com/resources/frontend/homes-korriban/assets/images/ecosystem/shipping.svg" alt="Envío gratis desde $ 70.000">
               </div>
-              <h1>Envío gratis desde $ 70.000</h1>
-              <p><span>Con solo estar registrado en Estilo & Class, tienes envíos gratis en millones de productos seleccionados.</span></p>
+              <h6>Envío gratis desde $ 70.000</h6>
+              <small><span class="text-muted">Con solo estar registrado en Estilo & Class, tienes envíos gratis en millones de productos seleccionados.</span></small>
             </div>
-            <div class="info-slide">
-              <div class="img-container">
+            <div class="col">
+              <div class="img-container mb-2">
                 <img class="img-container" src="https://http2.mlstatic.com/resources/frontend/homes-korriban/assets/images/ecosystem/protected.svg" alt="Seguridad, de principio a fin">
               </div>
-              <h1>Seguridad, de principio a fin</h1>
-              <p><span>¿No te gusta? ¡Devuélvelo! En Estilo & Class, no hay nada que no puedas hacer, porque estás siempre protegido.</span></p>
+              <h6>Seguridad, de principio a fin</h6>
+              <small><span class="text-muted">¿No te gusta? ¡Devuélvelo! En Estilo & Class, no hay nada que no puedas hacer, porque estás siempre protegido.</span></small>
             </div>
           </div>
         </section>

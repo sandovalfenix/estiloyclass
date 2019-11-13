@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { db, auth, storage } from '@/firebase'
+import { db, auth, storage, firebase } from '@/firebase'
 import router from '@/router'
 import $ from 'jquery'
 
@@ -42,11 +42,13 @@ export default new Vuex.Store({
               let Data = doc.data();
               Data.id = doc.id;
               Data.online = true;
+              Data.isAnonymous = user.isAnonymous;
               
               dispatch('updateData', [{
                 ref: 'Users',
                 data: Data
               }])
+
               if (Data.email){
                 Data.username = Data.email.split('@')[0]
               }
@@ -58,11 +60,11 @@ export default new Vuex.Store({
             });
           })
           .catch(function (error) {
-            commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+            commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
           })
         } else {
           auth.signInAnonymously().catch(error => {
-            commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+            commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
           });
 
           auth.onAuthStateChanged(function (user) {
@@ -87,21 +89,45 @@ export default new Vuex.Store({
       });
     },
     signUp({ dispatch, commit }, userAuth) {
-      auth.createUserWithEmailAndPassword(userAuth.email, userAuth.password)
-        .then(resp => {
-          let Data = {
-            uid: resp.user.uid,
-            email: resp.user.email,
-            phone: userAuth.phone,
-          }
-          dispatch('addData', [{ ref: 'Users', data: Data }]);
-          commit('setAlerts', {
-            type: 0, title: 'Notificación', msg: 'El correo: <b>' + resp.user.email + '</b> fue registrado correctamente!',
+      var Auth = this.state.UserAuth;
+      if (Auth.isAnonymous) {
+        var credential = firebase.auth.EmailAuthProvider.credential(userAuth.email, userAuth.password);
+
+        auth.currentUser.linkWithCredential(credential).then(function (usercred) {
+          var user = usercred.user;
+          Auth.email = user.email;
+          Auth.phone = userAuth.phone;
+          Auth.isAnonymous = user.isAnonymous;
+
+          dispatch('updateData', [{ ref: 'Users', data: Auth }]);
+          
+          Auth.username = Auth.email.split('@')[0];
+
+          commit('setData', {
+            ref: 'UserAuth',
+            Data: Auth
           });
-        })
-        .catch(error => {
-          commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+        }, function (error) {
+            commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
         });
+      } else {
+        auth.createUserWithEmailAndPassword(userAuth.email, userAuth.password)
+          .then(resp => {
+            let Data = {
+              uid: resp.user.uid,
+              email: resp.user.email,
+              isAnonymous: resp.user.isAnonymous,
+              phone: userAuth.phone,
+            }
+            dispatch('addData', [{ ref: 'Users', data: Data }]);
+            commit('setAlerts', {
+              type: 0, title: 'Notificación', msg: 'El correo: <b>' + resp.user.email + '</b> fue registrado correctamente!',
+            });
+          })
+          .catch(error => {
+            commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
+          });
+      }
     },
     signIn({ commit }, userAuth) {
       auth.signInWithEmailAndPassword(userAuth.email, userAuth.password)
@@ -113,14 +139,14 @@ export default new Vuex.Store({
           })
         })
         .catch(error => {
-          commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+          commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
         });
     },
     signOut({ commit }) {
       auth.signOut();
       commit('setData', {
         ref: 'UserAuth',
-        Data: null
+        Data: false
       });
       commit('setAlerts', {
         type: 0, title: 'Notificación', msg: 'Haz Cerrado la sesión',
@@ -178,7 +204,7 @@ export default new Vuex.Store({
             }
           })
           .catch((error) => {
-            commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+            commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
           });
       })
     },
@@ -200,7 +226,7 @@ export default new Vuex.Store({
             }
           })
           .catch((error) => {
-            commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+            commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
           });
       });
     },
@@ -214,7 +240,7 @@ export default new Vuex.Store({
             commit('setAlerts', { type: 1, title: 'Notificación', msg: 'El registro fue <b>eliminado</b> con éxito!' });
           })
           .catch((error) => {
-            commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+            commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
           })
       });
     },
@@ -244,7 +270,7 @@ export default new Vuex.Store({
           alert('Error al subir el archivo/imagen');
         }
       } catch (error) {
-        commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+        commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
       }
     },
     async deleteFiles({ commit }, obj) {
@@ -255,13 +281,11 @@ export default new Vuex.Store({
         // Delete the file
         await desertRef.delete();
       } catch (error) {
-        commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+        commit('setAlerts', { type: 1, title: 'Error: '+error.code, msg: error.message });
       }
     },
     addCartItems({ dispatch, commit }, idProduct) {
       if (this.state.UserAuth) {
-        // eslint-disable-next-line
-        console.log(this.state.UserAuth);
         if (!this.state.UserAuth.cart) {
           this.state.UserAuth.cart = [{ product: idProduct, quantity: 1 }];
           

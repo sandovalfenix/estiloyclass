@@ -2,31 +2,6 @@
   <div>
     <!-- ========== HEADER ========== -->
     <header class="u-header" id="header">
-      <!-- Search -->
-      <div class="u-search-push-top" id="searchPushTop">
-        <div class="container position-relative">
-          <div class="u-search-push-top__content">
-            <!-- Close Button -->
-            <button class="close u-search-push-top__close-btn" type="button" aria-controls="searchPushTop" aria-expanded="false" aria-haspopup="true" 
-              data-unfold-target="#searchPushTop" 
-              data-unfold-type="jquery-slide">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <!-- End Close Button -->
-
-            <!-- Input -->
-            <form class="js-focus-state input-group">
-              <input class="form-control" type="search" placeholder="Buscar productos, marcas y más..." aria-label="Buscar productos, marcas y más...">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">Buscar</button>
-              </div>
-            </form>
-            <!-- End Input -->
-          </div>
-        </div>
-      </div>
-      <!-- End Search -->
-
       <div class="u-header__section">
         <!-- Topbar -->
         <div class="container u-header__hide-content pt-2">
@@ -67,18 +42,8 @@
             </div>
 
             <ul class="list-inline ml-2 mb-0">
-              <!-- Search -->
-              <!-- <li class="list-inline-item">
-                <a class="btn btn-xs btn-icon btn-text-secondary" href="javascript:;" role="button" aria-controls="searchPushTop" aria-expanded="false" aria-haspopup="true" 
-                  data-unfold-target="#searchPushTop" 
-                  data-unfold-type="jquery-slide">
-                  <span class="fas fa-search btn-icon__inner"></span>
-                </a>
-              </li> -->
-              <!-- End Search -->
-
               <!-- Shopping Cart -->
-              <li class="list-inline-item">
+              <li class="list-inline-item mr-3">
                 <router-link class="btn btn-xs btn-icon btn-text-secondary" to="/cart">
                   <span class="fas fa-shopping-cart btn-icon__inner"></span>
                   <span v-if="cartLength" class="badge badge-sm badge-primary bage-pos rounded-circle ml-3">{{cartLength}}</span>
@@ -87,9 +52,9 @@
               <!-- End Shopping Cart -->
 
               <!-- Account Login -->
-              <li class="list-inline-item">
+              <li v-show="UserAuth" :class="['list-inline-item', {'position-relative': !UserAuth.isAnonymous}]">       
                 <!-- Account Sidebar Toggle Button -->
-                <a class="btn btn-xs btn-icon btn-text-secondary" id="sidebarNavToggler" href="javascript:;" role="button" aria-controls="sidebarContent" aria-expanded="false" aria-haspopup="true" 
+                <a v-show="UserAuth.isAnonymous" class="btn btn-xs btn-icon btn-text-secondary" id="sidebarNavToggler" href="javascript:;" role="button" aria-controls="sidebarContent" aria-expanded="false" aria-haspopup="true" 
                   data-unfold-animation-in="fadeInRight" 
                   data-unfold-animation-out="fadeOutRight" 
                   data-unfold-duration="500" 
@@ -100,6 +65,39 @@
                   <span class="fas fa-user-circle btn-icon__inner font-size-1"></span>
                 </a>
                 <!-- End Account Sidebar Toggle Button -->
+
+                <!-- Account Dropdown -->
+                <a v-show="UserAuth.username" id="account-dropdown-invoker" class="btn btn-xs btn-text-secondary u-sidebar--account__toggle-bg" href="javascript:;" role="button"
+                  aria-controls="account-dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-unfold-event="hover"
+                  data-unfold-target="#account-dropdown"
+                  data-unfold-type="css-animation"
+                  data-unfold-duration="300"
+                  data-unfold-delay="300"
+                  data-unfold-hide-on-scroll="true"
+                  data-unfold-animation-in="slideInUp"
+                  data-unfold-animation-out="fadeOut">
+                  <span class="u-sidebar--account__toggle-text">{{UserAuth.username}}</span>
+                  <img class="u-sidebar--account__toggle-img" src="https://image.flaticon.com/icons/svg/149/149071.svg" alt="Image Description">
+                </a>
+                <!-- End Account Dropdown -->
+
+                <div id="account-dropdown" class="dropdown-menu dropdown-unfold dropdown-menu-sm-right" aria-labelledby="account-dropdown-invoker">
+                  <a class="dropdown-item" href="#">
+                    <span class="fas fa-user-circle dropdown-item-icon"></span>
+                    Perfil
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <span class="fas fa-cog dropdown-item-icon"></span>
+                    Configuracion
+                  </a>
+                  <a class="dropdown-item" href="javascript:;" @click="signOutUser">
+                    <span class="fas fa-sign-out-alt dropdown-item-icon"></span>
+                    Cerrar Sesion
+                  </a>
+                </div>
               </li>
               <!-- End Account Login -->
             </ul>
@@ -175,7 +173,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
   name: 'Header',
   computed:{
@@ -186,6 +184,12 @@ export default {
       }else{
         return 0
       }
+    }
+  },
+  methods:{
+    ...mapActions(["signOut"]),
+    signOutUser(){
+      this.signOut();
     }
   }
 }

@@ -76,31 +76,30 @@
             <div class="row mx-n2 mb-2">
                 <div class="col-6 col-lg-4 px-2 mb-3" v-for="product of products.slice(0,24)" :key="product.id">
                   <!-- Product -->    
-                  <a :href="'/product/'+product.id">
-                    <div class="card text-center h-100 transition-3d-hover">
-                      <div class="position-relative">
-                        <img class="card-img-top" style="width: 200px" v-if="product.img" :src="product.img">
-                        <img class="height-40vh" src="@/assets/logo.png" style="width: 250px;" v-else>
-                      </div>
+                    <div class="card text-center h-100 transition-3d-hover">              
+                      <a :href="'/product/'+product.id">
+                        <div class="position-relative">
+                          <img class="card-img-top" style="width: 200px" v-if="product.img" :src="product.img">
+                          <img class="height-40vh" src="@/assets/logo.png" style="width: 250px;" v-else>
+                        </div>
 
-                      <div class="card-body pt-4 px-4 pb-0">
-                        <div class="mb-2">
-                          <p class="text-secondary small font-weight-medium mb-1">{{product.category.name}} para {{product.category.type}}</p>
-                          <h5 class="d-inline-block text-dark font-weight-medium mb-1">{{product.name}}</h5>
-                          <h3 class="font-size-1 font-weight-normal">
-                            <a class="text-secondary" href="single-product.html">{{product.description}}</a>
-                          </h3>
-                          <div class="d-block h5">
-                            <span class="font-weight-medium">$ {{new Intl.NumberFormat().format(product.price)}}</span>
+                        <div class="card-body pt-4 px-4 pb-0">
+                          <div class="mb-2">
+                            <p class="text-secondary small font-weight-medium mb-1">{{product.category.name}} para {{product.category.type}}</p>
+                            <h5 class="d-inline-block text-dark font-weight-medium mb-1">{{product.name}}</h5>
+                            <h3 class="font-size-1 font-weight-normal">
+                              <a class="text-secondary" href="single-product.html">{{product.description}}</a>
+                            </h3>
+                            <div class="d-block h5">
+                              <span class="font-weight-medium">$ {{new Intl.NumberFormat().format(product.price)}}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-
+                      </a>
                       <div class="card-footer border-0 pt-0 pb-4 px-4">
-                        <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button"><i class="fas fa-cart-plus mr-2"></i>Agregar</button>
+                        <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button" @click="addCartItems(product.id)"><i class="fas fa-cart-plus mr-2"></i>Agregar</button>
                       </div>
                     </div>
-                  </a>
                   <!-- End Product -->
                 </div>
             </div>
@@ -109,7 +108,7 @@
             <div class="py-3"></div>
 
             <!-- Pagination -->
-            <nav aria-label="Page navigation">
+            <!--nav aria-label="Page navigation">
               <ul class="pagination justify-content-between align-items-center">
                 <li class="page-item ml-0">
                   <a class="page-link" href="#" aria-label="Previous">
@@ -140,7 +139,7 @@
                   </a>
                 </li>
               </ul>
-            </nav>
+            </nav-->
             <!-- End Pagination -->
 
             <!-- Divider -->
@@ -188,7 +187,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getDatas"]),
+    ...mapActions(["getDatas", "addCartItems"]),
     productsCategories() {
       return this.Products.filter(product => {
         if (this.$route.params.type === "infantil") {

@@ -108,7 +108,7 @@
                 <div class="card border-0 mb-3">
                   <div class="card-body p-0">
                     <div class="custom-control custom-radio d-flex align-items-center small">
-                      <input type="radio" class="custom-control-input" id="deliveryRadio1" name="deliveryRadio" checked>
+                      <input type="radio" class="custom-control-input" id="deliveryRadio1" v-model="deliveryRadio" value="0">
                       <label class="custom-control-label ml-1" for="deliveryRadio1">
                         <span class="d-block font-size-1 font-weight-medium mb-1">Gratis - Entrega estándar</span>
                         <span class="d-block text-muted">El envío puede demorar entre 5 y 6 días hábiles.</span>
@@ -122,7 +122,7 @@
                 <div class="card border-0">
                   <div class="card-body p-0">
                     <div class="custom-control custom-radio d-flex align-items-center small">
-                      <input type="radio" class="custom-control-input" id="deliveryRadio2" name="deliveryRadio">
+                      <input type="radio" class="custom-control-input" id="deliveryRadio2" v-model="deliveryRadio" value="15600">
                       <label class="custom-control-label ml-1" for="deliveryRadio2">
                         <span class="d-block font-size-1 font-weight-medium mb-1">$15.600 - Entrega Express</span>
                         <span class="d-block text-muted">El envío puede demorar de 2 a 3 días hábiles.</span>
@@ -134,66 +134,31 @@
               </div>
 
               <div class="media align-items-center mb-3">
-                <h4 class="text-secondary font-size-1 font-weight-normal mb-0 mr-3">Estimated tax</h4>
+                <h4 class="text-secondary font-size-1 font-weight-normal mb-0 mr-3">IVA (19%)</h4>
                 <div class="media-body text-right">
-                  <span class="font-weight-medium">--</span>
+                  <span class="font-weight-medium">${{formatPrice(totalCartPrices*0.19)}}</span>
                 </div>
               </div>
 
               <div class="media align-items-center mb-4">
                 <h4 class="text-secondary font-size-1 font-weight-normal mb-0 mr-3">Total</h4>
                 <div class="media-body text-right">
-                  <span class="font-weight-medium">$73.98</span>
+                  <span class="font-weight-medium">${{formatPrice((totalCartPrices*1.19)+parseInt(deliveryRadio))}}</span>
                 </div>
               </div>
 
-              <a class="btn btn-primary btn-pill transition-3d-hover" href="checkout.html">Checkout</a>
-              <button type="submit" class="btn btn-soft-warning btn-pill transition-3d-hover">
-                <img src="/assets/img/logos/paypal.png" width="70" alt="PayPal logo">
-              </button>
+              <a class="btn btn-primary btn-pill transition-3d-hover btn-block" href="/checkout">Confirmar</a>
             </div>
             <!-- End Order Summary -->
 
-            <!-- Accordion -->
-            <div id="shopCartAccordion" class="accordion rounded shadow-soft mb-4">
-              <!-- Card -->
-              <div class="card rounded">
-                <div class="card-header card-collapse" id="shopCartHeadingOne">
-                  <h3 class="mb-0">
-                    <button type="button" class="btn btn-link btn-block card-btn font-weight-medium collapsed"
-                            data-toggle="collapse"
-                            data-target="#shopCartOne"
-                            aria-expanded="false"
-                            aria-controls="shopCartOne">
-                      Promo code?
-                      <span class="far fa-question-circle text-secondary ml-1" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" title="Promo code" data-content="Valid on full priced items only. Some products maybe excluded."></span>
-                    </button>
-                  </h3>
-                </div>
-                <div id="shopCartOne" class="collapse" aria-labelledby="shopCartHeadingOne" data-parent="#shopCartAccordion">
-                  <form class="js-validate p-5">
-                    <div class="input-group input-group-pill mb-3">
-                      <input type="text" class="form-control" name="name" placeholder="Promo code" aria-label="Promo code">
-                      <div class="input-group-append">
-                        <button type="submit" class="btn btn-block btn-primary btn-pill">Apply</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <!-- End Card -->
-            </div>
-            <!-- End Accordion -->
-
             <!-- Help Link -->
             <div class="media align-items-center">
-              <figure id="icon4" class="svg-preloader ie-height-48 w-100 max-width-6 mr-2">
-                <img class="js-svg-injector" src="/assets/svg/icons/icon-4.svg" alt="SVG"
-                     data-parent="#icon4">
+              <figure id="icon4" class="ie-height-48 w-100 max-width-6 mr-2">
+                <img class="img-fluid" src="https://image.flaticon.com/icons/svg/1384/1384055.svg" alt="SVG">
               </figure>
               <div class="media-body text-secondary small">
-                <span class="font-weight-medium mr-1">Need Help?</span>
-                <a class="link-muted" href="#">Chat now</a>
+                <span class="font-weight-medium mr-1">¿Necesitas ayuda?</span>
+                <a class="link-muted" :href="'//wa.me/573178758748?text=Me%20gustaría%20ayuda%20para%20confirmar%20una%20compra'">Chatea ahora</a>
               </div>
             </div>
             <!-- End Help Link -->
@@ -208,6 +173,11 @@
 import { mapState, mapActions } from 'vuex';
 export default {
   name: 'CartShopping',
+  data() {
+    return {
+      deliveryRadio: 0
+    }
+  },
   created(){
     this.getDatas(["Products"])
   },

@@ -1,6 +1,6 @@
 <template>
   <!-- Hero Section -->
-  <div class="container space-top-1 space-top-sm-2">
+  <div class="container space-top-1 space-top-sm-2 mb-5">
     <div class="row">
       <div class="col-lg-7 mb-7 mb-lg-0">
         <div class="pr-lg-4">
@@ -64,7 +64,7 @@
         <!-- End Price -->
 
         <!-- Quantity -->
-        <div class="border rounded py-2 px-3 mb-3">
+        <!--div class="border rounded py-2 px-3 mb-3">
           <div class="js-quantity row align-items-center">
             <div class="col-7">
               <small class="d-block text-secondary font-weight-medium">Seleccione Cantidad</small>
@@ -79,7 +79,7 @@
               </a>
             </div>
           </div>
-        </div>
+        </div-->
         <!-- End Quantity -->
 
         <!-- Accordion -->
@@ -162,15 +162,14 @@
         </div>
         <!-- End Accordion -->
 
-        <div class="mb-4 d-none">
-          <button type="button" class="btn btn-block btn-primary btn-pill transition-3d-hover"><i class="fas fa-cart-plus mr-2"></i> Agregar</button>
+        <div class="mb-4">
+          <button type="button" class="btn btn-block btn-primary btn-pill transition-3d-hover" @click="addCartItems(Product.id)"><i class="fas fa-cart-plus mr-2"></i> Agregar</button>
         </div>
 
         <!-- Help Link -->
         <div class="media align-items-center h5">
-          <span id="icon4" class="svg-preloader ie-height-48 w-100 max-width-6 mr-2">
-            <img class="js-svg-injector" src="/assets/svg/icons/icon-4.svg" alt="SVG"
-                data-parent="#icon4">
+          <span id="icon4" class="ie-height-48 w-100 max-width-6 mr-2">
+            <img class="img-fluid" src="https://image.flaticon.com/icons/svg/1384/1384055.svg">
           </span>
           <div class="media-body text-secondary small">
             <span class="font-weight-medium mr-1">¿Estas interesado?</span>
@@ -201,7 +200,7 @@ export default {
     ...mapState(['Product'])
   },
   methods:{
-    ...mapActions(['getData'])
+    ...mapActions(['getData', 'addCartItems'])
   }
 }
 </script>
