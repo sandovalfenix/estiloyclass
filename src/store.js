@@ -143,11 +143,15 @@ export default new Vuex.Store({
         });
     },
     signOut({ commit }) {
-      auth.signOut();
+      let Data = this.state.UserAuth;
+      delete Data.username;
+      Data.online = false;
+      dispatch('updateData', [{ ref: 'Users', data: Data }]);
       commit('setData', {
         ref: 'UserAuth',
         Data: false
       });
+      auth.signOut();
       commit('setAlerts', {
         type: 0, title: 'Notificación', msg: 'Haz Cerrado la sesión',
       });
@@ -171,8 +175,8 @@ export default new Vuex.Store({
     getData({ commit }, objects) {
       objects.forEach(obj => {
         if (obj.id) {
-          db.collection(obj.ref).doc(obj.id).get()
-            .then(doc => {
+          db.collection(obj.ref).doc(obj.id)
+            .onSnapshot(doc => {
               let Data = doc.data();
               Data.id = doc.id;
               //creación de la variable para el global states
@@ -188,7 +192,6 @@ export default new Vuex.Store({
         }
       })
     },
-    // eslint-disable-next-line no-unused-vars
     updateData({ dispatch, commit }, objects) {
       objects.forEach(obj => {
         const Doc = Object.assign({}, obj.data);
@@ -208,7 +211,6 @@ export default new Vuex.Store({
           });
       })
     },
-    // eslint-disable-next-line no-unused-vars
     addData({ dispatch, commit }, objects) {
       objects.forEach(obj => {
         var Doc = Object.assign({}, obj.data);
@@ -255,7 +257,6 @@ export default new Vuex.Store({
         commit('setFile', false);
       }
     },
-    // eslint-disable-next-line no-unused-vars
     async uploadFiles({ dispatch, commit }, obj) {
       try {
         const refImg = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.data.id + '.' + obj.file.type.split("/")[1]);
