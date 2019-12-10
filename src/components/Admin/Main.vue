@@ -1,6 +1,8 @@
 <template>
-  <div class="container space-2">
+  <div v-if="Orders && Products" class="container space-2">
     <!-- Stats -->
+    
+    <h3 class="h5 mb-3">Balance Pedidos en <b>{{Month[new Date().getMonth()]}}</b></h3>
     <div class="card-deck d-block d-lg-flex card-lg-gutters-3 mb-6">
       <!-- Card -->
       <div class="card mb-3 mb-lg-0">
@@ -10,8 +12,8 @@
               <span class="fas fa-dollar-sign btn-icon__inner"></span>
             </span>
             <div class="media-body">
-              <span class="d-block font-size-3">$45.99</span>
-              <h2 class="h6 text-secondary font-weight-normal mb-0">Available balance</h2>
+              <span class="d-block font-size-3">${{formatPrice(totalBalance(new Date().getMonth()))}}</span>
+              <h2 class="h6 text-secondary font-weight-normal mb-0">Total Compras</h2>
             </div>
           </div>
         </div>
@@ -26,8 +28,8 @@
               <span class="fas fa-coins btn-icon__inner"></span>
             </span>
             <div class="media-body">
-              <span class="d-block font-size-3">$1.32</span>
-              <h3 class="h6 text-secondary font-weight-normal mb-0">Reward balance</h3>
+              <span class="d-block font-size-3">${{formatPrice(rewardBalance(new Date().getMonth()))}}</span>
+              <h3 class="h6 text-secondary font-weight-normal mb-0">Saldo Pago</h3>
             </div>
           </div>
         </div>
@@ -42,8 +44,8 @@
               <span class="fas fa-exchange-alt btn-icon__inner"></span>
             </span>
             <div class="media-body">
-              <span class="d-block font-size-3">$0.00</span>
-              <h3 class="h6 text-secondary font-weight-normal mb-0">Pending balance</h3>
+              <span class="d-block font-size-3">${{formatPrice(pendingBalance(new Date().getMonth()))}}</span>
+              <h3 class="h6 text-secondary font-weight-normal mb-0">Saldo Pendiente</h3>
             </div>
           </div>
         </div>
@@ -54,70 +56,30 @@
 
     <!-- Title -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3 class="h6 mb-0">Your earning sources</h3>
-      <a class="link-muted" href="#">View All</a>
+      <h3 class="h6 mb-0">Productos Favoritos en <b>{{Month[new Date().getMonth()]}}</b></h3>
     </div>
     <!-- End Title -->
 
     <!-- Earning Sources -->
     <div class="mb-7">
-      <div class="card-deck d-block d-lg-flex card-lg-gutters-3">
+      <div v-if="productsFavorite" class="card-deck d-block d-lg-flex card-lg-gutters-3">
         <!-- Card -->
-        <div class="card card-frame mb-3">
+        <div class="card card-frame mb-3" v-for="(Product, index) in productsFavorite.slice(0, 3)" :key="index">
           <a class="card-body p-4" href="#">
             <div class="media align-items-center">
-              <div class="u-avatar mr-3">
-                <img class="img-fluid rounded-circle" src="https://htmlstream.com/preview/front-v2.9.2/assets/img/160x160/img5.jpg" alt="Image Description">
+              <div class="mr-3 w-30">
+                <img class="img-fluid" :src="Product.img">
               </div>
-              <div class="media-body">
-                <span class="text-dark">Spotify</span>
-                <small class="d-block text-secondary">Logo redesign</small>
+              <div class="media-body d-inline-block">
+                <span class="text-dark">{{Product.name}}</span>
+                <small class="d-block text-secondary">{{Product.weight}}</small>
+                <small class="d-block text-primary">
+                  Total Pedidos: <b>{{Product.quantity}}</b>
+                </small>
               </div>
               <div class="media-body text-right">
                 <span class="text-primary ml-3">
-                  $1,903
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- End Card -->
-
-        <!-- Card -->
-        <div class="card card-frame mb-3">
-          <a class="card-body p-4" href="#">
-            <div class="media align-items-center">
-              <div class="u-avatar mr-3">
-                <img class="img-fluid rounded-circle" src="https://htmlstream.com/preview/front-v2.9.2/assets/img/160x160/img3.jpg" alt="Image Description">
-              </div>
-              <div class="media-body">
-                <span class="text-dark">Slack</span>
-                <small class="d-block text-secondary">Page redesign</small>
-              </div>
-              <div class="media-body text-right">
-                <span class="text-primary ml-3">
-                  $3,500
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- End Card -->
-
-        <!-- Card -->
-        <div class="card card-frame mb-3">
-          <a class="card-body p-4" href="#">
-            <div class="media align-items-center">
-              <div class="u-avatar mr-3">
-                <img class="img-fluid rounded-circle" src="https://htmlstream.com/preview/front-v2.9.2/assets/img/160x160/img6.jpg" alt="Image Description">
-              </div>
-              <div class="media-body">
-                <span class="text-dark">Dropbox</span>
-                <small class="d-block text-secondary">Branding</small>
-              </div>
-              <div class="media-body text-right">
-                <span class="text-primary ml-3">
-                  $7,250
+                  ${{formatPrice(Product.price)}}
                 </span>
               </div>
             </div>
@@ -125,64 +87,24 @@
         </div>
         <!-- End Card -->
       </div>
-
       <div class="card-deck d-block d-lg-flex card-lg-gutters-3">
         <!-- Card -->
-        <div class="card card-frame mb-3">
+        <div class="card card-frame mb-3" v-for="(Product, index) in productsFavorite.slice(3, 6)" :key="index">
           <a class="card-body p-4" href="#">
             <div class="media align-items-center">
-              <div class="u-avatar mr-3">
-                <img class="img-fluid rounded-circle" src="https://htmlstream.com/preview/front-v2.9.2/assets/img/160x160/img8.jpg" alt="Image Description">
+              <div class="mr-3 w-30">
+                <img class="img-fluid" :src="Product.img">
               </div>
-              <div class="media-body">
-                <span class="text-dark">PayPal</span>
-                <small class="d-block text-secondary">Logo redesign</small>
+              <div class="media-body d-inline-block">
+                <span class="text-dark">{{Product.name}}</span>
+                <small class="d-block text-secondary">{{Product.weight}}</small>
+                <small class="d-block text-primary">
+                  Total Pedidos: <b>{{Product.quantity}}</b>
+                </small>
               </div>
               <div class="media-body text-right">
                 <span class="text-primary ml-3">
-                  $2,125
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- End Card -->
-
-        <!-- Card -->
-        <div class="card card-frame mb-3">
-          <a class="card-body p-4" href="#">
-            <div class="media align-items-center">
-              <div class="u-avatar mr-3">
-                <img class="img-fluid rounded-circle" src="https://htmlstream.com/preview/front-v2.9.2/assets/img/160x160/img9.jpg" alt="Image Description">
-              </div>
-              <div class="media-body">
-                <span class="text-dark">Dribbble</span>
-                <small class="d-block text-secondary">UI/UX</small>
-              </div>
-              <div class="media-body text-right">
-                <span class="text-primary ml-3">
-                  $9,000
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <!-- End Card -->
-
-        <!-- Card -->
-        <div class="card card-frame mb-3">
-          <a class="card-body p-4" href="#">
-            <div class="media align-items-center">
-              <div class="u-avatar mr-3">
-                <img class="img-fluid rounded-circle" src="https://htmlstream.com/preview/front-v2.9.2/assets/img/160x160/img4.jpg" alt="Image Description">
-              </div>
-              <div class="media-body">
-                <span class="text-dark">Mapbox</span>
-                <small class="d-block text-secondary">Branding</small>
-              </div>
-              <div class="media-body text-right">
-                <span class="text-primary ml-3">
-                  $250
+                  ${{formatPrice(Product.price)}}
                 </span>
               </div>
             </div>
@@ -200,106 +122,29 @@
         <div class="card-body pt-4 pb-5 px-5 mb-3 mb-md-0">
           <!-- Title & Settings -->
           <div class="d-flex justify-content-between align-items-center">
-            <h4 class="h6 mb-0">Deposits</h4>
-
-            <!-- Settings Dropdown -->
-            <div class="position-relative">
-              <a id="depositSettingsDropdownInvoker" class="btn btn-sm btn-icon btn-soft-secondary btn-bg-transparent" href="javascript:;" role="button"
-                aria-controls="depositSettingsDropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                data-unfold-event="click"
-                data-unfold-target="#depositSettingsDropdown"
-                data-unfold-type="css-animation"
-                data-unfold-duration="300"
-                data-unfold-delay="300"
-                data-unfold-hide-on-scroll="true"
-                data-unfold-animation-in="slideInUp"
-                data-unfold-animation-out="fadeOut">
-                <span class="fas fa-ellipsis-h btn-icon__inner"></span>
-              </a>
-
-              <div id="depositSettingsDropdown" class="dropdown-menu dropdown-unfold dropdown-menu-right" aria-labelledby="depositSettingsDropdownInvoker" style="min-width: 190px;">
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-cogs dropdown-item-icon"></small>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-cloud-download-alt dropdown-item-icon"></small>
-                  Download
-                </a>
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-archive dropdown-item-icon"></small>
-                  Archive
-                </a>
-              </div>
-            </div>
-            <!-- End Settings Dropdown -->
+            <h4 class="h6 mb-0">Depรณsitos <b>{{Month[new Date().getMonth()]}}</b></h4>
           </div>
           <!-- End Title & Settings -->
 
           <hr class="mt-3 mb-4">
 
           <!-- Deposit Info -->
-          <div class="row mb-5">
-            <div class="col-sm-6 mb-4 mb-sm-0">
+          <div class="row mb-5">   
+            <div class="col-sm-12 mt-7 mb-sm-0 text-center">
+              <h4 class="text-primary">Alcance:</h4>
               <span class="align-top">$</span>
-              <span class="font-size-3 font-weight-medium text-lh-sm">50,102</span>
+              <span class="font-size-4 font-weight-medium text-lh-sm">{{formatPrice(totalBalance(new Date().getMonth()))}}</span>
               <div class="mb-1">
-                <span class="text-secondary font-size-1">Deposit:</span>
-                <span class="font-weight-medium font-size-1">$1,050</span>
+                <span class="text-secondary font-size-2">Deposito Actual:</span>
+                <span class="font-weight-medium font-size-2"> ${{formatPrice(rewardBalance(new Date().getMonth()))}}</span>
               </div>
               <div>
                 <span class="text-primary font-weight-medium text-lh-sm">
-                  <span class="fas fa-arrow-up text-success small"></span>
-                  +2.1% ($122)
+                  <span :class="[{'fas fa-check-circle text-success': percent >= 100, 'fas fa-arrow-alt-circle-down text-danger': percent < 100}, 'small mr-2']"></span>{{formatPrice(percent)}}% (${{formatPrice(rewardBalance(new Date().getMonth()) - totalBalance(new Date().getMonth()))}})
                 </span>
               </div>
             </div>
-
-            <div class="col-sm-6 align-self-end">
-              <!-- Pie Circle -->
-              <div class="js-pie text-center"
-                data-circles-text-class="content-centered-y"
-                data-circles-value="54"
-                data-circles-max-value="100"
-                data-circles-bg-color="rgba(0, 201, 167, 0.1)"
-                data-circles-fg-color="#00c9a7"
-                data-circles-radius="50"
-                data-circles-stroke-width="4"
-                data-circles-additional-text="%"
-                data-circles-duration="2000"
-                data-circles-scroll-animate="true"
-                data-circles-color="#00c9a7"
-                data-circles-font-size="24"></div>
-              <!-- End Pie Circle -->
-            </div>
           </div>
-
-          <button type="button" class="btn btn-block btn-sm btn-primary transition-3d-hover">Add Funds</button>
-          <!-- End Deposit Info -->
-        </div>
-
-        <div class="card-footer p-5">
-          <!-- Progress Info -->
-          <div class="row align-items-center">
-            <div class="col-6 u-ver-divider">
-              <label class="small text-muted">Goal:</label>
-              <small class="font-weight-medium">$100k</small>
-              <div class="js-hr-progress progress" style="height: 4px;">
-                <div class="js-hr-progress-bar progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <label class="small text-muted">Duration:</label>
-              <small class="font-weight-medium">6 months</small>
-              <div class="js-hr-progress progress" style="height: 4px;">
-                <div class="js-hr-progress-bar progress-bar bg-success" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-          <!-- End Progress Info -->
         </div>
       </div>
       <!-- End Stats -->
@@ -309,41 +154,7 @@
         <div class="card-body pt-4 pb-5 px-5 mb-3 mb-md-0">
           <!-- Title & Settings -->
           <div class="d-flex justify-content-between align-items-center">
-            <h4 class="h6 mb-0">Balance</h4>
-
-            <!-- Settings Dropdown -->
-            <div class="position-relative">
-              <a id="balanceSettingsDropdownInvoker" class="btn btn-sm btn-icon btn-soft-secondary btn-bg-transparent" href="javascript:;" role="button"
-                aria-controls="balanceSettingsDropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                data-unfold-event="click"
-                data-unfold-target="#balanceSettingsDropdown"
-                data-unfold-type="css-animation"
-                data-unfold-duration="300"
-                data-unfold-delay="300"
-                data-unfold-hide-on-scroll="true"
-                data-unfold-animation-in="slideInUp"
-                data-unfold-animation-out="fadeOut">
-                <span class="fas fa-ellipsis-h btn-icon__inner"></span>
-              </a>
-
-              <div id="balanceSettingsDropdown" class="dropdown-menu dropdown-unfold dropdown-menu-right" aria-labelledby="balanceSettingsDropdownInvoker" style="min-width: 190px;">
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-cogs dropdown-item-icon"></small>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-cloud-download-alt dropdown-item-icon"></small>
-                  Download
-                </a>
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-archive dropdown-item-icon"></small>
-                  Archive
-                </a>
-              </div>
-            </div>
-            <!-- End Settings Dropdown -->
+            <h4 class="h6 mb-0">Comparativa</h4>
           </div>
           <!-- End Title & Settings -->
 
@@ -352,47 +163,23 @@
           <!-- Balance Info -->
           <div class="row align-items-center mb-4">
             <div class="col-6 u-ver-divider">
-              <label class="d-block small text-muted mb-0">Available:</label>
-              <span class="font-weight-medium">$45.99</span>
+              <label class="d-block small text-muted mb-0">Max Ventas:</label>
+              <span class="font-weight-medium">${{formatPrice(balanceMax)}}</span>
             </div>
 
             <div class="col-6">
-              <label class="d-block small text-muted mb-0">Pending:</label>
-              <span class="font-weight-medium">$0.00</span>
+              <label class="d-block small text-muted mb-0">Min Ventas:</label>
+              <span class="font-weight-medium">${{formatPrice(balanceMin)}}</span>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-3">
+            <div v-for="(item, index) in comparative" :key="index" class="col-3">
               <div class="js-vr-progress progress-vertical rounded mb-2">
-                <div class="js-vr-progress-bar bg-primary rounded-bottom" role="progressbar" style="height: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="js-vr-progress-bar bg-primary rounded-bottom" role="progressbar" :style="'height:'+item.balance+'%;'" :aria-valuenow="item.balance" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <div class="text-center">
-                <h4 class="small mb-0">May</h4>
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="js-vr-progress progress-vertical rounded mb-2">
-                <div class="js-vr-progress-bar bg-primary rounded-bottom" role="progressbar" style="height: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="text-center">
-                <h4 class="small mb-0">Jun</h4>
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="js-vr-progress progress-vertical rounded mb-2">
-                <div class="js-vr-progress-bar bg-primary rounded-bottom" role="progressbar" style="height: 23%;" aria-valuenow="23" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="text-center">
-                <h4 class="small mb-0">Jul</h4>
-              </div>
-            </div>
-            <div class="col-3">
-              <div class="js-vr-progress progress-vertical rounded mb-2">
-                <div class="js-vr-progress-bar bg-primary rounded-bottom" role="progressbar" style="height: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="text-center">
-                <h4 class="small mb-0">Aug</h4>
+                <h4 class="small mb-0">{{item.month}}</h4>
               </div>
             </div>
           </div>
@@ -406,102 +193,37 @@
         <div class="card-body pt-4 pb-5 px-5 mb-3 mb-md-0">
           <!-- Title & Settings -->
           <div class="d-flex justify-content-between align-items-center">
-            <h4 class="h6 mb-0">Activity</h4>
-
-            <!-- Settings Dropdown -->
-            <div class="position-relative">
-              <a id="activitySettingsDropdownInvoker" class="btn btn-sm btn-icon btn-soft-secondary btn-bg-transparent" href="javascript:;" role="button"
-                aria-controls="activitySettingsDropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                data-unfold-event="click"
-                data-unfold-target="#activitySettingsDropdown"
-                data-unfold-type="css-animation"
-                data-unfold-duration="300"
-                data-unfold-delay="300"
-                data-unfold-hide-on-scroll="true"
-                data-unfold-animation-in="slideInUp"
-                data-unfold-animation-out="fadeOut">
-                <span class="fas fa-ellipsis-h btn-icon__inner"></span>
-              </a>
-
-              <div id="activitySettingsDropdown" class="dropdown-menu dropdown-unfold dropdown-menu-right" aria-labelledby="activitySettingsDropdownInvoker" style="min-width: 190px;">
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-eye dropdown-item-icon"></small>
-                  Mark as read
-                </a>
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-eye-slash dropdown-item-icon"></small>
-                  Mark as unread
-                </a>
-                <a class="dropdown-item" href="#">
-                  <small class="fas fa-archive dropdown-item-icon"></small>
-                  Archive
-                </a>
-              </div>
-            </div>
-            <!-- End Settings Dropdown -->
+            <h4 class="h6 mb-0">Actividad de Pedidos</h4>
           </div>
           <!-- End Title & Settings -->
 
           <hr class="mt-3 mb-4">
 
-          <div class="overflow-hidden">
-            <div class="js-scrollbar pr-3" style="max-height: 300px;">
+          <div class="overflow-auto">
+            <div v-if="ordersUsers" class="js-scrollbar pr-3" style="max-height: 300px;">
               <!-- Activity Feed -->
               <ul class="list-unstyled u-indicator-vertical-dashed">
-                <li class="media u-indicator-vertical-dashed-item">
-                  <span class="btn btn-xs btn-icon btn-primary rounded-circle mr-3">
-                    <span class="btn-icon__inner">A</span>
+                <li v-for="(orderUser, index) in ordersUsers" :key="index" class="media u-indicator-vertical-dashed-item">
+                  <span :class="['btn btn-xs btn-icon rounded-circle mr-3', {'btn-info':orderUser.state == 'Enviado', 'btn-danger':orderUser.state == 'Pendiente',
+                  'btn-success':orderUser.state == 'Recibido'}]">
+                    <span class="btn-icon__inner">{{orderUser.state.slice(0,1)}}</span>
                   </span>
-                  <div class="media-body">
-                    <h5 class="font-size-1 mb-1">Amanta Owens</h5>
-                    <p class="small mb-1">Added new task: <span class="font-weight-medium">Slack home page redesign</span></p>
-                    <small class="d-block text-muted">30 min ago</small>
-                  </div>
-                </li>
+                  <div v-if="orderUser.details" class="media-body">
+                    <h5 v-if="orderUser.details.name" class="font-size-1 mb-1">{{orderUser.details.name}}</h5>
+                    <h5 v-else class="font-size-1 mb-1">{{orderUser.details.email.split('@')[0]}}</h5>
+                    <p class="small mb-1">Ha realizado un pedido de {{orderUser.items.length}} articulos por valor de: <span class="font-weight-medium">${{formatPrice(orderUser.total)}}</span></p>
 
-                <li class="media u-indicator-vertical-dashed-item">
-                  <span class="btn btn-xs btn-icon btn-success rounded-circle mr-3">
-                    <span class="btn-icon__inner">S</span>
-                  </span>
-                  <div class="media-body">
-                    <h5 class="font-size-1 mb-1">Sebastian Diaz</h5>
-                    <p class="small mb-1">Added new task: <span class="font-weight-medium">Mapbox logo redesign</span></p>
-                    <small class="d-block text-muted">44 min ago</small>
-                  </div>
-                </li>
+                    <small v-if="(Math.round(((((new Date() - new Date (orderUser.createTime))/1000)/60)/60)/24) >= 1 && Math.round(((((new Date() - new Date(orderUser.createTime))/1000)/60)/60)/24) < 30)"
+                     class="d-block text-muted">Hace {{Math.round(((((new Date() - new Date (orderUser.createTime))/1000)/60)/60)/24)}} dias</small>
 
-                <li class="media u-indicator-vertical-dashed-item">
-                  <span class="btn btn-xs btn-icon btn-warning rounded-circle mr-3">
-                    <span class="btn-icon__inner text-white">F</span>
-                  </span>
-                  <div class="media-body">
-                    <h5 class="font-size-1 mb-1">Eliza Donovan</h5>
-                    <p class="small mb-1">Added new task: <span class="font-weight-medium">Spotify branding</span></p>
-                    <small class="d-block text-muted">1 hour ago</small>
-                  </div>
-                </li>
+                    <small v-if="(Math.round(((((new Date() - new Date(orderUser.createTime))/1000)/60)/60)) >= 1 && Math.round(((((new Date() - new Date(orderUser.createTime))/1000)/60)/60)) < 24)" 
+                    class="d-block text-muted">Hace {{Math.round(((((new Date() - new Date (orderUser.createTime))/1000)/60)/60)/24)}} horas</small>
 
-                <li class="media u-indicator-vertical-dashed-item">
-                  <span class="btn btn-xs btn-icon btn-primary rounded-circle mr-3">
-                    <span class="btn-icon__inner">C</span>
-                  </span>
-                  <div class="media-body">
-                    <h5 class="font-size-1 mb-1">Cler Lockhart</h5>
-                    <p class="small mb-1">Added new task: <span class="font-weight-medium">Dropbox home page redesign</span></p>
-                    <small class="d-block text-muted">15 hours ago</small>
-                  </div>
-                </li>
+                    <small v-if="(Math.round((new Date() - new Date(orderUser.createTime))/1000)/60) >= 1 && Math.round(((((new Date() - new Date(orderUser.createTime))/1000)/60)) < 60)" 
+                    class="d-block text-muted">Hace {{Math.round(((((new Date() - new Date (orderUser.createTime))/1000)/60)/60)/24)}} minutos</small>
 
-                <li class="media u-indicator-vertical-dashed-item">
-                  <span class="btn btn-xs btn-icon btn-danger rounded-circle mr-3">
-                    <span class="btn-icon__inner">J</span>
-                  </span>
-                  <div class="media-body">
-                    <h5 class="font-size-1 mb-1">James Collins</h5>
-                    <p class="small mb-1">Added new task: <span class="font-weight-medium">InVison branding</span></p>
-                    <small class="d-block text-muted">1 day ago</small>
+                    <small v-if="(Math.round((new Date() - new Date(orderUser.createTime))/1000)) >= 1 && Math.round(((((new Date() - new Date(orderUser.createTime))/1000))) < 60)" 
+                    class="d-block text-muted">Ahora</small>
                   </div>
                 </li>
               </ul>
@@ -515,3 +237,187 @@
     <!-- End Card -->
   </div>
 </template>
+
+<script>
+import { mapActions, mapState } from 'vuex'
+//import $ from 'jquery'
+
+export default {
+  name: 'Admin',
+  data() {
+    return {
+      Month: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+      ],
+      balanceMax: 0,
+      balanceMin: 0
+    }
+  },
+  created(){
+    this.getDatas(['Orders', 'Products', 'Users']); 
+  },
+  beforeUpdate(){
+    this.balanceMax = this.totalBalance(new Date().getMonth());
+    this.balanceMin = this.totalBalance(new Date().getMonth());
+    for (let i = 1; i <= 3; i++) {
+      this.balanceMax = (this.balanceMax < this.totalBalance(new Date().getMonth() - i)) ? this.totalBalance(new Date().getMonth() - i) : this.balanceMax
+
+      this.balanceMin = (this.balanceMin > this.totalBalance(new Date().getMonth() - i)) ? this.totalBalance(new Date().getMonth() - i) : this.balanceMin
+    }  
+  },
+  computed:{
+    ...mapState(['Orders', 'Products', 'Users']),
+    percent(){
+      let p = 0
+      if(this.Orders && this.Products){
+        p = ((this.rewardBalance(new Date().getMonth()) - this.totalBalance(new Date().getMonth())) * 100)/this.totalBalance(new Date().getMonth());
+
+        if(p === Infinity || isNaN(p)){
+          p = 100
+        }
+      }
+      return p
+    },
+    ordersUsers(){
+      const ordersUsers = []
+      if(this.Orders && this.Users){
+        this.Orders.forEach(order => {
+          var date = new Date(order.createTime)
+          if(date.getMonth() == new Date().getMonth())
+          var idUser = order.user;
+          order.details = this.Users.find(user => {
+            return user.id === idUser
+          })
+          ordersUsers.push(order)
+        })
+      }
+      return ordersUsers.sort((a,b) => {
+        if(a.createTime > b.createTime){
+          return -1
+        }
+
+        if(a.createTime < b.createTime){
+          return 1
+        }
+
+        return 0
+      });
+    },
+    productsFavorite(){      
+      const products = [];
+      
+      if(this.Orders && this.Products){
+        let favorite = [];
+        this.Orders.forEach( order => {                    
+          const date = new Date(order.createTime);
+          if(date.getMonth() === new Date().getMonth()){
+            if(favorite.length){
+              order.items.forEach( item => {   
+                var i = favorite.map(el => {
+                  return el.product
+                }).indexOf(item.product);
+                if(i >= 0){
+                  favorite[i].quantity += item.quantity
+                }else{
+                  favorite.push(item)
+                }
+              })
+            }else{
+              favorite = order.items;
+            } 
+          }
+        })
+        favorite.forEach(p => {
+          this.Products.forEach(item =>{
+            if(p.product === item.id){
+              item.quantity = p.quantity
+              products.push(item)
+            }
+          })
+        })
+      }
+      return products.sort((a,b) => {
+        if(a.quantity > b.quantity){
+          return -1
+        }
+
+        if(a.quantity < b.quantity){
+          return 1
+        }
+
+        return 0
+      });
+    },
+    comparative(){
+      const elements = []
+      if(this.Orders){
+        for (let index = 0; index < 4; index++) {
+          elements.push({ 
+            balance: (this.totalBalance(new Date().getMonth() - (3- index))/this.balanceMax)*100, month: this.Month[new Date().getMonth() - (3- index)].slice(0, 3)
+          })
+        }
+      }
+
+      return elements
+    },
+  },
+  methods:{
+    ...mapActions(['getDatas']),                      
+    formatPrice(value) {
+      let val = (value / 1).toFixed().replace('.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
+    totalBalance(month){
+      var sum = 0;
+      if(this.Orders){        
+        this.Orders.forEach(order => {          
+          const date = new Date(order.createTime);
+          if(date.getMonth() === month){
+            sum += order.total
+          }
+        })
+      }
+      return sum
+    },
+    pendingBalance(month){
+      var pending = 0;
+      
+      if(this.Orders){
+        this.Orders.forEach(order => {                    
+          const date = new Date(order.createTime);
+          if(order.state !== 'Recibido' && date.getMonth() === month){
+            pending += order.total 
+          }
+        });
+      }
+
+      return pending
+    },
+    rewardBalance(month){
+      var reward = 0;
+      
+      if(this.Orders){
+        this.Orders.forEach(order => {
+          const date = new Date(order.createTime);
+          if(order.state == 'Recibido' && date.getMonth() === month){
+            reward += order.total 
+          }
+        });
+      }
+
+      return reward
+    },
+  }
+}
+</script>

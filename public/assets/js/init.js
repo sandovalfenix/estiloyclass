@@ -68,4 +68,7 @@ $(document).on('ready', function () {
       $(this).find('input[type="search"]').focus();
     }
   });
+
+  // initialization of step form
+  $.HSCore.components.HSStepForm.init(".js-step-form");
 });

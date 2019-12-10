@@ -52,9 +52,9 @@
               <!-- End Shopping Cart -->
 
               <!-- Account Login -->
-              <li v-show="UserAuth" :class="['list-inline-item', {'position-relative': !UserAuth.isAnonymous}]">       
+              <li v-show="UserAuth" :class="['list-inline-item', {'position-relative': UserAuth}]">       
                 <!-- Account Sidebar Toggle Button -->
-                <a v-show="UserAuth.isAnonymous" class="btn btn-xs btn-icon btn-text-secondary" id="sidebarNavToggler" href="javascript:;" role="button" aria-controls="sidebarContent" aria-expanded="false" aria-haspopup="true" 
+                <a v-show="!UserAuth" class="btn btn-xs btn-icon btn-text-secondary" id="sidebarNavToggler" href="javascript:;" role="button" aria-controls="sidebarContent" aria-expanded="false" aria-haspopup="true" 
                   data-unfold-animation-in="fadeInRight" 
                   data-unfold-animation-out="fadeOutRight" 
                   data-unfold-duration="500" 
@@ -67,7 +67,7 @@
                 <!-- End Account Sidebar Toggle Button -->
 
                 <!-- Account Dropdown -->
-                <a v-show="UserAuth.username" id="account-dropdown-invoker" class="btn btn-xs btn-text-secondary u-sidebar--account__toggle-bg" href="javascript:;" role="button"
+                <a v-show="UserAuth" id="account-dropdown-invoker" class="btn btn-xs btn-text-secondary u-sidebar--account__toggle-bg" href="javascript:;" role="button"
                   aria-controls="account-dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
@@ -85,13 +85,9 @@
                 <!-- End Account Dropdown -->
 
                 <div id="account-dropdown" class="dropdown-menu dropdown-unfold dropdown-menu-sm-right" aria-labelledby="account-dropdown-invoker">
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="/account">
                     <span class="fas fa-user-circle dropdown-item-icon"></span>
                     Perfil
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    <span class="fas fa-cog dropdown-item-icon"></span>
-                    Configuracion
                   </a>
                   <a class="dropdown-item" href="javascript:;" @click="signOutUser">
                     <span class="fas fa-sign-out-alt dropdown-item-icon"></span>

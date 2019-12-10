@@ -36,11 +36,11 @@
               <!-- User Info -->
               <div class="media d-block d-sm-flex align-items-sm-center">
                 <div class="u-lg-avatar position-relative mb-3 mb-sm-0 mr-3">
-                  <img class="img-fluid rounded bg-white" src="@/assets/logo.png" alt="Image Description">
+                  <img class="img-fluid rounded p-2 bg-white" src="@/assets/logo.png" alt="Image Description">
                 </div>
                 <div class="media-body">
-                  <h1 class="h3 text-white font-weight-medium mb-1">Dashboard</h1>
-                  <span class="d-block text-white"> <i class="fas fa-user-alt mr-2"></i>{{UserAuth.username}}</span>
+                  <h1 class="h3 text-white font-weight-medium mb-1">Estilo & Class - Dashboard</h1>
+                  <span class="d-block text-white"> <i class="fas fa-user-alt mr-2"></i> {{UserAuth.email}}</span>
                 </div>
               </div>
               <!-- End User Info -->
@@ -66,6 +66,16 @@
                         <router-link class="nav-link u-header__nav-link" to="/dashboard/products">Productos</router-link>
                       </li>
                       <!-- Produts -->
+                      <!-- Users -->
+                      <li class="nav-item u-header__nav-item">
+                        <router-link class="nav-link u-header__nav-link" to="/dashboard/users">Usuarios</router-link>
+                      </li>
+                      <!-- Users -->
+                      <!-- Orders -->
+                      <li class="nav-item u-header__nav-item">
+                        <router-link class="nav-link u-header__nav-link" to="/dashboard/orders">Ordenes</router-link>
+                      </li>
+                      <!-- Orders -->
                     </ul>
                   </div>
                 </nav>
@@ -92,19 +102,22 @@
     <footer>
 
       <!-- Copyright -->
-      <div class="container text-center space-1">
-        <!-- Logo -->
-        <a class="d-inline-flex align-items-center mb-2" href="//aitheria.tech" aria-label="Front">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 46 46" xml:space="preserve" style="margin-bottom: 0;">
-            <path fill="#3F7DE0" opacity=".65" d="M23,41L23,41c-9.9,0-18-8-18-18v0c0-9.9,8-18,18-18h11.3C38,5,41,8,41,11.7V23C41,32.9,32.9,41,23,41z"/>
-            <path class="fill-info" opacity=".5" d="M28,35.9L28,35.9c-9.9,0-18-8-18-18v0c0-9.9,8-18,18-18l11.3,0C43,0,46,3,46,6.6V18C46,27.9,38,35.9,28,35.9z"/>
-            <path class="fill-primary" opacity=".7" d="M18,46L18,46C8,46,0,38,0,28v0c0-9.9,8-18,18-18h11.3c3.7,0,6.6,3,6.6,6.6V28C35.9,38,27.9,46,18,46z"/>            
-            <text x="10" y="35" fill="#fff" font-size="2em" font-family="Consolas" font-weight="600">α</text>
-          </svg>
-          <span class="brand brand-primary">Aitheria</span>
-        </a>
-        <!-- End Logo -->
-        <p class="small text-muted">&copy; Aitheria. 2019 Estilo&Class. All rights reserved.</p>
+      <div class="container-fluid text-center space-top-1 pb-2 bg-primary">
+        <div class="text-center">
+          <!-- Logo -->
+          <a class="d-inline-flex align-items-center mb-2" href="index.html" aria-label="Aitheria">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 46 46" xml:space="preserve" style="margin-bottom: 0;">
+              <path fill="#FFFFFF" opacity=".65" d="M23,41L23,41c-9.9,0-18-8-18-18v0c0-9.9,8-18,18-18h11.3C38,5,41,8,41,11.7V23C41,32.9,32.9,41,23,41z"></path>
+              <path class="fill-white" opacity=".5" d="M28,35.9L28,35.9c-9.9,0-18-8-18-18v0c0-9.9,8-18,18-18l11.3,0C43,0,46,3,46,6.6V18C46,27.9,38,35.9,28,35.9z"></path>
+              <path class="fill-white" opacity=".7" d="M18,46L18,46C8,46,0,38,0,28v0c0-9.9,8-18,18-18h11.3c3.7,0,6.6,3,6.6,6.6V28C35.9,38,27.9,46,18,46z"></path>
+              <text x="10" y="35" fill="#604eb4" font-size="2em" font-family="Consolas" font-weight="600">α</text>
+            </svg>
+            <span class="brand brand-light">itheria</span>
+          </a>
+          <!-- End Logo -->
+    
+          <p class="small text-white-70">© Aitheria. 2020 Aitheria.tech. Diseñadores y derechos reservados a Estilo & Class SAS.</p>
+        </div>
       </div>
       <!-- End Copyright -->
     </footer>
@@ -114,18 +127,30 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { auth } from '@/firebase';
+import { db, auth } from '@/firebase';
 
 export default {
+  name: 'Dashboard',
   beforeRouteEnter (to, from, next) {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       auth.onAuthStateChanged(function (user) {
           if (user) {
-              // User is signed in.
-              next();
+            db.collection("Users").where("uid", "==", user.uid).get()
+            .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                let Data = doc.data();
+
+                if (Data.admin) {
+                 next();
+                }else {
+                  auth.signOut()
+                  next({path: '/login'});
+                }
+              });
+            })
           } else {
-              // User is signed out.
-              next({path: '/login'});
+            // User is signed out.
+            next({path: '/login'});
           }
       });
     }else{
@@ -141,10 +166,11 @@ export default {
   methods: {
     ...mapActions(['signOut', 'userAuthOnState']),
     signOutDashboard(){
-      const router = this.$router
-      this.signOut().then( () => { 
-        router.push({path: '/login'})
-      });
+      this.signOut()
+      setTimeout(() => {
+        window.location.href = "/login"
+      }, 500);
+      
     }
   },  
 }

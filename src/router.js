@@ -7,6 +7,8 @@ import Categories from '@/views/Categories.vue'
 import Login from '@/views/Login.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import CartShopping from '@/views/CartShopping.vue'
+import Checkout from '@/views/Checkout.vue'
+import Invoice from '@/views/Invoice.vue'
 
 //components
 import Home from '@/components/Home.vue'
@@ -15,6 +17,9 @@ import ProductDetail from '@/components/Categories/Detail/Product.vue'
 import AdminProducts from '@/components/Admin/Products.vue'
 import AdminMain from '@/components/Admin/Main.vue'
 import AdminFormProduct from '@/components/Admin/Form/Product.vue'
+import Users from '@/components/Admin/Users.vue'
+import Orders from '@/components/Admin/Orders.vue'
+import Account from '@/components/Account.vue'
 
 
 Vue.use(Router)
@@ -46,8 +51,18 @@ const router = new Router({
           path: 'cart',
           name: 'cartShopping',
           component: CartShopping,
-        }
+        },
       ]
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: Account,
+    },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: Checkout,
     },
     {
       path: '/login',
@@ -61,6 +76,11 @@ const router = new Router({
       ],
     },
     {
+      path: '/invoice/:id/:num',
+      name: 'invoice',
+      component: Invoice,
+    },
+    {
       path: '/dashboard',
       component: Dashboard,
       meta: { requiresAuth: true },
@@ -69,6 +89,16 @@ const router = new Router({
           path:'',
           name:'dashboard',
           component: AdminMain,
+        },
+        {
+          path: 'users',
+          name: 'users',
+          component: Users,
+        },
+        {
+          path: 'orders',
+          name: 'orders',
+          component: Orders,
         },
         {
           path: 'products',

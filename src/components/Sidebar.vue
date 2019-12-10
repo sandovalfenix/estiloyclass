@@ -81,7 +81,7 @@
 
                   <!-- Signup -->
                   <div id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
-                    <div v-show="UserAuth.isAnonymous">
+                    <div v-show="!UserAuth">
                       <!-- Title -->
                       <header class="text-center mb-5">
                         <h2 class="h5 mb-0">Inicia sesión o regístrate!</h2>
@@ -162,7 +162,7 @@
                         <a class="js-animation-link small" href="javascript:;" data-animation-in="slideInUp" data-link-group="idForm" data-target="#login">Iniciar sesión</a>
                       </div>
                     </div>
-                    <div v-show="!UserAuth.isAnonymous">
+                    <div v-show="UserAuth">
                       <!-- Title -->
                       <header class="text-center mb-5">
                         <h2 class="h5 mb-0">Registro Completado</h2>
