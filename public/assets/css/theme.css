@@ -63,7 +63,7 @@ body {
   line-height: 1.5;
   color: #211e22;
   text-align: left;
-  background-color: #fff;
+  background-color: rgba(240, 220, 250, 1);
 }
 
 [tabindex="-1"]:focus {
@@ -6629,14 +6629,14 @@ a.close.disabled {
 
 .spinner-border {
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
+  width: 8rem;
+  height: 8rem;
   vertical-align: text-bottom;
   border: 0.25em solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
   -webkit-animation: spinner-border .75s linear infinite;
-          animation: spinner-border .75s linear infinite;
+  animation: spinner-border .75s linear infinite;
 }
 
 .spinner-border-sm {
@@ -11988,7 +11988,7 @@ a.text-info:hover, a.text-info:focus {
 }
 
 .text-warning {
-  color: #ffc107 !important;
+  color: rgb(216, 94, 228) !important;
 }
 
 a.text-warning:hover, a.text-warning:focus {
@@ -13118,7 +13118,7 @@ button:focus {
 }
 
 .u-header__nav-item:hover .u-header__nav-link, .u-header__nav-item:focus .u-header__nav-link {
-  color: #a55ade;
+  color: rgb(165, 90, 222);
 }
 
 /* Nav Link */
@@ -13127,7 +13127,9 @@ button:focus {
 }
 
 .u-header__nav-link {
-  color: #77838f;
+  color: #673AB7;
+  font-weight: 600;
+  font-size: large;
 }
 
 .u-header__nav-link-toggle {

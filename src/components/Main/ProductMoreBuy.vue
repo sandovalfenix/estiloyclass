@@ -23,7 +23,7 @@
       </div>
 
       <div class="card-footer border-0 pt-0 pb-4 px-4">
-        <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button" @click="addCartItems(Product.id)"><i class="fas fa-cart-plus"></i> Añadir</button>
+        <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button" @click="addCartItems(Product)"><i class="fas fa-cart-plus"></i> Añadir</button>
       </div>
     </div>
     <!-- End Product -->

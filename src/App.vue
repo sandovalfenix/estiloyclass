@@ -1,6 +1,7 @@
 <template>
-  <div id="app">       
-    <div class="toast position-fixed bottom-0 left-0 z-index-4 ml-3" data-delay="5000">
+  <div v-show="!loader" id="app">
+    <router-view/> 
+    <div class="toast position-fixed bottom-0 left-0 z-index-4 ml-3" data-delay="8000">
       <div :class="['toast-header', {'bg-primary':alert.type == 0, 'bg-danger':alert.type == 1}]">
         <strong class="mr-auto text-white">{{alert.title}}</strong>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -11,21 +12,39 @@
         <span v-html="alert.msg"></span>
       </div>
     </div>
-    <router-view/>
   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import $ from 'jquery'
 
 export default {
   created(){
     this.userAuthOnState();
+    this.getDatas(['Products'])
   },
   computed: {
-    ...mapState(["alert"]),
+    ...mapState(["alert","Products"]),
+    loader(){      
+      if(this.Products.length){
+        this.closeLoader()
+        return false
+      }else{
+        return true
+      }
+      
+    }
   },
   methods:{
-    ...mapActions(["userAuthOnState"])
+    ...mapActions(["userAuthOnState","getDatas"]),
+    closeLoader(){
+      setTimeout(function () {
+          $('#jsPreloader').fadeOut(500, function () {
+            $('body').removeClass('overflow-hidden');
+            $(this).remove();
+          });
+        }, 1000);
+    }
   }
 };
 </script>

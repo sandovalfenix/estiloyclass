@@ -19,7 +19,7 @@
       </div>
       <div class="col">
         <!-- new product -->
-        <router-link class="btn btn-soft-primary btn-sm" role="button" data-target="#modalForm" data-toggle="modal" to="products/new">
+        <router-link class="btn btn-soft-primary btn-sm" to="products/new">
           <i class="fas fa-plus-circle mr-2"></i>Agregar Producto
         </router-link>
         <!-- End new product -->
@@ -113,9 +113,10 @@ export default {
   created() {
     this.getDatas(["Products"]);
     this.products = this.Products;
+    this.$store.state.files = false;
   },
   computed: {
-    ...mapState(["Products"]),
+    ...mapState(["Products", "file"]),
     listProductLength() {
       return Math.ceil(this.products.length / this.num);
     },
@@ -142,18 +143,20 @@ export default {
     },    
     deleteProduct(product) {
       if (product.img) {
+        var files = [];
+        let file = {};
+        product.img.forEach(img => {
+          file.type = "image/" + img
+                  .split("?")[0]
+                  .split(".")
+                  .pop();
+          files.push(file);
+        });
         this.deleteData([
           {
             ref: "Products",
             id: product.id,
-            file: {
-              type:
-                "image/" +
-                product.img
-                  .split("?")[0]
-                  .split(".")
-                  .pop()
-            }
+            files: files
           }
         ]);
       } else {

@@ -14,9 +14,10 @@ import Invoice from '@/views/Invoice.vue'
 import Home from '@/components/Home.vue'
 import SignIn from '@/components/Sign/In.vue'
 import ProductDetail from '@/components/Categories/Detail/Product.vue'
-import AdminProducts from '@/components/Admin/Products.vue'
+import Products from '@/components/Admin/Products/Index.vue'
+import AdminProducts from '@/components/Admin/Products/List.vue'
 import AdminMain from '@/components/Admin/Main.vue'
-import AdminFormProduct from '@/components/Admin/Form/Product.vue'
+import AdminFormProduct from '@/components/Admin/Products/Form.vue'
 import Users from '@/components/Admin/Users.vue'
 import Orders from '@/components/Admin/Orders.vue'
 import Account from '@/components/Account.vue'
@@ -102,9 +103,14 @@ const router = new Router({
         },
         {
           path: 'products',
-          name: 'adminProducts',
-          component: AdminProducts,
+          name: 'adminProductsIndex',
+          component: Products,
           children: [
+            {
+              path: '',
+              name: 'adminProducts',
+              component: AdminProducts,
+            },
             {
               path: 'new',
               name: 'adminNewProduct',

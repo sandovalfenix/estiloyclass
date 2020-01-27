@@ -163,7 +163,7 @@
         <!-- End Accordion -->
 
         <div class="mb-4">
-          <button type="button" class="btn btn-block btn-primary btn-pill transition-3d-hover" @click="addCartItems(Product.id)"><i class="fas fa-cart-plus mr-2"></i> Agregar</button>
+          <button type="button" class="btn btn-block btn-primary btn-pill transition-3d-hover" @click="addCartItems(Product)"><i class="fas fa-cart-plus mr-2"></i> Agregar</button>
         </div>
 
         <!-- Help Link -->

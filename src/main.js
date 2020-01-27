@@ -6,7 +6,6 @@ import store from './store'
 import 'bootstrap'
 import 'bootstrap/js/dist/modal';
 
-
 Vue.config.productionTip = false
 Vue.config.devtools = true;
 

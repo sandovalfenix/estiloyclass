@@ -112,14 +112,7 @@
                 <div id="contentStepForm" class="card-body p-3 border-top">
                   <div id="selectStepOne" class="active">
                     <h5 class="text-center font-weight-bold">Llevaremos tu pedido a:</h5>
-                    <div v-if="location.address" class="row bg-soft-light border-bottom mb-3">
-                      <div class="col">
-                        <h3 class="text-center py-2"><i class="fas fa-map-marker-alt mr-2 text-primary"></i><span>{{location.address}}</span></h3>
-                      </div>
-                    </div>
-                    <div v-else class="row bg-soft-light border-bottom mb-3 p-4">
-                      <form class="js-validate col">
-                        <!-- Login -->
+                    <div class="row bg-soft-light border-bottom mb-3 p-3">
                         <div class="container">
                           <!-- Form Group -->
                           <div class="form-group">
@@ -141,20 +134,13 @@
                                   data-error-class="u-has-error" 
                                   data-msg="Por favor, introduce una dirección válida." 
                                   data-success-class="u-has-success" required>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- End Form Group -->
-                          <!-- Form Group -->
-                          <div class="form-group">
-                            <div class="js-form-message js-focus-state">
-                              <div class="input-group">
+                                  
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">
                                     <span class="fas fa-home"> #</span>
                                   </span>
                                 </div>
-                                <input class="form-control" id="locationDir2" v-model="Dir2" type="text" placeholder="--" aria-describedby="locationDir2Label" aria-label="Email" 
+                                  <input class="form-control" id="locationDir2" v-model="Dir2" type="text" placeholder="--" aria-describedby="locationDir2Label" aria-label="Email" 
                                   data-error-class="u-has-error" 
                                   data-msg="Por favor, introduce una dirección válida." 
                                   data-success-class="u-has-success" required>
@@ -172,14 +158,31 @@
                           </div>
                           <!-- End Form Group -->
                         </div>
-                      </form>
                     </div>
                     <div class="row">
                       <div class="col">                        
                         <p class="text-center small">Completa estos datos para poder ubicarte mejor y mucho más rápido :)</p>
                       </div>
                     </div>
-                    <div class="row my-3 px-5">
+                    <div class="row">
+                      <div class="col-12 col-md-6 mb-3">
+                        <label class="form-control-label">CC o NIT <span class="text-danger">*</span></label>
+                        <input type="text" v-model="UserAuth.ID" :class="['form-control form-control-sm bg-soft-light border-top-0 border-left-0 border-right-0 rounded-0 border-dark']" required>
+                      </div>
+                      <div class="col-12 col-md-6 mb-3">
+                        <label class="form-control-label">Nombres <span class="text-danger">*</span></label>
+                        <input type="text" v-model="UserAuth.name" :class="['form-control form-control-sm bg-soft-light border-top-0 border-left-0 border-right-0 rounded-0 border-dark']" required>
+                      </div>
+                      <div class="col-12 col-md-6 mb-3">
+                        <label class="form-control-label">Apellidos <span class="text-danger">*</span></label>
+                        <input type="text" v-model="UserAuth.lastName" :class="['form-control form-control-sm bg-soft-light border-top-0 border-left-0 border-right-0 rounded-0 border-dark']" required>
+                      </div>
+                      <div class="col-12 col-md-6 mb-3">
+                        <label class="form-control-label">Telefono 2<span class="text-danger">*</span></label>
+                        <input type="text" v-model="UserAuth.phone" :class="['form-control form-control-sm bg-soft-light border-top-0 border-left-0 border-right-0 rounded-0 border-dark']" required>
+                      </div>
+                    </div>
+                    <div class="row my-3">
                       <div class="col-12 mb-3 col-md-6 js-form-message js-focus-state">
                         <label class="position-absolute top-7 small pl-2">Barrio <span class="text-danger">*</span></label>             
                         <input type="text" class="form-control border-top-0 border-left-0 border-right-0 bg-soft-light border-bottom border-darker p-2 pt-5 rounded-0 small" v-model="location.neighborhood" placeholder="Nombre del Barrio" required 
@@ -192,7 +195,7 @@
                         <input type="text" class="form-control border-top-0 border-left-0 border-right-0 bg-soft-light border-bottom border-darker p-2 pt-5 rounded-0 small" v-model="location.details" placeholder="Ej: Torre 1, Apto 505">
                       </div>
                     </div>
-                    <div class="row my-5 px-5">
+                    <div class="row my-5">
                       <div class="col">
                         <label>Dale un nombre a la dirección:</label>
                         <br>
@@ -219,7 +222,7 @@
                       </div>
                     </div>
                     <div class="d-flex justify-content-center mt-5">
-                      <button type="button" class="btn btn-sm btn-primary transition-3d-hover mr-1" data-next-step="#selectStepTwo" :disabled="!address.length && !location.neighborhood.length" @click="addLocation">Continuar</button>
+                      <button type="button" class="btn btn-sm btn-primary transition-3d-hover mr-1" data-next-step="#selectStepTwo" :disabled="!address.length && !location.neighborhood.length" @click="updateUser">Continuar</button>
                     </div>
                   </div>
 
@@ -230,7 +233,7 @@
                         <!-- Accordion -->
                         <div id="paymentDetails" class="accordion">
                           <!-- Card -->
-                          <div class="card">
+                          <div class="card d-none">
                             <div class="card-header card-collapse border py-1" id="cardHeadingOne">
                               <h5 class="mb-0">
                                 <a href="javascript:void(0)" class="btn btn-link btn-block card-btn collapsed" role="button"
@@ -275,6 +278,72 @@
                                       <img class="img-fluid w-15" src="https://image.flaticon.com/icons/svg/138/138361.svg" alt=""> Pago con Datafono
                                       </label>
                                     </div>
+                                  </div>
+                                </div>
+                                <!-- End Card Details -->
+                              </div>
+                            </div>
+                          </div>
+                          <!-- End Card -->
+                          <!-- Card -->
+                          <div class="card">
+                            <div class="card-header card-collapse border py-1" id="cardHeadingOne">
+                              <h5 class="mb-0">
+                                <a href="javascript:void(0)" class="btn btn-link btn-block card-btn collapsed" role="button"
+                                        data-toggle="collapse"
+                                        data-target="#cardOne"
+                                        aria-expanded="false"
+                                        aria-controls="cardOne">
+                                  <span class="row align-items-center">
+                                    <span class="col mb-2 mb-md-0">
+                                      <span class="media align-items-center">
+                                        <img class="max-width-9 mr-3" src="https://image.flaticon.com/icons/svg/2036/2036896.svg" alt="Image Description">
+                                        <span class="media-body">
+                                          <h5 class="text-center">Pago con ePayco</h5>
+                                        </span>
+                                      </span>
+                                    </span>
+                                    <span class="col text-right">
+                                      <span class="card-btn-arrow">
+                                        <span class="fas fa-arrow-alt-circle-down small"></span>
+                                      </span>
+                                    </span>
+                                  </span>
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="cardOne" class="collapse" aria-labelledby="cardHeadingOne" data-parent="#paymentDetails">
+                              <div class="card-body px-4 border">
+                                <!-- Card Details -->
+                                <div class="row text-center">
+                                  <div class="col-12 mb-2 mb-sm-0">
+                                    <p class="small">
+                                      <span class="fas fa-info-circle mr-1"></span>
+                                      Escoge el nuevo método de pago que deseas utilizar:
+                                    </p>       
+                                    <form id="frm_botonePayco" name="frm_botonePayco" method="post" action="https://secure.payco.co/checkout.php" target="_blank">
+                                      <input name="p_cust_id_cliente" type="hidden" value="55657">
+                                      <input name="p_key" type="hidden" value="0a9c66be3b9d2bfdbfdc3e4651b2bcc2a0392a20">
+                                      <input name="p_id_invoice" type="hidden" value="1">
+                                      <input name="p_description" type="hidden" value="ePayco Test">
+                                      <input name="p_currency_code" type="hidden" value="COP">
+                                      <input name="p_amount" id="p_amount" type="hidden" value="80000">
+                                      <input name="p_tax" id="p_tax" type="hidden" value="80000">
+                                      <input name="p_amount_base" id="p_amount_base" type="hidden" value="0">
+                                      <input name="p_test_request" type="hidden" value="TRUE">
+                                      <input name="p_url_response" type="hidden" value="https://domain.com/response">
+                                      <input name="p_url_confirmation" type="hidden" value="">
+                                      <input name="p_signature" type="hidden" id="signature" :value="signature('55657','0a9c66be3b9d2bfdbfdc3e4651b2bcc2a0392a20','1','80000','COP')" />
+                                      <input name="p_billing_document" type="hidden" id="p_billing_document" value="10000000" />
+                                      <input name="p_billing_name" type="hidden" id="p_billing_name" value="PRUEBAS" />
+                                      <input name="p_billing_lastname" type="hidden" id="p_billing_lastname" value="TEST" />
+                                      <input name="p_billing_address" type="hidden" id="p_billing_address" value="Calle 10 # 104-50" />
+                                      <input name="p_billing_country" type="hidden" id="p_billing_country" value="CO" />
+                                      <input name="p_billing_email" type="hidden" id="p_billing_email" value="admin@payco.co" />
+                                      <input name="p_billing_phone" type="hidden" id="p_billing_phone" value="0000000" />
+                                      <input name="p_billing_cellphone" type="hidden" id="p_billing_cellphone" value="0000000000" />    
+                                      <input type="image" id="imagen" src="https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/btn1.png" />                                    
+                                  </form>  
                                   </div>
                                 </div>
                                 <!-- End Card Details -->
@@ -418,10 +487,10 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapState, mapActions } from 'vuex';
 import $ from 'jquery'
+import md5 from 'md5'
 
 export default {
   data(){
@@ -437,6 +506,50 @@ export default {
   },
   created(){
     this.getDatas(['Products'])
+    // eslint-disable-next-line
+    var handler = ePayco.checkout.configure({
+      key: 'c9549149a4c637275925679790e185f3',
+      test: true
+    })
+
+    var data={
+          //Parametros compra (obligatorio)
+          name: "Vestido Mujer Primavera",
+          description: "Vestido Mujer Primavera",
+          invoice: "1234",
+          currency: "cop",
+          amount: "12000",
+          tax_base: "0",
+          tax: "0",
+          country: "co",
+          lang: "es",
+
+          //Onpage="false" - Standard="true"
+          external: "true",
+
+
+          //Atributos opcionales
+          extra1: "extra1",
+          extra2: "extra2",
+          extra3: "extra3",
+          confirmation: "http://secure2.payco.co/prueba_curl.php",
+          response: "http://secure2.payco.co/prueba_curl.php",
+
+          //Atributos cliente
+          name_billing: "Andres Perez",
+          address_billing: "Carrera 19 numero 14 91",
+          type_doc_billing: "cc",
+          mobilephone_billing: "3050000000",
+          number_doc_billing: "100000000"
+          }
+
+          handler.open(data);
+
+          
+
+          
+    // eslint-disable-next-line
+    console.log(handler);
   },
   computed: {
     ...mapState(['UserAuth','Products']),
@@ -491,6 +604,19 @@ export default {
     formatPrice(value) {
       let val = (value / 1).toFixed().replace('.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
+    
+    signature(p_cust_id_cliente,p_key,p_id_invoice,p_amount,p_currency_code){
+      return md5(p_cust_id_cliente+'^'+p_key+'^'+p_id_invoice+'^'+p_amount+'^'+p_currency_code);
+    },
+    updateUser(){ 
+      var User = this.UserAuth;
+      if(User.username){        
+        delete User.username;
+      }
+
+      //updateData
+      this.updateData([{ref: 'Users', data: User}])
     },
     addLocation(){
       this.location.address = this.address;

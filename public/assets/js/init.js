@@ -71,4 +71,5 @@ $(document).on('ready', function () {
 
   // initialization of step form
   $.HSCore.components.HSStepForm.init(".js-step-form");
+
 });

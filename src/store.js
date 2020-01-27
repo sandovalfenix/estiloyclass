@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { db, storage, auth, firebase } from '@/firebase'
+import { db, storage, auth } from '@/firebase'
 import router from '@/router'
 import $ from "jquery";
 
@@ -10,10 +10,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     UserAuth: false,
+    Categories: [],
     Products: [],
     Product: {},
     Sections: [],
     Section: {},
+    files: false,
     file: false,
     alert: {},
     Users: [],
@@ -27,8 +29,8 @@ export default new Vuex.Store({
     setData(state, obj) {
       eval('state.' + obj.ref + ' = obj.Data');
     },
-    setFile(state, file) {
-      state.file = file;
+    setFiles(state, files) {
+      state.files = files;
     },
     setAlerts(state, alert) {
       state.alert = alert;
@@ -37,98 +39,58 @@ export default new Vuex.Store({
   },
   actions: {
     userAuthOnState({ dispatch, commit }) {
-
       auth.onAuthStateChanged(user => {
-
         if (user) {
-          const UserAuth = this.state.UserAuth
           db.collection("Users").where("uid", "==", user.uid).get()
             .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                let Data = doc.data();
+                Data.id = doc.id;
+                Data.online = true;
+                Data.isAnonymous = user.isAnonymous;
+                Data.email = user.email;
 
-              if (!querySnapshot.empty) {
-                querySnapshot.forEach(function (doc) {
-                  let Data = doc.data();
-                  Data.id = doc.id;
-                  Data.online = true;
-                  Data.isAnonymous = user.isAnonymous;
+                dispatch('updateData', [{
+                  ref: 'Users',
+                  data: Data
+                }])
 
-                  if (Data.phoneNumber && !user.email) {
-                    dispatch('deleteData', [{
-                      ref: 'Users',
-                      data: Data
-                    }])
-
-                    auth.currentUser.delete();
-                    auth.signOut();
-                  } else {
-                    Data.email = (!Data.email && user.email) ? user.email : Data.email;
-
-                    dispatch('updateData', [{
-                      ref: 'Users',
-                      data: Data
-                    }])
-
-                    if (Data.name) {
-                      Data.username = Data.name;
-                    } else if (Data.email) {
-                      Data.username = Data.email.split('@')[0]
-                    }
-
-                    commit('setData', {
-                      ref: 'UserAuth',
-                      Data: Data
-                    })
-                  }
-                });
-              } else if (user.phoneNumber) {
-                var Auth = {
-                  phone: user.phoneNumber,
-                  isAnonymous: user.isAnonymous,
-                  uid: user.uid,
-                  cart: (!UserAuth.cart) ? [] : UserAuth.cart
+                if (Data.name) {
+                  Data.username = Data.name;
+                } else if (Data.email) {
+                  Data.username = Data.email.split('@')[0]
                 }
 
-                dispatch('addData', [{ ref: 'Users', data: Auth }]);
-              } else {
-                commit('setAlerts', {
-                  type: 1,
-                  title: 'Error de Registro',
-                  msg: 'Debe <b>registrarse</b> para iniciar sesión con la cuenta: <b>' + user.email + '</b>'
-                });
-              }
+                commit('setData', {
+                  ref: 'UserAuth',
+                  Data: Data
+                })
+              });
             })
             .catch(function (error) {
               commit('setAlerts', { type: 1, title: 'Error: ' + error.code, msg: error.message });
+              // eslint-disable-next-line no-console
+              console.log(error)
             })
         }
       });
     },
     signUp({ dispatch, commit }, userAuth) {
+      const Auth = (this.state.UserAuth) ? this.state.UserAuth : {}
+      auth.createUserWithEmailAndPassword(userAuth.email, userAuth.password).then(() => {
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            const UserRef = userAuth.ref
+            Auth.email = user.email
+            Auth.isAnonymous = user.isAnonymous
+            Auth.uid = user.uid
+            Auth.cart = (Auth.cart) ? Auth.cart : []
 
-      const Auth = this.state.UserAuth
-
-      var credential = firebase.auth.EmailAuthProvider.credential(userAuth.email, userAuth.password);
-
-      auth.currentUser.linkWithCredential(credential).then(function (userCred) {
-        var user = userCred.user;
-
-        Auth.email = user.email
-        Auth.phone = user.phoneNumber
-        Auth.isAnonymous = user.isAnonymous
-        Auth.uid = user.uid
-
-        dispatch('addData', [{ ref: 'Users', data: Auth }]);
-
-        Auth.username = Auth.email.split('@')[0];
-
-        commit('setData', {
-          ref: 'UserAuth',
-          Data: Auth
+            dispatch('addData', [{ ref: 'Users', data: Auth, userRef: UserRef }]);
+          }
         });
-
-      }, function (error) {
+      }).catch(function (error) {
         commit('setAlerts', { type: 1, title: 'Error: ' + error.code, msg: error.message });
-
       });
     },
     signIn({ commit }, userAuth) {
@@ -137,6 +99,10 @@ export default new Vuex.Store({
           commit('setAlerts', {
             type: 0, title: 'Bienvenido', msg: 'Inicio de sesión: <b>' + resp.user.email + '</b>',
           })
+
+          setTimeout(() => {
+            window.location.href = "/"
+          }, 1000);
         })
         .catch(error => {
           commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
@@ -170,8 +136,9 @@ export default new Vuex.Store({
     getDatas({ commit }, refs) {
       refs.forEach(ref => {
         const Datas = [];
-        db.collection(ref).orderBy("createTime", "desc").onSnapshot(querySnapshot => {
-          Datas.length = 0;
+        db.collection(ref).orderBy("createTime", "desc")
+        .onSnapshot(querySnapshot => {
+          Datas.length = 0; 
           querySnapshot.forEach(doc => {
             let Data = doc.data();
             Data.id = doc.id;
@@ -180,7 +147,6 @@ export default new Vuex.Store({
         });
         commit('setDatas', { Datas, ref });
       });
-
     },
     getData({ commit }, objects) {
       objects.forEach(obj => {
@@ -211,8 +177,14 @@ export default new Vuex.Store({
         Doc.updateTime = Date.now()
         db.collection(obj.ref).doc(obj.data.id).update(Doc)
           .then(() => {
-            if (obj.file) {
-              dispatch('uploadFiles', obj);
+            if (obj.files) {
+              obj.num = 0;
+              obj.data.img = [];
+              obj.files.forEach(file => {
+                obj.file = file;
+                dispatch('uploadFiles', obj);
+                obj.num++;
+              });
             } else {
               router.push({ name: obj.route });
             }
@@ -224,7 +196,6 @@ export default new Vuex.Store({
 
     },
     addData({ dispatch, commit }, objects) {
-
       objects.forEach(obj => {
         var Doc = Object.assign({}, obj.data);
         Doc.createTime = Date.now()
@@ -233,9 +204,14 @@ export default new Vuex.Store({
           .then((resp) => {
             obj.data.id = resp.id;
             commit('setAlerts', { type: 0, title: 'Notificación', msg: 'El registro fue <b>agregado</b> con éxito!' });
-
-            if (obj.file) {
-              dispatch('uploadFiles', obj);
+            if (obj.files) {              
+              obj.num = 0;
+              obj.data.img = [];
+              obj.files.forEach(file => {
+                obj.file = file;
+                dispatch('uploadFiles', obj);
+                obj.num++;
+              });
             } else {
               router.push({ name: obj.route });
             }
@@ -250,8 +226,13 @@ export default new Vuex.Store({
       objects.forEach(obj => {
         db.collection(obj.ref).doc(obj.id).delete()
           .then(() => {
-            if (obj.file) {
-              dispatch('deleteFiles', obj);
+            if (obj.files) {
+              obj.num = 0;
+              obj.files.forEach(file => {
+                obj.file = file;
+                dispatch('deleteFiles', obj);
+                obj.num++;
+              });
             }
             commit('setAlerts', { type: 1, title: 'Notificación', msg: 'El registro fue <b>eliminado</b> con éxito!' });
           })
@@ -261,76 +242,102 @@ export default new Vuex.Store({
       });
     },
     handleFileUpload({ commit }, event) {
-      const file = event.target.files[0];
+      var file = event.target.files[0];
 
       if (file.type.split("/")[0] === 'image') {
         file.photoURL = URL.createObjectURL(file);
-        commit('setFile', file);
+        commit('setFiles', file);
       } else {
         alert('Error: El archivo no es una image. Por favor ingresar una imagen valida: JPG, PNG, GIF...');
-        commit('setFile', false);
+        commit('setFiles', false);
+      }
+    },
+    async uploadFile({ dispatch, commit }, obj) {
+        try {
+          const refImg = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.data.id + '_'+(obj.num)+'.' + obj.file.type.split("/")[1]);
+          const res = await refImg.put(obj.file);
+          delete obj.files;
+
+          if (res.state) {
+            obj.data.img = await refImg.getDownloadURL();
+            
+            dispatch('updateData', [obj]);
+          } else {
+            alert('Error al subir el archivo/imagen');
+          }
+          
+        } catch (error) {
+          commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
+        }
+    },
+    handleFilesUpload({ commit }, event) {
+      if(!this.state.files){
+        this.state.files = [];
+      }
+      var file = event.target.files[0];
+
+      if (file.type.split("/")[0] === 'image') {
+        file.photoURL = URL.createObjectURL(file);
+        this.state.files.push(file);
+        commit('setFiles', this.state.files);
+      } else {
+        alert('Error: El archivo no es una image. Por favor ingresar una imagen valida: JPG, PNG, GIF...');
+        commit('setFiles', false);
       }
     },
     async uploadFiles({ dispatch, commit }, obj) {
-      try {
-        const refImg = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.data.id + '.' + obj.file.type.split("/")[1]);
-        const res = await refImg.put(obj.file);
-        delete obj.file;
+        try {
+          const refImg = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.data.id + '_'+(obj.num)+'.' + obj.file.type.split("/")[1]);
+          const res = await refImg.put(obj.file);
+          delete obj.files;
 
-        if (res.state) {
-          obj.data.img = await refImg.getDownloadURL();
-          dispatch('updateData', [obj]);
-        } else {
-          alert('Error al subir el archivo/imagen');
+          if (res.state) {
+            obj.data.images.unshift(await refImg.getDownloadURL());
+            
+            dispatch('updateData', [obj]);
+          } else {
+            alert('Error al subir el archivo/imagen');
+          }
+          
+        } catch (error) {
+          commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
         }
-      } catch (error) {
-        commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
-      }
     },
     async deleteFiles({ commit }, obj) {
       try {
-        // Create a reference to the file to delete
-        const desertRef = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.id + '.' + obj.file.type.split("/")[1]);
+        // Create a reference to the files to delete
+        const desertRef = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.id + '_'+ (obj.num) +'.' + obj.file.type.split("/")[1]);
 
-        // Delete the file
+        // Delete the files
         await desertRef.delete();
       } catch (error) {
         commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
       }
     },
-    addCartItems({ dispatch, commit }, idProduct) {
+    addCartItems({ dispatch, commit }, Product) {
 
       let UserAuth = this.state.UserAuth
 
-      if (!UserAuth) {
-        UserAuth = {
-          isAnonymous: true,
-          cart: [{ product: idProduct, quantity: 1 }]
+      if (UserAuth.cart) {
+        if (!(UserAuth.cart.filter(item => { return item.product === Product.id }).length)) {
+          UserAuth.cart.push({ product: Product.id, quantity: 1, price: Product.price })
+        } else {
+          UserAuth.cart.forEach((item, index) => {
+            if (item.product === Product.id) {
+              ++UserAuth.cart[index].quantity
+            }
+          })
         }
+
+        commit('setData', { ref: 'UserAuth', Data: UserAuth })
+        dispatch('updateData', [{ ref: 'Users', data: this.state.UserAuth }])
+
+        commit('setAlerts', { type: 0, title: 'Notificación', msg: 'El producto fue <b>agregado</b> con éxito!' });
       } else {
-        UserAuth.cart.forEach((item, index) => {
-          if (item.product === idProduct) {
-            ++UserAuth.cart[index].quantity
-          }
-        })
-
-        if (!(UserAuth.cart.filter(item => {
-          return item.product === idProduct
-        }).length)) {
-          UserAuth.cart.push({ product: idProduct, quantity: 1 })
-        }
-
-        if (UserAuth.id) {
-          dispatch('updateData', [{
-            ref: 'Users',
-            data: UserAuth
-          }])
-        }
+        commit('setAlerts', {
+          type: 1, title: 'Notificación', msg: 'Debes <b> iniciar sesion</b> para poder <b>agregar</b> al carro' });
       }
-
-      commit('setData', { ref: 'UserAuth', Data: UserAuth })
-
-      commit('setAlerts', { type: 0, title: 'Notificación', msg: 'El producto fue <b>agregado</b> con éxito!' });
-    }
+    },
+    
   }
 });

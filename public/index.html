@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <!-- Title -->
   <title>Home | Estilo & Class</title>
@@ -26,6 +26,14 @@
   <link href="/assets/css/sticky.css" type="text/css" rel="stylesheet">
 </head>
 <body>
+  <div class="page-preloader bg-white" id="jsPreloader">
+    <div class="page-preloader__content-centered">
+      <img src="/assets/logo.png" width="100px">
+      <div class="spinner-border text-warning spinner-loader position-fixed" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
   
   <div id="app"></div>
 
@@ -75,7 +83,8 @@
   <script src="/assets/js/components/hs.svg-injector.js"></script>
   <script src="/assets/js/components/hs.go-to.js"></script>
   <script src="https://htmlstream.com/preview/front-v2.9.2/assets/js/components/hs.modal-window.js"></script>
-
+  <script type="text/javascript" src="https://checkout.epayco.co/checkout.js"></script>
+  
   <!-- JS Plugins Init. -->
   <script src="/assets/js/init.js"></script>
 </body>

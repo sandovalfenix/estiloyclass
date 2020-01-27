@@ -34,7 +34,7 @@
               <div class="d-none d-sm-inline-block ml-sm-auto">
                 <ul class="list-inline mb-0">
                   <li class="list-inline-item mr-0">
-                    <a class="u-header__navbar-link" href="pages/contacts-agency.html">Contactanos</a>
+                    <a class="u-header__navbar-link" href="pages/contacts-agency.html"><b class="font-size-1">Contactanos</b></a>
                   </li>
                 </ul>
               </div>
@@ -43,18 +43,20 @@
 
             <ul class="list-inline ml-2 mb-0">
               <!-- Shopping Cart -->
-              <li class="list-inline-item mr-3">
-                <router-link class="btn btn-xs btn-icon btn-text-secondary" to="/cart">
-                  <span class="fas fa-shopping-cart btn-icon__inner"></span>
-                  <span v-if="cartLength" class="badge badge-sm badge-primary bage-pos rounded-circle ml-3">{{cartLength}}</span>
+              <li class="list-inline-item">
+                <router-link class="btn btn-xs btn-text-secondary" to="/cart">
+                  <span class="fas fa-shopping-cart font-size-1"></span>
+                  
+                  <span v-if="cartLength" class="badge badge-sm badge-primary bage-pos rounded-circle">{{cartLength}}</span>
+                  <span class="d-none d-md-inline font-size-1 ml-2">Carrito</span>
                 </router-link>
               </li>
               <!-- End Shopping Cart -->
 
               <!-- Account Login -->
-              <li v-show="UserAuth" :class="['list-inline-item', {'position-relative': UserAuth}]">       
+              <li :class="['list-inline-item', 'position-relative']">       
                 <!-- Account Sidebar Toggle Button -->
-                <a v-show="!UserAuth" class="btn btn-xs btn-icon btn-text-secondary" id="sidebarNavToggler" href="javascript:;" role="button" aria-controls="sidebarContent" aria-expanded="false" aria-haspopup="true" 
+                <a v-show="!UserAuth" class="btn btn-xs btn-text-secondary" id="sidebarNavToggler" href="javascript:;" role="button" aria-controls="sidebarContent" aria-expanded="false" aria-haspopup="true" 
                   data-unfold-animation-in="fadeInRight" 
                   data-unfold-animation-out="fadeOutRight" 
                   data-unfold-duration="500" 
@@ -62,7 +64,8 @@
                   data-unfold-hide-on-scroll="false" 
                   data-unfold-target="#sidebarContent" 
                   data-unfold-type="css-animation">
-                  <span class="fas fa-user-circle btn-icon__inner font-size-1"></span>
+                  <span class="fas fa-user-circle font-size-1 mr-2"></span>
+                  <span class="d-none d-md-inline font-size-1">Iniciar Sesion</span>
                 </a>
                 <!-- End Account Sidebar Toggle Button -->
 
@@ -107,7 +110,7 @@
             <!-- Logo -->
             <a class="navbar-brand u-header__navbar-brand u-header__navbar-brand-center" href="/">
               <span class="u-header__navbar-brand-text">
-                <img src="@/assets/logo.png" style="width: 100px">
+                <img src="@/assets/logo.png" style="width: 125px">
               </span>
             </a>
             <!-- End Logo -->
@@ -154,6 +157,10 @@
                   <router-link class="nav-link u-header__nav-link" to="/categories/zapatos/all">Calzado</router-link>
                 </li>
                 <!-- End Woman -->
+
+                <li class="nav-item hs-has-sub-menu u-header__nav-item">
+                  <router-link class="nav-link u-header__nav-link" to="/dotacion">Dotacion Empresarial</router-link>
+                </li>
 
                 
               </ul>
