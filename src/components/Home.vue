@@ -9,13 +9,13 @@
         data-arrow-right-classes="fas fa-arrow-right u-slick__arrow-inner u-slick__arrow-inner--right mr-lg-5" 
         data-arrows-classes="d-none d-lg-inline-block u-slick__arrow u-slick__arrow--flat-white u-slick__arrow-centered--y shadow-soft rounded-circle" 
         data-autoplay="true" 
-        data-autoplay-speed="7000" 
+        data-autoplay-speed="5000" 
         data-fade="true" 
         data-infinite="true">
         <!-- Slide -->
         <div class="js-slide">
           <div class="container-fluid">
-            <img class="img-fluid" src="https://http2.mlstatic.com/optimize/o:f_webp/resources/exhibitors/MCO-fashion-freedom/d160fe30-ad7e-11e9-8ce9-757e18378612-home-slider_desktop.jpg">
+            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2FBANNER%20ESTILICLASS%20ROPA%20PLAYA.jpg?alt=media&token=44cce865-05ed-40d1-9b8e-aa205d177acd">
           </div>
         </div>
         <!-- End Slide -->
@@ -23,7 +23,15 @@
         <!-- Slide -->
         <div class="js-slide">
           <div class="container-fluid">
-            <img class="img-fluid" src="https://http2.mlstatic.com/optimize/o:f_webp/resources/deals/exhibitors_resources/mco-home-desktop-slider-picture-3a05413e-5e67-4f0a-8621-d29a0f954895.jpg">
+            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2FBANNER%20ESTILO%20CLAS%20DESCUENTO%2030PORCIIENTO.jpg?alt=media&token=57f22a60-ae0f-4e3e-b3e7-2d1fef9a1ca5">
+          </div>
+        </div>
+        <!-- End Slide -->
+
+        <!-- Slide -->
+        <div class="js-slide">
+          <div class="container-fluid">
+            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2FBANNER%20ESTILOCLASS%20ENVIOS%20WEB.jpg?alt=media&token=4c060dfd-fe57-4e25-aa6b-cc6d21f027bc">
           </div>
         </div>
         <!-- End Slide -->

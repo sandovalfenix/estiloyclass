@@ -287,13 +287,13 @@
                           <!-- End Card -->
                           <!-- Card -->
                           <div class="card">
-                            <div class="card-header card-collapse border py-1" id="cardHeadingOne">
+                            <div class="card-header card-collapse border py-1" id="cardHeadingThree">
                               <h5 class="mb-0">
                                 <a href="javascript:void(0)" class="btn btn-link btn-block card-btn collapsed" role="button"
                                         data-toggle="collapse"
-                                        data-target="#cardOne"
+                                        data-target="#cardThree"
                                         aria-expanded="false"
-                                        aria-controls="cardOne">
+                                        aria-controls="cardThree">
                                   <span class="row align-items-center">
                                     <span class="col mb-2 mb-md-0">
                                       <span class="media align-items-center">
@@ -312,7 +312,7 @@
                                 </a>
                               </h5>
                             </div>
-                            <div id="cardOne" class="collapse" aria-labelledby="cardHeadingOne" data-parent="#paymentDetails">
+                            <div id="cardThree" class="collapse" aria-labelledby="cardHeadingThree" data-parent="#paymentDetails">
                               <div class="card-body px-4 border">
                                 <!-- Card Details -->
                                 <div class="row text-center">
@@ -320,30 +320,14 @@
                                     <p class="small">
                                       <span class="fas fa-info-circle mr-1"></span>
                                       Escoge el nuevo método de pago que deseas utilizar:
-                                    </p>       
-                                    <form id="frm_botonePayco" name="frm_botonePayco" method="post" action="https://secure.payco.co/checkout.php" target="_blank">
-                                      <input name="p_cust_id_cliente" type="hidden" value="55657">
-                                      <input name="p_key" type="hidden" value="0a9c66be3b9d2bfdbfdc3e4651b2bcc2a0392a20">
-                                      <input name="p_id_invoice" type="hidden" value="1">
-                                      <input name="p_description" type="hidden" value="ePayco Test">
-                                      <input name="p_currency_code" type="hidden" value="COP">
-                                      <input name="p_amount" id="p_amount" type="hidden" value="80000">
-                                      <input name="p_tax" id="p_tax" type="hidden" value="80000">
-                                      <input name="p_amount_base" id="p_amount_base" type="hidden" value="0">
-                                      <input name="p_test_request" type="hidden" value="TRUE">
-                                      <input name="p_url_response" type="hidden" value="https://domain.com/response">
-                                      <input name="p_url_confirmation" type="hidden" value="">
-                                      <input name="p_signature" type="hidden" id="signature" :value="signature('55657','0a9c66be3b9d2bfdbfdc3e4651b2bcc2a0392a20','1','80000','COP')" />
-                                      <input name="p_billing_document" type="hidden" id="p_billing_document" value="10000000" />
-                                      <input name="p_billing_name" type="hidden" id="p_billing_name" value="PRUEBAS" />
-                                      <input name="p_billing_lastname" type="hidden" id="p_billing_lastname" value="TEST" />
-                                      <input name="p_billing_address" type="hidden" id="p_billing_address" value="Calle 10 # 104-50" />
-                                      <input name="p_billing_country" type="hidden" id="p_billing_country" value="CO" />
-                                      <input name="p_billing_email" type="hidden" id="p_billing_email" value="admin@payco.co" />
-                                      <input name="p_billing_phone" type="hidden" id="p_billing_phone" value="0000000" />
-                                      <input name="p_billing_cellphone" type="hidden" id="p_billing_cellphone" value="0000000000" />    
-                                      <input type="image" id="imagen" src="https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/btn1.png" />                                    
-                                  </form>  
+                                    </p>      
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                      <label class="btn btn-outline-primary transition-3d-hover btn-sm text-wrap shadow-soft mx-2" @click="payment = 'Epayco'">
+                                        <input type="radio"/>                         
+                                        <input type="image" id="imagen" src="https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/btn1.png" />    
+                                      </label>
+                                    </div>  
+                                      
                                   </div>
                                 </div>
                                 <!-- End Card Details -->
@@ -443,7 +427,7 @@
                                   <!-- Budget -->
                                   <div class="u-ver-divider u-ver-divider--none-sm pr-4 mb-3 mb-sm-0 mr-4">
                                     <h4 class="small font-weight-normal mb-0">Total a Pagar:</h4>
-                                    <span class="text-dark">${{formatPrice(totalCartPrices)}}</span>
+                                    <span class="text-dark">$ {{new Intl.NumberFormat().format((totalCartPrices * 1.19))}}</span>
                                   </div>
                                   <!-- End Budget -->
 
@@ -451,7 +435,7 @@
                                   <div class="mr-4">
                                     <h4 class="small font-weight-normal mb-0">Entrega:</h4>
                                     <i class="fas fa-map-marker-alt fa-1x mr-2"></i>
-                                    <span class="text-dark font-size-1">{{location.address}}</span>
+                                    <span class="text-dark font-size-1">{{address}}</span>
                                   </div>
                                   <!-- End Priority -->
                                 </div>
@@ -490,7 +474,6 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import $ from 'jquery'
-import md5 from 'md5'
 
 export default {
   data(){
@@ -501,58 +484,40 @@ export default {
       Dir1: null,
       Dir2: null,
       Dir3: null,
-      Hoy: false
+      shopData: {
+        name: "Compra Estilo y Class",
+        description: "Compra sitio web Estilo y Class",
+        tax_base: "0",
+        tax: "0",
+        country: "co",
+        lang: "es",
+        currency: "cop",
+        external: "true",
+        type_doc_billing: "cc"
+      },
+      handler: false,
+      
+      Month: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+      ],
     }
   },
   created(){
-    this.getDatas(['Products'])
-    // eslint-disable-next-line
-    var handler = ePayco.checkout.configure({
-      key: 'c9549149a4c637275925679790e185f3',
-      test: true
-    })
-
-    var data={
-          //Parametros compra (obligatorio)
-          name: "Vestido Mujer Primavera",
-          description: "Vestido Mujer Primavera",
-          invoice: "1234",
-          currency: "cop",
-          amount: "12000",
-          tax_base: "0",
-          tax: "0",
-          country: "co",
-          lang: "es",
-
-          //Onpage="false" - Standard="true"
-          external: "true",
-
-
-          //Atributos opcionales
-          extra1: "extra1",
-          extra2: "extra2",
-          extra3: "extra3",
-          confirmation: "http://secure2.payco.co/prueba_curl.php",
-          response: "http://secure2.payco.co/prueba_curl.php",
-
-          //Atributos cliente
-          name_billing: "Andres Perez",
-          address_billing: "Carrera 19 numero 14 91",
-          type_doc_billing: "cc",
-          mobilephone_billing: "3050000000",
-          number_doc_billing: "100000000"
-          }
-
-          handler.open(data);
-
-          
-
-          
-    // eslint-disable-next-line
-    console.log(handler);
+    this.getDatas(['Products', 'Orders'])    
   },
   computed: {
-    ...mapState(['UserAuth','Products']),
+    ...mapState(['UserAuth','Products', 'Orders']),
     address(){
       if(!this.UserAuth.location){
         return this.Dir0+' '+this.Dir1+', #'+this.Dir2+'-'+this.Dir3;
@@ -605,11 +570,9 @@ export default {
       let val = (value / 1).toFixed().replace('.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
-    
-    signature(p_cust_id_cliente,p_key,p_id_invoice,p_amount,p_currency_code){
-      return md5(p_cust_id_cliente+'^'+p_key+'^'+p_id_invoice+'^'+p_amount+'^'+p_currency_code);
-    },
     updateUser(){ 
+      this.addLocation();
+
       var User = this.UserAuth;
       if(User.username){        
         delete User.username;
@@ -626,6 +589,7 @@ export default {
       if(User.username){        
         delete User.username;
       }
+
       //updateData
       this.updateData([{ref: 'Users', data: User}])
     },
@@ -635,16 +599,34 @@ export default {
         user: this.UserAuth.id,
         total: (this.totalCartPrices * 1.19),
         location: this.location,
-        date: this.date,
         payment: this.payment,
         state: 'Pendiente',
         iva: true
       }
       this.addData([{ref: 'Orders', data: Data}]);
       this.removeFullCart();
-      setTimeout(() => {        
-        window.location.href = "/";
-      }, 3000);
+
+      if(this.payment !== 'Epayco'){
+        setTimeout(() => {        
+          window.location.href = "/";
+        }, 3000);
+      }else{
+        // eslint-disable-next-line
+        var handler = ePayco.checkout.configure({
+          key: 'c9549149a4c637275925679790e185f3',
+          test: true
+        })
+
+        this.shopData.invoice = String(this.Orders.length);
+        this.shopData.amount = String(Data.total);
+
+        this.shopData.name_billing = this.UserAuth.name + ' ' + this.UserAuth.lastName;
+        this.shopData.address_billing = Data.location.address;
+        this.shopData.mobilephone_billing = this.UserAuth.phone;
+        this.shopData.number_doc_billing = this.UserAuth.ID;
+
+        handler.open(this.shopData)
+      }
     },
     removeFullCart(){
       this.UserAuth.cart = []      

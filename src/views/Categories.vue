@@ -97,7 +97,7 @@
                         </div>
                       </a>
                       <div class="card-footer border-0 pt-0 pb-4 px-4">
-                        <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button" @click="addCartItems(Product)"><i class="fas fa-cart-plus mr-2"></i>Agregar</button>
+                        <button class="btn btn-sm btn-outline-primary btn-sm-wide btn-pill transition-3d-hover" type="button" @click="addCartItems(product)"><i class="fas fa-cart-plus mr-2"></i>Agregar</button>
                       </div>
                     </div>
                   <!-- End Product -->

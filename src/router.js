@@ -8,6 +8,7 @@ import Login from '@/views/Login.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import CartShopping from '@/views/CartShopping.vue'
 import Checkout from '@/views/Checkout.vue'
+import Epayco from '@/views/Epayco.vue'
 import Invoice from '@/views/Invoice.vue'
 
 //components
@@ -52,6 +53,11 @@ const router = new Router({
           path: 'cart',
           name: 'cartShopping',
           component: CartShopping,
+        },
+        {
+          path: '/order/:status',
+          name: 'epayco',
+          component: Epayco,
         },
       ]
     },
