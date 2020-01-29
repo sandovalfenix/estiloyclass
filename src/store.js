@@ -32,6 +32,9 @@ export default new Vuex.Store({
     setFiles(state, files) {
       state.files = files;
     },
+    setFile(state, file) {
+      state.file = file;
+    },
     setAlerts(state, alert) {
       state.alert = alert;
       $(".toast").toast("show");
@@ -177,11 +180,15 @@ export default new Vuex.Store({
         Doc.updateTime = Date.now()
         db.collection(obj.ref).doc(obj.data.id).update(Doc)
           .then(() => {
+            if (obj.file) {
+              dispatch('uploadFile', obj);
+            }
+
             if (obj.files) {
               obj.num = 0;
-              obj.data.img = [];
+              obj.data.images = [];
               obj.files.forEach(file => {
-                obj.file = file;
+                obj.fileImages = file;
                 dispatch('uploadFiles', obj);
                 obj.num++;
               });
@@ -204,11 +211,15 @@ export default new Vuex.Store({
           .then((resp) => {
             obj.data.id = resp.id;
             commit('setAlerts', { type: 0, title: 'Notificación', msg: 'El registro fue <b>agregado</b> con éxito!' });
+            if (obj.file) {
+              dispatch('uploadFile', obj);
+            }
+            
             if (obj.files) {              
               obj.num = 0;
-              obj.data.img = [];
+              obj.data.images = [];
               obj.files.forEach(file => {
-                obj.file = file;
+                obj.fileImages = file;
                 dispatch('uploadFiles', obj);
                 obj.num++;
               });
@@ -221,19 +232,19 @@ export default new Vuex.Store({
           });
       });
     },
-    deleteData({ dispatch, commit }, objects) {
+    deleteData({ /* dispatch,  */commit }, objects) {
 
       objects.forEach(obj => {
         db.collection(obj.ref).doc(obj.id).delete()
           .then(() => {
-            if (obj.files) {
+            /* if (obj.files) {
               obj.num = 0;
               obj.files.forEach(file => {
                 obj.file = file;
                 dispatch('deleteFiles', obj);
                 obj.num++;
               });
-            }
+            } */
             commit('setAlerts', { type: 1, title: 'Notificación', msg: 'El registro fue <b>eliminado</b> con éxito!' });
           })
           .catch((error) => {
@@ -246,17 +257,17 @@ export default new Vuex.Store({
 
       if (file.type.split("/")[0] === 'image') {
         file.photoURL = URL.createObjectURL(file);
-        commit('setFiles', file);
+        commit('setFile', file);
       } else {
         alert('Error: El archivo no es una image. Por favor ingresar una imagen valida: JPG, PNG, GIF...');
-        commit('setFiles', false);
+        commit('setFile', false);
       }
     },
     async uploadFile({ dispatch, commit }, obj) {
         try {
           const refImg = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.data.id + '_'+(obj.num)+'.' + obj.file.type.split("/")[1]);
           const res = await refImg.put(obj.file);
-          delete obj.files;
+          delete obj.file;
 
           if (res.state) {
             obj.data.img = await refImg.getDownloadURL();
@@ -269,6 +280,13 @@ export default new Vuex.Store({
         } catch (error) {
           commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
         }
+    },
+    removeFile({ commit}) {
+      commit('setFile', false);
+    },
+    removeFiles({ commit }, obj) {
+      obj.data.images.splice(obj.index, 1);
+      commit('setData', { ref: 'Product', Data:obj.data });
     },
     handleFilesUpload({ commit }, event) {
       if(!this.state.files){
@@ -287,12 +305,12 @@ export default new Vuex.Store({
     },
     async uploadFiles({ dispatch, commit }, obj) {
         try {
-          const refImg = storage.ref().child(obj.file.type.split("/")[0] + '/' + obj.ref + '/' + obj.data.id + '_'+(obj.num)+'.' + obj.file.type.split("/")[1]);
-          const res = await refImg.put(obj.file);
+          const refImg = storage.ref().child(obj.fileImages.type.split("/")[0] + '/' + obj.ref + '/' + obj.data.id + '_'+(obj.num)+'.' + obj.fileImages.type.split("/")[1]);
+          const res = await refImg.put(obj.fileImages);
           delete obj.files;
 
           if (res.state) {
-            obj.data.images.unshift(await refImg.getDownloadURL());
+            obj.data.images.push(await refImg.getDownloadURL());
             
             dispatch('updateData', [obj]);
           } else {

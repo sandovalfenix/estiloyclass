@@ -139,7 +139,6 @@ export default {
             .then(function (querySnapshot) {
               querySnapshot.forEach(function (doc) {
                 let Data = doc.data();
-
                 if (Data.admin) {
                  next();
                 }else {

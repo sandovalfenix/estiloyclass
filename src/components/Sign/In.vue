@@ -58,12 +58,11 @@ export default {
   methods:{
     ...mapActions(['signIn']),
     signInDashboard(){
-      if(this.User.email && this.User.password){    
-        const router = this.$router;
-        this.signIn(this.User)
-          .then(()=>{          
-            router.push({name: 'dashboard'});
-          })
+      if(this.User.email && this.User.password){
+        this.signIn(this.User);
+        setTimeout(() => {
+        window.location.href = "/dashboard"
+      }, 500);
       }
     }
   },

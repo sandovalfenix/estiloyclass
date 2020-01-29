@@ -40,59 +40,6 @@
     </div>
     <!-- End Hero Section -->
 
-    <!-- Features Section -->
-    <div class="border-bottom">
-      <div class="svg-preloader container space-2" id="featuresSVG">
-        <div class="row">
-          <div class="col-md-4 mb-7 mb-md-0">
-            <!-- Contacts -->
-            <div class="media">
-              <figure class="ie-height-56 w-100 max-width-8 mr-4">
-                <img class="js-svg-injector" src="/assets/svg/icons/icon-4.svg" alt="SVG" 
-                  data-parent="#featuresSVG">
-              </figure>
-              <div class="media-body">
-                <h4 class="h6 mb-1">Atención 24/7</h4>
-                <p class="font-size-1 mb-0">Contáctenos las 24 horas del día, los 7 días de la semana.</p>
-              </div>
-            </div>
-            <!-- End Contacts -->
-          </div>
-
-          <div class="col-md-4 mb-7 mb-md-0">
-            <!-- Contacts -->
-            <div class="media">
-              <figure class="ie-height-56 w-100 max-width-8 mr-4">
-                <img class="js-svg-injector" src="/assets/svg/icons/icon-64.svg" alt="SVG" 
-                  data-parent="#featuresSVG">
-              </figure>
-              <div class="media-body">
-                <h4 class="h6 mb-1">Vuelta de 30 dias</h4>
-                <p class="font-size-1 mb-0">Le ofrecemos un reembolso completo dentro de los 30 días de la compra.</p>
-              </div>
-            </div>
-            <!-- End Contacts -->
-          </div>
-
-          <div class="col-md-4">
-            <!-- Contacts -->
-            <div class="media">
-              <figure class="ie-height-56 w-100 max-width-8 mr-4">
-                <img class="js-svg-injector" src="/assets/svg/icons/icon-65.svg" alt="SVG" 
-                  data-parent="#featuresSVG">
-              </figure>
-              <div class="media-body">
-                <h4 class="h6 mb-1">Envío gratis</h4>
-                <p class="font-size-1 mb-0">Reciba automáticamente el envío estándar gratuito en cada pedido.</p>
-              </div>
-            </div>
-            <!-- End Contacts -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Features Section -->
-
     <!-- Categories Section -->
     <div class="container space-2 space-lg-3">
       <!-- Title -->
@@ -110,10 +57,13 @@
     <!-- End Categories Section -->
 
     <!-- Promo Section -->
-    <div class="container">
-      <div class="row">
-        <PromoProduct></PromoProduct>
+    <div class="container">      
+      <!-- Title -->
+      <div class="w-md-80 w-lg-40 text-center mx-md-auto mb-9">
+        <h2 class="h3 font-weight-medium">Nuestras Pomociones.</h2>
       </div>
+      <!-- End Title -->
+      <PromoProduct></PromoProduct>
     </div>
     <!-- End Promo Section -->
 

@@ -142,10 +142,10 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },    
     deleteProduct(product) {
-      if (product.img) {
+      if (product.images) {
         var files = [];
         let file = {};
-        product.img.forEach(img => {
+        product.images.forEach(img => {
           file.type = "image/" + img
                   .split("?")[0]
                   .split(".")

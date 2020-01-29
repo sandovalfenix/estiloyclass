@@ -4,20 +4,22 @@
       <!-- Card -->
       <div v-if="productsBestClothes(category.id).length >= 3" class="card d-block">
         <div class="card-body d-flex align-items-center p-0">
-          <div class="w-65 border-right">
-            <img v-for="(item, index) in productsBestClothes(category.id).slice(0,1)" :key="index" class="img-fluid" :src="item.img" alt="Image Description">
+          <div class="w-65 ">
+            <img v-for="(item, index) in productsBestClothes(category.id).slice(0,1)" :key="index" class="" :src="item.img" alt="Image Description" style="width: 250px; height: 250px;">
           </div>
           <div class="w-35">
-            <div class="border-bottom">
+            <div class="border border-right-0 border-top-0">
               <img v-for="(item, index) in productsBestClothes(category.id).slice(1,2)" :key="index" class="img-fluid" :src="item.img" alt="Image Description">
             </div>
-            <img v-for="(item, index) in productsBestClothes(category.id).slice(2,3)" :key="index" class="img-fluid" :src="item.img" alt="Image Description">
+            <div class="border border-right-0 border-bottom-0">
+              <img v-for="(item, index) in productsBestClothes(category.id).slice(2,3)" :key="index" class="img-fluid" :src="item.img" alt="Image Description">
+            </div>
           </div>
         </div>
         <div class="card-footer text-center py-4">
           <h3 class="h5 mb-1">{{category.name}}</h3>
-          <span class="d-block text-muted h5 mb-3">Desde $ {{ formatPrice(pricesLow(category.id))}}</span>
-          <router-link class="btn btn-sm btn-outline-primary btn-pill transition-3d-hover px-5" :to="'/categories/'+category.name.toLowerCase()+'/all'">Ver más</router-link>
+          <span class="d-block text-muted font-size-1 mb-3">Desde $ {{ formatPrice(pricesLow(category.id))}}</span>
+          <router-link class="btn btn-sm btn-outline-primary btn-pill transition-3d-hover px-5" :to="'/categories/'+category.name.toLowerCase()+'/all'">Ver más {{category.name}}</router-link>
         </div>
       </div>
       <!-- End Card -->

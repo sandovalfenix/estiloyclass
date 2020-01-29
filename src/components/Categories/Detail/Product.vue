@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-7 mb-7 mb-lg-0">
         <div class="pr-lg-4">
-          <div class="position-relative">
+          <div v-if="slick" class="position-relative">
             <!-- Main Slider -->
             <div id="heroSlider" class="js-slick-carousel u-slick border rounded"
                 data-fade="true"
@@ -16,6 +16,9 @@
                 data-nav-for="#heroSliderNav">
               <div class="js-slide">
                 <img class="img-fluid w-100 rounded" :src="Product.img" alt="Image Description">
+              </div>
+              <div v-for="(image,index) of Product.images" :key="index" class="js-slide">
+                <img class="img-fluid w-100 rounded" :src="image" alt="Image Description">
               </div>
             </div>
             <!-- End Main Slider -->
@@ -37,6 +40,11 @@
                 <div class="js-slide p-1">
                   <a class="js-slick-thumb-progress position-relative d-block u-avatar border rounded-circle p-1" href="javascript:;">
                     <img class="img-fluid rounded-circle" :src="Product.img" alt="Image Description" style="width: 100px">
+                  </a>
+                </div>
+                <div v-for="(image,index) of Product.images" :key="index" class="js-slide p-1">
+                  <a class="js-slick-thumb-progress position-relative d-block u-avatar border rounded-circle p-1" href="javascript:;">
+                    <img class="img-fluid rounded-circle" :src="image" alt="Image Description" style="width: 100px">
                   </a>
                 </div>
               </div>
@@ -196,8 +204,21 @@ export default {
   created(){
     this.getData([{ref: 'Products', id: this.$route.params.id}])
   },
+  updated(){
+    // eslint-disable-next-line no-undef
+    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+    // eslint-disable-next-line no-undef
+    $.HSCore.components.HSShowAnimation.init('.js-animation-link');
+  },
   computed:{
-    ...mapState(['Product'])
+    ...mapState(['Product']),
+    slick(){
+      if(this.Product.images){
+        return true;
+      }else{
+        return false
+      }
+    }
   },
   methods:{
     ...mapActions(['getData', 'addCartItems'])

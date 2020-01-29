@@ -1,5 +1,5 @@
 <template>
-  <section class="container space-top-1 space-bottom-2">
+  <section class="container space-top-1 space-bottom-2 bg-white">
     <h4>
       <span v-if="$route.params.id">Editar</span>
       <span v-else>Nuevo</span> Producto
@@ -31,32 +31,51 @@
           </optgroup>
         </select>
       </div>
-      
+      <div class="col-12 col-md-6">
         <div class="col-12 form-group d-flex justify-content-center mt-3">
           <input class="form-control-file d-none" id="productImg" type="file" placeholder="Imagen de Producto" @change="handleFileUpload($event)" ref="file">
-          <a class="btn btn-soft-success transition-3d-hover" href="javascript:;" @click="$refs.file.click()">Añadir Imagen Principal</a>
+          <a class="btn btn-soft-success" href="javascript:;" @click="$refs.file.click()">
+            <span v-if="Product.img">Cambiar Imagen</span>
+            <span v-else>Añadir Imagen Principal</span>  
+          </a>
         </div>
+        <div class="col-12 d-flex justify-content-center mt-3">
+          <div v-if="!file" class="text-center">
+            <img class="img-fluid w-50" :src="Product.img">
+          </div>
 
-        <div v-show="Product.img" class="col-12 col-md-4 text-center border border-primary">
-          <img class="img-fluid w-50" :src="Product.img">
+          <div v-else class="text-center">
+            <img class="img-fluid w-50" :src="file.photoURL">
+            <hr class="my-0">
+            <a class="btn btn-icon-inner text-danger" title="eliminar imagen" href="javascript:;" @click="removeFile">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
         </div>
-
-        <div v-show="file" class="col-12 col-md-4 text-center border border-primary">
-          <img class="img-fluid w-50" :src="file.photoURL">
-        </div>
-
+      </div>
+      <div class="col-12 col-md-6">
         <div class="col-12 form-group d-flex justify-content-center mt-3">
-          <input class="form-control-file d-none" id="productImg" type="file" placeholder="Imagen de Producto" @change="handleFilesUpload($event)" ref="file">
-          <a class="btn btn-soft-primary transition-3d-hover" href="javascript:;" @click="$refs.file.click()">Añadir Images</a>
+          <input class="form-control-file d-none" id="productImages" type="file" placeholder="Imagen de Producto" @change="handleFilesUpload($event)" ref="fileImages">
+          <a class="btn btn-soft-primary" href="javascript:;" @click="$refs.fileImages.click()">Añadir otras images</a>
         </div>
-        
-        <div v-for="(file,index) in files" :key="index" class="col-12 col-md-4 text-center border border-primary">
-          <img class="img-fluid w-50" :src="file.photoURL">
-        </div>
+        <div class="row d-flex justify-content-center">
+          <div v-for="(fileImages,indexFiles) in files" :key="indexFiles" class="col-12 col-md-6 text-center">
+            <img class="img-fluid w-60" :src="fileImages.photoURL">
+            <hr class="my-0">
+            <a class="btn btn-icon-inner text-danger" title="eliminar imagen" href="javascript:;" @click="removeFiles(indexFiles)">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
 
-        <div v-for="(image,index) in Product.images" :key="index" class="col-12 col-md-4 text-center border border-primary">
-          <img class="img-fluid w-50" :src="image">
+          <div v-for="(image,indexImages) in Product.images" :key="indexImages" class="col-12 col-md-6 text-center">
+            <img class="img-fluid w-60" :src="image">
+            <hr class="my-0">
+            <a class="btn btn-icon-inner text-danger" title="eliminar imagen" href="javascript:;" @click="removeFiles({data: Product, index:indexImages})">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
         </div>
+      </div>
 
       <div class="col-12 d-flex justify-content-between mt-3 border-top border-silver pt-4">
         <button class="btn btn-danger mr-3" type="button" data-dismiss="modal" @click="$router.go(-1)">Regresar</button>
@@ -90,8 +109,10 @@ export default {
       "getData",
       "updateData",
       "addData",
-      "uploadFiles",
-      "handleFilesUpload"
+      "handleFileUpload",
+      "removeFile",
+      "handleFilesUpload",
+      "removeFiles"
     ]),
     submitAction() {
       if (this.id) {
@@ -100,7 +121,8 @@ export default {
             ref: "Products",
             data: this.Product,
             route: "adminProducts",
-            files: this.files
+            files: this.files,
+            file: this.file
           }
         ]);
       } else {
@@ -109,6 +131,7 @@ export default {
             ref: "Products",
             data: this.Product,
             files: this.files,
+            file: this.file,
             route: "adminProducts"
           }
         ]);
