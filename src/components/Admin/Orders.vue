@@ -227,7 +227,6 @@ export default {
         this.Users.forEach(user => {
           if(order.user === user.id){
             delete order.user
-            order.dateFull = order.date.day +', Hora: '+ order.date.time
             order.user = user
             UsersOrders.push(order);
           }

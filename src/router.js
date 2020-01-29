@@ -8,7 +8,8 @@ import Login from '@/views/Login.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import CartShopping from '@/views/CartShopping.vue'
 import Checkout from '@/views/Checkout.vue'
-import Epayco from '@/views/Epayco.vue'
+import Endowment from '@/views/Endowment.vue'
+import Contacts from '@/views/Contacts.vue'
 import Invoice from '@/views/Invoice.vue'
 
 //components
@@ -55,9 +56,14 @@ const router = new Router({
           component: CartShopping,
         },
         {
-          path: '/order/:status',
-          name: 'epayco',
-          component: Epayco,
+          path: '/endowment',
+          name: 'endowment',
+          component: Endowment,
+        },
+        {
+          path: '/contacts',
+          name: 'contacts',
+          component: Contacts,
         },
       ]
     },

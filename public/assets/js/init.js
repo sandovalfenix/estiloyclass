@@ -18,9 +18,6 @@ $(document).on('ready', function () {
   // initialization of show animations
   $.HSCore.components.HSShowAnimation.init('.js-animation-link');
 
-  // initialization of slick carousel
-  $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
-
   // initialization of go to
   $.HSCore.components.HSGoTo.init('.js-go-to');
 
@@ -71,5 +68,14 @@ $(document).on('ready', function () {
 
   // initialization of step form
   $.HSCore.components.HSStepForm.init(".js-step-form");
+
+  // initialization of sticky blocks
+  $.HSCore.components.HSStickyBlock.init('.js-sticky-block');
+
+  // initialization of fancybox
+  $.HSCore.components.HSFancyBox.init('.js-fancybox');
+
+  // initialization of slick carousel
+  $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
 
 });

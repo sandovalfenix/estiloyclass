@@ -64,7 +64,7 @@
     <div class="mb-7">
       <div v-if="productsFavorite" class="card-deck d-block d-lg-flex card-lg-gutters-3">
         <!-- Card -->
-        <div class="card card-frame mb-3" v-for="(Product, index) in productsFavorite.slice(0, 3)" :key="index">
+        <div class="card card-frame mb-3" v-for="(Product, index) in productsFavorite/*.slice(0, 3) */" :key="index">
           <a class="card-body p-4" href="#">
             <div class="media align-items-center">
               <div class="mr-3 w-30">
@@ -364,7 +364,7 @@ export default {
       if(this.Orders){
         for (let index = 0; index < 4; index++) {
           elements.push({ 
-            balance: (this.totalBalance(new Date().getMonth() - (3- index))/this.balanceMax)*100, month: this.Month[new Date().getMonth() - (3- index)].slice(0, 3)
+            balance: (this.totalBalance(new Date().getMonth() - (3- index))/this.balanceMax)*100, month: this.Month[new Date().getMonth() - (3- index)]/* .slice(0, 3) */
           })
         }
       }

@@ -34,7 +34,7 @@
               <div class="d-none d-sm-inline-block ml-sm-auto">
                 <ul class="list-inline mb-0">
                   <li class="list-inline-item mr-0">
-                    <a class="u-header__navbar-link" href="pages/contacts-agency.html"><b class="font-size-1">Contactanos</b></a>
+                    <a class="u-header__navbar-link" href="/contacts"><b class="font-size-1">Contactanos</b></a>
                   </li>
                 </ul>
               </div>
@@ -159,7 +159,7 @@
                 <!-- End Woman -->
 
                 <li class="nav-item hs-has-sub-menu u-header__nav-item">
-                  <router-link class="nav-link u-header__nav-link" to="/dotacion">Dotacion Empresarial</router-link>
+                  <a class="nav-link u-header__nav-link" href="/endowment">Dotacion Empresarial</a>
                 </li>
 
                 
