@@ -1,7 +1,7 @@
 <template>
   <main id="content" role="main">
     <!-- Case Studies Title Section -->
-    <div id="SVGbgElements3" class="svg-preloader container position-relative space-2 space-top-md-5 space-top-lg-4 space-bottom-md-3">
+    <div id="SVGbgElements3" class="container position-relative space-2 space-bottom-md-3">
       <div class="w-md-80 w-lg-75 text-center mx-auto">
         <h1 class="display-2 font-size-md-down-5 text-primary font-weight-semi-bold mb-4">Dotación Empresarial</h1>
         <p class="lead mb-0">Somos una empresa orgullosamente Colombiana, dedicada a la fabricación y comercialización de toda clase de Dotación Industrial, Administrativa e institucional, nuestra imagen está soportada en cuatro aspectos fundamentales que son: DISEÑO, CUMPLIMIENTO, CALIDAD Y PRECIO.</p>
@@ -69,7 +69,7 @@
 
     <!-- Images Carousel Section -->
     <div class="container-fluid">
-      <div class="js-slick-carousel u-slick"
+      <div class="js-slick-carousel2 u-slick"
            data-autoplay="true"
            data-speed="5000"
            data-pagi-classes="text-center u-slick__pagination u-slick__pagination--white position-absolute right-0 bottom-0 left-0">
@@ -111,7 +111,7 @@
     <div class="gradient-half-primary-v2">
       <div class="container space-2 space-md-3">
         <!-- CTA Section -->
-        <div id="SVGCTA7" class="svg-preloader position-relative">
+        <div id="SVGCTA7" class="position-relative">
           <div class="container space-2">
             <div class="row justify-content-lg-between align-items-lg-center text-center text-lg-left">
               <div class="col-lg-5 mb-5 mb-lg-0">
@@ -137,3 +137,23 @@
     <!-- End Browser More Projects -->
   </main>
 </template>
+<script>
+export default {
+  mounted(){
+    // initialization of sticky blocks
+    
+    // eslint-disable-next-line no-undef
+    $.HSCore.components.HSStickyBlock.init('.js-sticky-block');
+
+    // initialization of fancybox
+    
+    // eslint-disable-next-line no-undef
+    $.HSCore.components.HSFancyBox.init('.js-fancybox');
+
+    // initialization of slick carousel
+
+    // eslint-disable-next-line no-undef
+    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel2');
+  }
+}
+</script>

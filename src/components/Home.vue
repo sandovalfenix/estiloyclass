@@ -2,7 +2,7 @@
   <!-- ========== MAIN CONTENT ========== -->
   <main id="content" role="main">
     <!-- Hero Section -->
-    <div class="position-relative">
+    <div class="position-relative d-none d-md-block">
       <!-- Main Slider -->
       <div class="js-slick-carousel u-slick bg-light" id="heroSlider" 
         data-arrow-left-classes="fas fa-arrow-left u-slick__arrow-inner u-slick__arrow-inner--left ml-lg-5" 

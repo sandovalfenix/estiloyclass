@@ -1,9 +1,9 @@
 <template>
 <div class="row mx-n2 mx-sm-n3 mb-7">
-  <div v-for="Product in Products.slice(0, 8)" :key="Product.id" class="col-6 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5">
+  <div v-for="Product in Products.slice(0, 8)" :key="Product.id" class="col-12 col-md-6 px-2 px-sm-3 mb-3 mb-sm-5">
     <!-- Product -->
     <div class="card text-center h-100">
-      <div class="position-relative" style="width: 230px; height: 230px">
+      <div class="position-relative w-100">
         <img class="card-img-top" :src="Product.img" alt="Image Description" >
         <!-- <div class="position-absolute top-0 left-0 pt-3 pl-3">
           <span class="badge badge-success badge-pill">Nuevo</span>
