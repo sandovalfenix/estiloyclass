@@ -15,7 +15,7 @@
         <!-- Slide -->
         <div class="js-slide">
           <div class="container-fluid">
-            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2FBANNER%20ESTILICLASS%20ROPA%20PLAYA.jpg?alt=media&token=44cce865-05ed-40d1-9b8e-aa205d177acd">
+            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2Fbanner%20covid19%20estiloyclass%20version%201.webp?alt=media&token=b4cadd70-3a43-402c-871d-4cc5d1647b4e">
           </div>
         </div>
         <!-- End Slide -->
@@ -23,15 +23,7 @@
         <!-- Slide -->
         <div class="js-slide">
           <div class="container-fluid">
-            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2FBANNER%20ESTILO%20CLAS%20DESCUENTO%2030PORCIIENTO.jpg?alt=media&token=57f22a60-ae0f-4e3e-b3e7-2d1fef9a1ca5">
-          </div>
-        </div>
-        <!-- End Slide -->
-
-        <!-- Slide -->
-        <div class="js-slide">
-          <div class="container-fluid">
-            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2FBANNER%20ESTILOCLASS%20ENVIOS%20WEB.jpg?alt=media&token=4c060dfd-fe57-4e25-aa6b-cc6d21f027bc">
+            <img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/estiloyclass.appspot.com/o/banners%2Fbanner%20covid19%20estiloyclass%20version%202.webp?alt=media&token=5d45000a-cedb-42ea-97db-b41782fb2ed1">
           </div>
         </div>
         <!-- End Slide -->

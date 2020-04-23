@@ -152,16 +152,16 @@
               <li class="nav-item hs-has-sub-menu u-header__nav-item">
                   <router-link class="nav-link u-header__nav-link" to="/categories/accesorios/all">Accesorios</router-link>
               </li>
-              <!-- End Woman -->
+              <!-- End Woman -->              
+
+              <li class="nav-item hs-has-sub-menu u-header__nav-item">
+                <router-link class="nav-link u-header__nav-link" to="/endowment">Dotacion Empresarial</router-link>
+              </li>
 
               <li class="nav-item hs-has-sub-menu u-header__nav-item">
                 <router-link class="nav-link u-header__nav-link" to="/categories/zapatos/all">Calzado</router-link>
               </li>
               <!-- End Woman -->
-
-              <li class="nav-item hs-has-sub-menu u-header__nav-item">
-                <router-link class="nav-link u-header__nav-link" to="/endowment">Dotacion Empresarial</router-link>
-              </li>
               
             </ul>
           </div>
