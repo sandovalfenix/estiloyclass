@@ -1,6 +1,6 @@
 <template>
 <div class="row mx-n2 mx-sm-n3 mb-7">
-  <div v-for="Product in Products.slice(0, 8)" :key="Product.id" class="col-12 col-md-3 px-2 px-sm-3 mb-3 mb-sm-5">
+  <div v-for="Product in Products.slice(0, 8)" :key="Product.id" class="col-12 col-md-4 col-lg-3 px-2 px-sm-3 mb-3 mb-sm-5">
     <!-- Product -->
     <div class="card text-center h-100">
       <div class="position-relative w-100">
