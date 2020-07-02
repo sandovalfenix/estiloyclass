@@ -115,7 +115,6 @@ const router = new Router({
         },
         {
           path: 'products',
-          name: 'adminProductsIndex',
           component: Products,
           children: [
             {

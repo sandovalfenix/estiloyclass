@@ -100,50 +100,50 @@
                 <div class="media align-items-center mb-3">
                   <h4 class="text-secondary font-size-1 font-weight-normal mb-0 mr-3">Entrega</h4>
                   <div class="media-body text-right">
-                    <span class="font-weight-medium">Gratis</span>
+                    <span class="font-weight-medium">${{formatPrice(priceSend)}}</span>
                   </div>
                 </div>
 
                 <!-- Checkbox -->
-                <div class="card border-0 mb-3">
+                <!-- <div class="card border-0 mb-3">
                   <div class="card-body p-0">
                     <div class="custom-control custom-radio d-flex align-items-center small">
-                      <input type="radio" class="custom-control-input" id="deliveryRadio1" v-model="deliveryRadio" value="0">
-                      <label class="custom-control-label ml-1" for="deliveryRadio1">
+                      <input type="radio" class="custom-control-input" id="priceSend1" v-model="priceSend" value="0">
+                      <label class="custom-control-label ml-1" for="priceSend1">
                         <span class="d-block font-size-1 font-weight-medium mb-1">Gratis - Entrega estándar</span>
                         <span class="d-block text-muted">El envío puede demorar entre 5 y 6 días hábiles.</span>
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <!-- End Checkbox -->
 
                 <!-- Checkbox -->
-                <div class="card border-0">
+                <!-- <div class="card border-0">
                   <div class="card-body p-0">
                     <div class="custom-control custom-radio d-flex align-items-center small">
-                      <input type="radio" class="custom-control-input" id="deliveryRadio2" v-model="deliveryRadio" value="15600">
-                      <label class="custom-control-label ml-1" for="deliveryRadio2">
+                      <input type="radio" class="custom-control-input" id="priceSend2" v-model="priceSend" value="15600">
+                      <label class="custom-control-label ml-1" for="priceSend2">
                         <span class="d-block font-size-1 font-weight-medium mb-1">$15.600 - Entrega Express</span>
                         <span class="d-block text-muted">El envío puede demorar de 2 a 3 días hábiles.</span>
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <!-- End Checkbox -->
               </div>
 
-              <div class="media align-items-center mb-3">
+              <!-- <div class="media align-items-center mb-3">
                 <h4 class="text-secondary font-size-1 font-weight-normal mb-0 mr-3">IVA (19%)</h4>
                 <div class="media-body text-right">
-                  <span class="font-weight-medium">${{formatPrice(totalCartPrices*0.19)}}</span>
+                  <span class="font-weight-medium">${{formatPrice(totalCartPrices)}}</span>
                 </div>
-              </div>
+              </div> -->
 
               <div class="media align-items-center mb-4">
                 <h4 class="text-secondary font-size-1 font-weight-normal mb-0 mr-3">Total</h4>
                 <div class="media-body text-right">
-                  <span class="font-weight-medium">${{formatPrice((totalCartPrices*1.19)+parseInt(deliveryRadio))}}</span>
+                  <span class="font-weight-medium">${{formatPrice((totalCartPrices+priceSend))}}</span>
                 </div>
               </div>
 
@@ -175,7 +175,8 @@ export default {
   name: 'CartShopping',
   data() {
     return {
-      deliveryRadio: 0
+      priceSend: 6000
+      
     }
   },
   created(){

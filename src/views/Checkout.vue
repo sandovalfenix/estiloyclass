@@ -69,11 +69,10 @@
            <div class="card-footer bg-white py-2 fixed-bottom col-md-4 col">
             <ul class="list-group">
               <li class="list-gorup-item  d-flex justify-content-between"><span>Subtotal:</span> <span>${{new Intl.NumberFormat().format(totalCartPrices)}}</span></li>
-              <li class="list-gorup-item  d-flex justify-content-between"><span>IVA+ (19%):</span> <span>${{new Intl.NumberFormat().format((totalCartPrices * 0.19))}}</span></li>
-              <li class="list-gorup-item  d-flex justify-content-between"><span>Descuento:</span> <span>$0.00</span></li>
+              <li class="list-gorup-item  d-flex justify-content-between"><span>Envio:</span> <span>${{formatPrice(priceSend)}}</span></li>
             </ul>
             <hr class="border-danger">
-            <h4 class="text-right font-weight-bold">Total: ${{new Intl.NumberFormat().format((totalCartPrices * 1.19))}}</h4>
+            <h4 class="text-right font-weight-bold">Total: ${{new Intl.NumberFormat().format((totalCartPrices + priceSend))}}</h4>
            </div>
           </div>
         </aside>
@@ -94,17 +93,11 @@
                       </span>
                       1. Direccion
                     </a>
-                    <a href="javascript:;" class="nav-item border-right">
-                      <span class="nav-icon-action">
-                        <span class="fas fa-money-bill nav-icon-action-inner"></span>
-                      </span>
-                      2. Metodo de Pago
-                    </a>
                     <a href="javascript:;" class="nav-item">
                       <span class="nav-icon-action">
                         <span class="fas fa-shopping-basket nav-icon-action-inner"></span>
                       </span>
-                      3. Finzalizar Compra
+                      2. Pagar en Epayco
                     </a>
                   </nav>
                 </div>
@@ -123,33 +116,7 @@
                                     <span class="fas fa-street-view"></span>
                                   </span>
                                 </div>
-                                <select class="form-control" id="locationDir0" v-model="Dir0" placeholder="Ciudad" aria-describedby="locationDir0Label" aria-label="Dir0" required>
-                                  <option value="Calle">Calle</option>
-                                  <option value="Carrera">Carrera</option>
-                                  <option value="Avenida">Avenida</option>
-                                  <option value="Diagonal">Diagonal</option>
-                                  <option value="Transversal">Transversal</option>
-                                </select>
-                                <input class="form-control" id="locationDir1" v-model="Dir1" type="text" placeholder="--" aria-describedby="locationDir1Label" aria-label="Email" 
-                                  data-error-class="u-has-error" 
-                                  data-msg="Por favor, introduce una dirección válida." 
-                                  data-success-class="u-has-success" required>
-                                  
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <span class="fas fa-home"> #</span>
-                                  </span>
-                                </div>
-                                  <input class="form-control" id="locationDir2" v-model="Dir2" type="text" placeholder="--" aria-describedby="locationDir2Label" aria-label="Email" 
-                                  data-error-class="u-has-error" 
-                                  data-msg="Por favor, introduce una dirección válida." 
-                                  data-success-class="u-has-success" required>
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <span>-</span>
-                                  </span>
-                                </div>
-                                <input class="form-control" id="locationDir3" v-model="Dir3" type="text" placeholder="--" aria-describedby="locationDir3Label" aria-label="Email" 
+                                <input class="form-control" id="locationDir1" v-model="address" type="text" placeholder="Direccion" aria-describedby="locationDir1Label" aria-label="address" 
                                   data-error-class="u-has-error" 
                                   data-msg="Por favor, introduce una dirección válida." 
                                   data-success-class="u-has-success" required>
@@ -222,187 +189,11 @@
                       </div>
                     </div>
                     <div class="d-flex justify-content-center mt-5">
-                      <button type="button" class="btn btn-sm btn-primary transition-3d-hover mr-1" data-next-step="#selectStepTwo" :disabled="!address.length && !location.neighborhood.length" @click="updateUser">Continuar</button>
+                      <button type="button" class="btn btn-sm btn-primary transition-3d-hover mr-1" data-next-step="#selectStepTwo" :disabled="address == null && !location.neighborhood && !location.name && !UserAuth.name && !UserAuth.ID" @click="updateUser">Continuar</button>
                     </div>
                   </div>
 
-                  <div id="selectStepTwo" style="display: none;">                    
-                    <h5 class="text-center font-weight-bold">¿Cómo deseas pagar?</h5>
-                    <div class="row">
-                      <div class="col">                        
-                        <!-- Accordion -->
-                        <div id="paymentDetails" class="accordion">
-                          <!-- Card -->
-                          <div class="card d-none">
-                            <div class="card-header card-collapse border py-1" id="cardHeadingOne">
-                              <h5 class="mb-0">
-                                <a href="javascript:void(0)" class="btn btn-link btn-block card-btn collapsed" role="button"
-                                        data-toggle="collapse"
-                                        data-target="#cardOne"
-                                        aria-expanded="false"
-                                        aria-controls="cardOne">
-                                  <span class="row align-items-center">
-                                    <span class="col mb-2 mb-md-0">
-                                      <span class="media align-items-center">
-                                        <img class="max-width-9 mr-3" src="https://image.flaticon.com/icons/svg/2036/2036896.svg" alt="Image Description">
-                                        <span class="media-body">
-                                          <h5 class="text-center">Pago Contra Entrega</h5>
-                                        </span>
-                                      </span>
-                                    </span>
-                                    <span class="col text-right">
-                                      <span class="card-btn-arrow">
-                                        <span class="fas fa-arrow-alt-circle-down small"></span>
-                                      </span>
-                                    </span>
-                                  </span>
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="cardOne" class="collapse" aria-labelledby="cardHeadingOne" data-parent="#paymentDetails">
-                              <div class="card-body px-4 border">
-                                <!-- Card Details -->
-                                <div class="row text-center">
-                                  <div class="col-12 mb-2 mb-sm-0">
-                                    <p class="small">
-                                      <span class="fas fa-info-circle mr-1"></span>
-                                      Escoge el nuevo método de pago que deseas utilizar:
-                                    </p>                                
-                                    <div class="btn-group-toggle" data-toggle="buttons">
-                                      <label class="btn btn-outline-primary transition-3d-hover btn-sm text-wrap shadow-soft mx-2" @click="payment = 'Efectivo'">
-                                        <input type="radio"/>                         
-                                      <img class="img-fluid w-15" src="https://image.flaticon.com/icons/svg/864/864996.svg" alt=""> Pago en Efectivo
-                                      </label>
-                                      <label class="btn btn-outline-primary transition-3d-hover btn-sm text-wrap shadow-soft mx-2" @click="payment = 'Datafono'">
-                                        <input type="radio"/>                         
-                                      <img class="img-fluid w-15" src="https://image.flaticon.com/icons/svg/138/138361.svg" alt=""> Pago con Datafono
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- End Card Details -->
-                              </div>
-                            </div>
-                          </div>
-                          <!-- End Card -->
-                          <!-- Card -->
-                          <div class="card">
-                            <div class="card-header card-collapse border py-1" id="cardHeadingThree">
-                              <h5 class="mb-0">
-                                <a href="javascript:void(0)" class="btn btn-link btn-block card-btn collapsed" role="button"
-                                        data-toggle="collapse"
-                                        data-target="#cardThree"
-                                        aria-expanded="false"
-                                        aria-controls="cardThree">
-                                  <span class="row align-items-center">
-                                    <span class="col mb-2 mb-md-0">
-                                      <span class="media align-items-center">
-                                        <img class="max-width-9 mr-3" src="https://image.flaticon.com/icons/svg/2036/2036896.svg" alt="Image Description">
-                                        <span class="media-body">
-                                          <h5 class="text-center">Pago con ePayco</h5>
-                                        </span>
-                                      </span>
-                                    </span>
-                                    <span class="col text-right">
-                                      <span class="card-btn-arrow">
-                                        <span class="fas fa-arrow-alt-circle-down small"></span>
-                                      </span>
-                                    </span>
-                                  </span>
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="cardThree" class="collapse" aria-labelledby="cardHeadingThree" data-parent="#paymentDetails">
-                              <div class="card-body px-4 border">
-                                <!-- Card Details -->
-                                <div class="row text-center">
-                                  <div class="col-12 mb-2 mb-sm-0">
-                                    <p class="small">
-                                      <span class="fas fa-info-circle mr-1"></span>
-                                      Escoge el nuevo método de pago que deseas utilizar:
-                                    </p>      
-                                    <div class="btn-group-toggle" data-toggle="buttons">
-                                      <label class="btn btn-outline-primary transition-3d-hover btn-sm text-wrap shadow-soft mx-2" @click="payment = 'Epayco'">
-                                        <input type="radio"/>                         
-                                        <input type="image" id="imagen" src="https://369969691f476073508a-60bf0867add971908d4f26a64519c2aa.ssl.cf5.rackcdn.com/btns/btn1.png" />    
-                                      </label>
-                                    </div>  
-                                      
-                                  </div>
-                                </div>
-                                <!-- End Card Details -->
-                              </div>
-                            </div>
-                          </div>
-                          <!-- End Card -->
-                          <!-- Card -->
-                          <div class="card d-none">
-                            <div class="card-header card-collapse border py-1" id="cardHeadingTwo">
-                              <h5 class="mb-0">
-                                <a href="javascript:void(0)" class="btn btn-link btn-block card-btn collapsed" role="button"
-                                        data-toggle="collapse"
-                                        data-target="#cardTwo"
-                                        aria-expanded="false"
-                                        aria-controls="cardTwo">
-                                  <span class="row align-items-center">
-                                    <span class="col mb-2 mb-md-0">
-                                      <span class="media align-items-center">
-                                        <img class="max-width-9 mr-3" src="https://image.flaticon.com/icons/svg/147/147261.svg" alt="Image Description">
-                                        <span class="media-body">
-                                          <h5 class="text-center">Pago en Linea</h5>
-                                        </span>
-                                      </span>
-                                    </span>
-                                    <span class="col text-right">
-                                      <span class="card-btn-arrow">
-                                        <span class="fas fa-arrow-alt-circle-down small"></span>
-                                      </span>
-                                    </span>
-                                  </span>
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="cardTwo" class="collapse" aria-labelledby="cardHeadingTwo" data-parent="#paymentDetails">
-                              <div class="card-body px-4 border">
-                                <!-- Card Details -->
-                                <div class="row text-center">
-                                  <div class="col-12 mb-2 mb-sm-0">
-                                    <p class="small">
-                                      <span class="fas fa-info-circle mr-1"></span>
-                                      Escoge el nuevo método de pago que deseas utilizar:
-                                    </p>                                
-                                    <div class="btn-group-toggle" data-toggle="buttons">
-                                      <label class="btn btn-outline-primary transition-3d-hover btn-sm text-wrap shadow-soft mx-2">
-                                        <input type="radio"/>                         
-                                      <img class="img-fluid w-15" src="https://image.flaticon.com/icons/svg/196/196561.svg" alt=""> Tarjeta de Credito
-                                      </label>
-                                      <label class="btn btn-outline-primary transition-3d-hover btn-sm text-wrap shadow-soft mx-2">
-                                        <input type="radio"/>                         
-                                      <img class="img-fluid w-15" src="https://www.rapicredit.com/blog/wp-content/uploads/2017/01/PSE.png" style="max-width: 215px;"> Debito PSE
-                                      </label>
-                                    </div>
-                                    <p class="small text-center mt-3">
-                                      <span class="fas fa-info-circle mr-1"></span>
-                                      Hacemos todo lo posible para que el pedido salga completo, en caso de presentar inconvenientes con un producto y el valor es inferior a $10.000 se reembolsará en créditos Merqueo, de ser superior nuestro servicio al cliente se contactará contigo.
-                                    </p>  
-                                  </div>
-                                </div>
-                                <!-- End Card Details -->
-                              </div>
-                            </div>
-                          </div>
-                          <!-- End Card -->
-                        </div>
-                        <!-- End Accordion -->
-                      </div>
-                    </div>
-                    <div class="d-flex justify-content-center mt-3">
-                      <a class="btn btn-sm btn-soft-secondary transition-3d-hover mr-1" href="javascript:;" data-previous-step="#selectStepOne">Volver</a>
-                      <a href="javascript:;" :class="['btn btn-sm btn-primary transition-3d-hover', {'disabled': !payment}]"  data-next-step="#selectStepThree">Continuar</a>
-                    </div>
-                  </div>
-
-                  <div id="selectStepThree" style="display: none;">
+                  <div id="selectStepTwo" style="display: none;">                
                     <div class="row">              
                       <div class="col-12 col-md-8">
                         <!-- Projects -->
@@ -427,7 +218,7 @@
                                   <!-- Budget -->
                                   <div class="u-ver-divider u-ver-divider--none-sm pr-4 mb-3 mb-sm-0 mr-4">
                                     <h4 class="small font-weight-normal mb-0">Total a Pagar:</h4>
-                                    <span class="text-dark">$ {{new Intl.NumberFormat().format((totalCartPrices * 1.19))}}</span>
+                                    <span class="text-dark">$ {{new Intl.NumberFormat().format((totalCartPrices + priceSend))}}</span>
                                   </div>
                                   <!-- End Budget -->
 
@@ -447,7 +238,7 @@
                         <!-- End Projects -->
                       </div>
                       <div class="col col-md-4">                        
-                        <button type="submit" class="btn btn-sm btn-primary btn-block transition-3d-hover my-5" :disabled=" term_condition == false">Finalizar Compra</button>
+                        <button type="submit" class="btn btn-sm btn-primary btn-block transition-3d-hover my-5" :disabled=" term_condition == false">Ir a Pagar</button>
 
                         <div class="custom-control custom-checkbox custom-control-inline text-center">
                           <input type="checkbox" id="customCheckboxInline10" v-model="term_condition" :value="true" class="custom-control-input form-control-lg" @click="term_condition = !term_condition">
@@ -479,11 +270,8 @@ export default {
   data(){
     return {
       payment: '',
-      term_condition: false,      
-      Dir0: 'Calle',
-      Dir1: null,
-      Dir2: null,
-      Dir3: null,
+      address: null,
+      term_condition: true, 
       shopData: {
         name: "Compra Estilo y Class",
         description: "Compra sitio web Estilo y Class",
@@ -511,6 +299,7 @@ export default {
         "Noviembre",
         "Diciembre"
       ],
+      priceSend: 6000
     }
   },
   created(){
@@ -518,21 +307,14 @@ export default {
   },
   computed: {
     ...mapState(['UserAuth','Products', 'Orders']),
-    address(){
-      if(!this.UserAuth.location){
-        return this.Dir0+' '+this.Dir1+', #'+this.Dir2+'-'+this.Dir3;
-      }else{
-        return this.UserAuth.location.address
-      }
-    },
     location(){
       if(this.UserAuth.location){
         return this.UserAuth.location;
       }else{ 
         return {
           city: 'Buenaventura',
-          address: '',
-          neighborhood: '',
+          address: null,
+          neighborhood: null,
           name: 'Casa',
         }
       }
@@ -597,11 +379,11 @@ export default {
       let Data = {
         items: this.UserAuth.cart,
         user: this.UserAuth.id,
-        total: (this.totalCartPrices * 1.19),
+        total: (this.totalCartPrices + this.priceSend),
         location: this.location,
         payment: this.payment,
         state: 'Pendiente',
-        iva: true
+        iva: false
       }
       this.addData([{ref: 'Orders', data: Data}]);
       this.removeFullCart();
@@ -614,7 +396,7 @@ export default {
         // eslint-disable-next-line
         var handler = ePayco.checkout.configure({
           key: 'c9549149a4c637275925679790e185f3',
-          test: true
+          test: false
         })
 
         this.shopData.invoice = String(this.Orders.length);
