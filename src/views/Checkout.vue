@@ -269,7 +269,7 @@ import $ from 'jquery'
 export default {
   data(){
     return {
-      payment: '',
+      payment: 'Epayco',
       address: null,
       term_condition: true, 
       shopData: {
