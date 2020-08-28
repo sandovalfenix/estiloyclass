@@ -163,7 +163,7 @@
           <!-- End Input -->
 
           <div class="text-center 573178758748">
-            <a :class="['btn btn-primary btn-wide transition-3d-hover mb-4', {'disabled': !message}]" :href="'//wa.me/573113658350?text='+message">Enviar</a>
+            <a :class="['btn btn-primary btn-wide transition-3d-hover mb-4', {'disabled': !message}]" :href="'//wa.me/573135339177?text='+message">Enviar</a>
             <p class="small">Nos pondremos en contacto con usted en 1-2 días hábiles.</p>
           </div>
         </form>

@@ -158,7 +158,7 @@
               </figure>
               <div class="media-body text-secondary small">
                 <span class="font-weight-medium mr-1">¿Necesitas ayuda?</span>
-                <a class="link-muted" :href="'//wa.me/573178758748?text=Me%20gustaría%20ayuda%20para%20confirmar%20una%20compra'">Chatea ahora</a>
+                <a class="link-muted" :href="'//wa.me/573135339177?text=Me%20gustaría%20ayuda%20para%20confirmar%20una%20compra'">Chatea ahora</a>
               </div>
             </div>
             <!-- End Help Link -->

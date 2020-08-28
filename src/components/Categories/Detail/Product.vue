@@ -181,7 +181,7 @@
           </span>
           <div class="media-body text-secondary small">
             <span class="font-weight-medium mr-1">¿Estas interesado?</span>
-            <a class="link-muted" :href="'//wa.me/573178758748?text=Me%20gustaría%20saber%20mas%20sobre%20este%20producto:%20http://estiloyclass.com/product/'+$route.params.id">Chatea Ahora</a>
+            <a class="link-muted" :href="'//wa.me/573135339177?text=Me%20gustaría%20saber%20mas%20sobre%20este%20producto:%20http://estiloyclass.com/product/'+$route.params.id">Chatea Ahora</a>
           </div>
         </div>
         <!-- End Help Link -->
