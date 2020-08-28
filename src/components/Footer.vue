@@ -71,8 +71,8 @@
               <div class="img-container mb-2">
                 <img class="js-svg-injector img-container" src="https://http2.mlstatic.com/resources/frontend/homes-korriban/assets/images/ecosystem/shipping.svg" alt="Envío gratis desde $ 70.000"  data-parent="#featuresSVG2">
               </div>
-              <h6>Envío gratis desde $ 70.000</h6>
-              <small><span class="text-muted">Con solo estar registrado en Estilo & Class, tienes envíos gratis en millones de productos seleccionados.</span></small>
+              <h6>Envío gratis a partir de 5 prendas</h6>
+              <small><span class="text-muted">Despacho a nivel nacional</span></small>
             </div>
             <div class="col-12 col-md space-1">
               <div class="img-container mb-2">
