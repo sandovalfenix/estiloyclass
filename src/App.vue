@@ -21,12 +21,12 @@ import $ from 'jquery'
 export default {
   created(){
     this.userAuthOnState();
-    this.getDatas(['Products'])
+    this.getDatas(['Users'])
   },
   computed: {
-    ...mapState(["alert","Products"]),
+    ...mapState(["alert","Users"]),
     loader(){      
-      if(this.Products.length){
+      if(this.Users.length){
         this.closeLoader()
         return false
       }else{
