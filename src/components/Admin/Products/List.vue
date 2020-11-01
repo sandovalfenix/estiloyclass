@@ -13,13 +13,13 @@
               <span class="fas fa-search"></span>
             </span>
           </div>
-          <input class="form-control" v-model="search" type="text" placeholder="Buscar Productos" aria-label="Buscar Productos" @keyup="searchProducts">
+          <input class="form-control" v-model="search" type="text" placeholder="Buscar Productos" aria-label="Buscar Productos">
         </div>
         <!-- End Search -->
       </div>
       <div class="col">
         <!-- new product -->
-        <router-link class="btn btn-soft-primary btn-sm" to="products/new">
+        <router-link class="btn btn-soft-primary btn-sm" to="/dashboard/products/new">
           <i class="fas fa-plus-circle mr-2"></i>Agregar Producto
         </router-link>
         <!-- End new product -->
@@ -39,7 +39,9 @@
             </li>
           </ul>
         </nav>       
-        <div class="row bg-soft-primary space-1 px-2">
+        <div
+          class="row bg-soft-primary space-1 px-2"
+          >
           <div :class="['col col-sm-4 mt-1 p-1', {'col-lg-3': num === 8}]" v-for="product of products.slice(page*num, (page+1)*num)" :key="product.id">
             <!-- Product -->
             <div class="card text-center h-100 border-0 shadow-soft">
@@ -60,7 +62,7 @@
               </div>
 
               <div class="card-footer border-0 px-4 d-flex justify-content-between">
-                <router-link :to="{name:'adminEditProduct', params: {id: product.id}}">
+                <router-link to="/dashboard/products/product.id">
                   <button class="btn btn-sm btn-soft-warning transition-3d-hover" type="button" data-target="#modalForm" data-toggle="modal">
                     <i class="fas fa-edit"></i><span class="d-none d-md-inline-block ml-2">Editar</span>
                   </button>
@@ -84,7 +86,7 @@
               <span v-if="$route.params.id">Editar</span>
               <span v-else>Nuevo</span> Producto
             </h6>
-            <button class="close" type="button" aria-label="Close" data-dismiss="modal" @click="$router.push({name: 'adminProducts'})">
+            <button class="close" type="button" aria-label="Close" data-dismiss="modal" @click="$router.push('/dashboard/products')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -105,15 +107,19 @@ export default {
   data() {
     return {
       search: '',
-      products: [],
       page: 0,
       windowWidth: window.innerWidth,
     };
   },
-  created() {
-    this.getDatas(["Products"]);
-    this.products = this.Products;
-    this.$store.state.files = false;
+  async created() {
+    try {
+      await this.getDatas(["Products"]);
+      this.$store.state.files = false;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error)
+    }
+    
   },
   computed: {
     ...mapState(["Products", "file"]),
@@ -128,7 +134,12 @@ export default {
       }else{
         return 4
       }
-    }
+    },
+    products(){
+      return (this.search.length > 2 || this.Products.length) ? this.Products.filter(product => 
+        (product.name.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) || (product.description.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+      ) : []
+    },
   },
   mounted() {
     window.onresize = () => {
@@ -141,7 +152,10 @@ export default {
       let val = (value / 1).toFixed().replace(".");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },    
-    deleteProduct(product) {
+    async deleteProduct(product) {
+
+      try {
+
       if (product.images) {
         var files = [];
         let file = {};
@@ -152,7 +166,7 @@ export default {
                   .pop();
           files.push(file);
         });
-        this.deleteData([
+        await this.deleteData([
           {
             ref: "Products",
             id: product.id,
@@ -160,21 +174,17 @@ export default {
           }
         ]);
       } else {
-        this.deleteData([
+        await this.deleteData([
           {
             ref: "Products",
             id: product.id
           }
         ]);
       }
-    },
-    searchProducts(){
-      if(this.search.length >= 3){
-        this.products = this.Products.filter(product => {
-          return (product.name.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) || (product.description.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-        })
-      }else{
-        this.products = this.Products
+        await this.getDatas(["Products"]);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error)
       }
     },
   },  

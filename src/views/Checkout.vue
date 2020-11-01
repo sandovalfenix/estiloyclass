@@ -263,6 +263,7 @@
   </div>
 </template>
 <script>
+    
 import { mapState, mapActions } from 'vuex';
 import $ from 'jquery'
 
@@ -303,8 +304,9 @@ export default {
     }
   },
   created(){
-    this.getDatas(['Products', 'Orders'])    
+    this.getDatas(['Products', 'Orders']) 
   },
+  
   computed: {
     ...mapState(['UserAuth','Products', 'Orders']),
     location(){
@@ -345,6 +347,11 @@ export default {
         return 0
       }
     },   
+  },
+  mounted(){
+    let scriptExt = document.createElement('script')
+    scriptExt.setAttribute('src', 'https://checkout.epayco.co/checkout.js')
+    document.body.appendChild(scriptExt)
   },
   methods:{
     ...mapActions(['getDatas', 'updateData', 'addData']),            

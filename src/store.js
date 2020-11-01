@@ -41,8 +41,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    userAuthOnState({ dispatch, commit }) {
-      auth.onAuthStateChanged(user => {
+    async userAuthOnState({ dispatch, commit }) {
+      try {
+        await auth.onAuthStateChanged(user => {
         if (user) {
           db.collection("Users").where("uid", "==", user.uid).get()
             .then(function (querySnapshot) {
@@ -77,7 +78,14 @@ export default new Vuex.Store({
             })
         }
       });
-    },
+    
+        
+      } catch (error) {
+        commit('setAlerts', { type: 1, title: 'Error: ' + error.code, msg: error.message });
+              // eslint-disable-next-line no-console
+              console.log(error)
+      }
+      },
     signUp({ dispatch, commit }, userAuth) {
       const Auth = (this.state.UserAuth) ? this.state.UserAuth : {}
       auth.createUserWithEmailAndPassword(userAuth.email, userAuth.password).then(() => {
@@ -136,20 +144,27 @@ export default new Vuex.Store({
         commit('setAlerts', { type: 1, title: 'Error', msg: error.message });
       });
     },
-    getDatas({ commit }, refs) {
-      refs.forEach(ref => {
-        const Datas = [];
-        db.collection(ref).orderBy("createTime", "desc")
-        .onSnapshot(querySnapshot => {
-          Datas.length = 0; 
-          querySnapshot.forEach(doc => {
-            let Data = doc.data();
-            Data.id = doc.id;
-            Datas.push(Data);
-          });
+     getDatas({ commit }, refs) {
+      
+        refs.forEach(async ref => {
+          try {
+            const Datas = [];
+            await db.collection(ref).orderBy("createTime", "desc")
+            .onSnapshot(querySnapshot => {
+              Datas.length = 0; 
+              querySnapshot.forEach(doc => {
+                let Data = doc.data();
+                Data.id = doc.id;
+                Datas.push(Data);
+              });
+            });
+            commit('setDatas', { Datas, ref });
+            
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.log(error);
+            }
         });
-        commit('setDatas', { Datas, ref });
-      });
     },
     getData({ commit }, objects) {
       objects.forEach(obj => {
@@ -192,7 +207,7 @@ export default new Vuex.Store({
                 dispatch('uploadFiles', obj);
                 obj.num++;
               });
-            } else {
+            } else if(obj.route){
               router.push({ name: obj.route });
             }
           })
