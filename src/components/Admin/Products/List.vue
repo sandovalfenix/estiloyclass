@@ -62,7 +62,7 @@
               </div>
 
               <div class="card-footer border-0 px-4 d-flex justify-content-between">
-                <router-link :to="'/dashboard/products/'+product.id">
+                <router-link :to="'/dashboard/products/edit/'+product.id">
                   <button class="btn btn-sm btn-soft-warning transition-3d-hover" type="button" data-target="#modalForm" data-toggle="modal">
                     <i class="fas fa-edit"></i><span class="d-none d-md-inline-block ml-2">Editar</span>
                   </button>
